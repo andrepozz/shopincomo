@@ -2,7 +2,7 @@
 <widget id="com.shopincomo.shopincomo" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
     <name>ShopInComo</name>
     <description>
-        Vieni a scoprire lo shopping a Como
+				Vieni a scoprire lo shopping a Como
     </description>
     <author email="" href="http://www.polimi.it">
         Politecnico di Milano - Dipartimento di Elettronica, Informazione e Bioingegneria
