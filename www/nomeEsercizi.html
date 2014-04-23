@@ -328,9 +328,6 @@
 		
 		map = new L.Map('map');
 		map.dragging.disable();
-		map.touchZoom.disable();
-		map.doubleClickZoom.disable();
-		map.scrollWheelZoom.disable();
 		var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 		L.tileLayer(osmUrl, {minZoom: 13, maxZoom: 18}).addTo(map);
 		
@@ -352,8 +349,8 @@
 		controlloZoom.addTo(map);
 		
 		
-		var userLatitude = window.sessionStorage.getItem("userLatitude");
-		var userLongitude = window.sessionStorage.getItem("userLongitude");
+		var userLatitude;
+		var userLongitude;
 		var markerUtente;
 		var markerEsercizio;
 		var group;
