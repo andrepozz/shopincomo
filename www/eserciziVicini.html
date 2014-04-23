@@ -188,13 +188,13 @@
 		markerUtente.setLatLng([userLatitudeVicini, userLongitudeVicini],{pulsing:true}).update();
 		circleDistance = $(this).attr('circleDistance');
 		circle.setLatLng([userLatitudeVicini, userLongitudeVicini]);
-		circle.setRadius(maxDistance);
+		circle.setRadius(parseInt(maxDistance)+15);
 		circle.setStyle({color: '#008000', fillColor: '#008000'})
 		circle.redraw();
 	
 		//RAGGRUPPA MARKER
 		group = new L.featureGroup([markersVicini, markerUtente, circle]);
-		mapEsercizi.fitBounds(group.getBounds().pad(0.25));
+		mapEsercizi.fitBounds(group.getBounds().pad(0.15));
 	
 	
 		}); // FINE GET JSON POSITION
@@ -275,13 +275,13 @@
 			
 			
 			circle.setLatLng([userLatitudeVicini, userLongitudeVicini]);
-			circle.setRadius(circleDistance);
+			circle.setRadius(parseInt(circleDistance)+15);
 			circle.setStyle({color: '#008000', fillColor: '#008000'})
 			circle.redraw();
 			
 			
 			group = new L.featureGroup([markersVicini, markerUtente, circle]);
-			mapEsercizi.fitBounds(group.getBounds().pad(0.25));
+			mapEsercizi.fitBounds(group.getBounds().pad(0.15));
 			
 		
 		}); // FINE GET JSON POSITION
