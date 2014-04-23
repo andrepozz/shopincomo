@@ -1,49 +1,3 @@
-<!--
-#brandEsercizi
-	DONE:
-	- fixed header
-	- fixed footer
-	- back button carat-l
-	- input: "Inserisci un brand o un prodotto..."
-	TO DO:
-	- input: "Inserisci un brand o un prodotto..." (INGLESE)
-	
-#eserciziBrand
-	DONE:
-	- fixed header
-	- fixed footer
-	- back button carat-l
-
-#vetrinaMappa
-	DONE:
-	- fixed header
-	- fixed footer
-	- back button carat-l
-
-#vetrinaOrari
-	DONE:
-	- fixed header
-	- fixed footer
-	- back button carat-l
-
-#vetrinaContatti
-	DONE:
-	- fixed header
-	- fixed footer
-	- back button carat-l
-	- href:tel Telefono
-	- href:mailto Email
-	- link sito web
-	TO DO:
-	- icone
-
-#vetrinaStatistiche
-	DONE:
-	- fixed header
-	- fixed footer
-	- back button carat-l
--->
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -113,18 +67,6 @@
 	
     $('#mapEsercizi').css('height', actualHeight);
 	
-	/*
-	if (window.sessionStorage.getItem("userLatitudeVicini") == null)
-	{
-	$.mobile.loading( "show", {
-		text: "",
-        textVisible: false,
-        theme: "a",
-        textonly: false,
-        html: "<img src='img/positioning.gif'>"
-    });
-	}
-	*/
 	var mapEsercizi;
 	var userLatitudeVicini;
 	var userLongitudeVicini;
@@ -471,7 +413,7 @@
 		$.each(eserciziSort, function(index, info) {
 		if(info.idCategoria > 1644){idCategoriaIcon = "other.png";}
 		else{idCategoriaIcon = ""+info.idCategoria+".png";}
-		$("ul#listaEsercizi").append($("<li></li>",{"html":"<a href='#vetrinaMappa' class='esercizio' idEsercizio='" + info.idEsercizio + "' data-transition='slide' ><img src='img/categorie/"+idCategoriaIcon+"'><h2>"+info.nomeEsercizio+"</h2><p><img src='img/tempoVicini.png'> "+info.distance+" m</p></a>" }));
+		$("ul#listaEsercizi").append($("<li></li>",{"html":"<a href='#vetrinaMappa' class='esercizio' idEsercizio='" + info.idEsercizio + "' data-transition='slide' ><img src='img/categorie/"+idCategoriaIcon+"'><h2>"+info.nomeEsercizio+" "+idCategoriaIcon+"</h2><p><img src='img/tempoVicini.png'> "+info.distance+" m</p></a>" }));
 		});
 		
 		$("ul#listaEsercizi").listview().listview('refresh');
