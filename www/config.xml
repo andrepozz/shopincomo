@@ -2,10 +2,10 @@
 <widget id="com.shopincomo.shopincomo" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
     <name>ShopInComo</name>
     <description>
-        Hello World sample application that responds to the deviceready event.
+        Vieni a scoprire lo shopping a Como
     </description>
-    <author email="support@phonegap.com" href="http://phonegap.com">
-        PhoneGap Team
+    <author email="" href="http://www.polimi.it">
+        Politecnico di Milano - Dipartimento di Elettronica, Informazione e Bioingegneria
     </author>
     <feature name="http://api.phonegap.com/1.0/device" />
     <preference name="permissions" value="none" />
@@ -23,6 +23,19 @@
     <preference name="disable-cursor" value="false" />
     <preference name="android-minSdkVersion" value="7" />
     <preference name="android-installLocation" value="auto" />
+	<gap:plugin name="com.phonegap.plugins.facebookconnect">
+    <param name="APP_ID" value="1448410138727682" />
+    <param name="APP_NAME" value="ccn20" />
+	</gap:plugin>
+	<gap:plugin name="org.apache.cordova.file" version="0.2.4" />
+	<gap:plugin name="org.apache.cordova.file-transfer" version="0.3.3" />
+	<gap:plugin name="org.apache.cordova.geolocation" />
+	<gap:plugin name="org.apache.cordova.network-information" version="0.2.3" />
+	<gap:plugin name="org.apache.cordova.device" />
+	<gap:plugin name="org.apache.cordova.inappbrowser" />
+	<gap:plugin name="dk.interface.cordova.plugin.googlenavigate" />
+	<gap:plugin name="com.phonegap.plugins.barcodescanner" />
+	<gap:plugin name="org.apache.cordova.splashscreen" />
     <icon src="icon.png" />
     <icon gap:density="ldpi" gap:platform="android" src="res/icon/android/icon-36-ldpi.png" />
     <icon gap:density="mdpi" gap:platform="android" src="res/icon/android/icon-48-mdpi.png" />
@@ -47,5 +60,5 @@
     <gap:splash gap:platform="ios" height="1024" src="res/screen/ios/screen-ipad-portrait.png" width="768" />
     <gap:splash gap:platform="ios" height="768" src="res/screen/ios/screen-ipad-landscape.png" width="1024" />
     <gap:splash gap:platform="winphone" src="res/screen/windows-phone/screen-portrait.jpg" />
-    <access origin="http://127.0.0.1*" />
+    <access origin="*" />
 </widget>
