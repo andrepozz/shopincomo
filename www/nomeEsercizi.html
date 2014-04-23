@@ -403,7 +403,7 @@
 				});
 				console.log("Nodo vicino: "+nearestEsercizio);
 				console.log(distance);
-				if(distance < 500)
+				if(distance < 200)
 				{				
 					var jsonVetrinaSession = JSON.parse(window.sessionStorage.getItem("jsonVetrina"));
 					var obj = jsonVetrinaSession[0];
@@ -418,7 +418,7 @@
 								});
 						}
 						else{
-						$(".distanzaEsercizio").html("<img width='16px' height='16px' src='img/distanza.png'>+200m");
+						$(".distanzaEsercizio").html("<img src='img/distanza.png'>+200m");
 						}
 				}
 				else
