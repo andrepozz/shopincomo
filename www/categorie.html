@@ -430,96 +430,171 @@
 
 	$( document ).on( "pageshow", "#vetrinaMappa", function() {
 	
+	//PREVENT BACK BUTTON
 	document.addEventListener("backbutton", onBackKeyDown, false);
 		
-		function onBackKeyDown(e) {
-		e.preventDefault();
-		}
+	function onBackKeyDown(e) {
+	e.preventDefault();
+	}
 	
-// CARICA FILE VETRINA
+	$(".titoloNavigazione").html(window.localStorage.getItem("portamiQui"));
+	$(".didascaliaSocial").html(window.localStorage.getItem("votaNegozio"));
+
 	
-		var path = window.localStorage.getItem("pathSD");
-		var jsonPath = path + "/esercizi/"+idEsercizio+".js";
-		var jsonVetrina;
+	// CARICA FILE VETRINA
+	var path = window.localStorage.getItem("pathSD");
+	var jsonPath = path + "/esercizi/"+idEsercizio+".js";
+	//var jsonPath = "js/16.js";
+	var jsonVetrina;
 		
-		$.ajax({
-			url: jsonPath,
-			dataType: 'json',
-			async: false,
-			success: function(data) {
-			jsonVetrina = data;
-			sessionStorage.setItem('jsonVetrina', JSON.stringify(jsonVetrina));
-			}
-		}); // AJAX END
+	$.ajax({
+		url: jsonPath,
+		dataType: 'json',
+		async: false,
+		success: function(data) {
+		jsonVetrina = data;
+		sessionStorage.setItem('jsonVetrina', JSON.stringify(jsonVetrina));
+		}
+	}); // ajax
 	
-// NOME ESERCIZIO + INDIRIZZO + DESCRIZIONE
+	// NOME ESERCIZIO + INDIRIZZO + DESCRIZIONE
+	var esercizioLatitude;
+	var esercizioLongitude;
+	var nomeEsercizioMappa;
+	var descrizioneEsercizio;
+	var descrizioneEsercizioShowMore;
+	var linguaDescrizioneEsercizio;
+	var map;
 	
-		var esercizioLatitude;
-		var esercizioLongitude;
-		var nomeEsercizioMappa;
-		var descrizioneEsercizio;
-		var linguaDescrizioneEsercizio;
-		var parcheggioVicino;
-		var map;
+	$( "#map" ).remove();
+	var $map = $("<div>", {id: "map", class: "a", style:"width: 1920px; height:200px"});
+	$("#mappa").append($map);
 	
-		$.each(jsonVetrina, function(index, info) {
-				$("h3.nomeEsercizio").html(info.NomeEsercizio);
-				$(".indirizzoEsercizio").html(info.Indirizzo+" "+info.Citta);
-				$(".descrizioneEsercizio").html(""); // SVUOTA DESCRIZIONE PER PREVENIRE DESCRIZIONI NULLE
-				$(".descrizioneEsercizio").html(info.Descrizione);
-				 
-				esercizioLatitude = info.Latitudine;
-				esercizioLongitude = info.Longitudine;
-				nomeEsercizioMappa = info.NomeEsercizio;
-				descrizioneEsercizio = info.Descrizione;
-				linguaDescrizioneEsercizio = info.LinguaDescrizione;
-				if (info.Parcheggio != undefined)
-				{
-				parcheggioVicino = info.Parcheggio.nomeParcheggio+" "+info.Parcheggio.indirizzoParcheggio;
+	$.each(jsonVetrina, function(index, info) {
+		$("h3.nomeEsercizio").html(info.NomeEsercizio);
+		$("h3.nomeEsercizio").attr('idEsercizio', info.idEsercizio);
+		$("p.indirizzoEsercizio").html(info.Indirizzo+" "+info.Citta);
+		
+		esercizioLatitude = info.Latitudine;
+		esercizioLongitude = info.Longitudine;
+		nomeEsercizioMappa = info.NomeEsercizio;
+		
+		$(".descrizioneEsercizio").html(""); // SVUOTA DESCRIZIONE PER PREVENIRE DESCRIZIONI NULLE
+		$(".brandEsercizio").html(""); // SVUOTA BRAND PER PREVENIRE BRAND NULLI
+		
+		if (info.Brand != undefined) {
+		$(".brandEsercizio").html(info.Brand.join(", "));
+		} //FINE BRAND
+				
+		if (info.Descrizione != undefined) {
+			$(".descrizioneEsercizio").html(info.Descrizione);
+			descrizioneEsercizio = info.Descrizione;
+			sessionStorage.setItem('descrizioneEsercizio', info.Descrizione);
+			linguaDescrizioneEsercizio = info.LinguaDescrizione;
+			descrizioneEsercizioShowMore = info.Descrizione;
+			var maxCharacters = 50;
+			var ellipsestext = "...";
+			var moretext = ""+window.localStorage.getItem("mostra")+"";
+			var lesstext = ""+window.localStorage.getItem("nascondi")+"";
+			$('.showDescrizione').each(function() {
+			
+				if(descrizioneEsercizioShowMore.length > maxCharacters) {
+					var minText = descrizioneEsercizioShowMore.substr(0, maxCharacters);
+					var allText = descrizioneEsercizioShowMore.substr(maxCharacters, descrizioneEsercizioShowMore.length - maxCharacters);
+					var descrizioneShow = minText + '<span class="moreellipses">' + ellipsestext+ '&nbsp;</span><span class="morecontent"><span>' + allText + '</span>&nbsp;&nbsp;<a href="#" class="morelink">' + moretext + '</a></span>';
+					$(this).html(descrizioneShow);
 				}
-		});
+			});
+		} //FINE DESCRIZIONE
+				
+		var	connectionStatus = navigator.onLine ? 'online' : 'offline';
+		
+		//FACEBOOK
+		FB.init({ appId: "1448410138727682", nativeInterface: CDV.FB, useCachedDialogs: false });
+		//GET LOGIN STATUS
+		FB.getLoginStatus(function(response) {
+			//CONNESSO
+			if (response.status === 'connected' && connectionStatus == "online") {
+			$( "img#votaFacebook" ).attr('src', 'img/collegaFacebook.png');		
+			}
+			//APP NON AUTORIZZATA
+			else if (response.status === 'not_authorized' || connectionStatus == "offline") {
+			$( "img#votaFacebook" ).attr('src', 'img/collegaFacebook_bn.png');
+			var cnt = $("a.votaFacebook").contents();
+			$("a.votaFacebook").replaceWith(cnt);
+			$("ul.listaSocial").listview("refresh");
+			} 
+			//NON CONNESSO
+			else {
+			$( "img#votaFacebook" ).attr('src', 'img/collegaFacebook_bn.png');
+			var cnt = $("a.votaFacebook").contents();
+			$("a.votaFacebook").replaceWith(cnt);
+			$("ul.listaSocial").listview("refresh");
+			}
+		}, true);
+		
+		//FOURSQUARE
+		var tokenFoursquare = window.localStorage.getItem("tokenFoursquare");
+		if (tokenFoursquare == null || connectionStatus == "offline") {
+		$( "img#votaFoursquare" ).attr('src', 'img/collegaFoursquare_bn.png');
+		var cnt = $("a.votaFoursquare").contents();
+		$("a.votaFoursquare").replaceWith(cnt);
+		$("ul.listaSocial").listview("refresh");
+		}
+		else {
+		$( "img#votaFoursquare" ).attr('src', 'img/collegaFoursquare.png');
+		}
+		
+		//TWITTER
+		var twitterToken = window.localStorage.getItem("twitterToken");
+		if (twitterToken == null || connectionStatus == "offline") {
+		$( "img#votaTwitter" ).attr('src', 'img/collegaTwitter_bn.png');
+		var cnt = $("a.votaTwitter").contents();
+		$("a.votaTwitter").replaceWith(cnt);
+		$("ul.listaSocial").listview("refresh");
+		}
+		else {
+		$( "img#votaTwitter" ).attr('src', 'img/collegaTwitter.png');
+		}
+		
+		if (info.Parcheggio == undefined) {
+		$( "h2.nomeParcheggioVicino" ).html("");
+		$( "p.indirizzoParcheggioVicino" ).html("");
+		$( "h2.nomeParcheggioVicino" ).html("-");
+		$( "p.indirizzoParcheggioVicino" ).html("-");
+		}
+		else{
+		$( "h2.nomeParcheggioVicino" ).html("");
+		$( "p.indirizzoParcheggioVicino" ).html("");
+		$( "h2.nomeParcheggioVicino" ).html(info.Parcheggio.nomeParcheggio);
+		$( "p.indirizzoParcheggioVicino" ).html(info.Parcheggio.indirizzoParcheggio);
+		}
+	});
 		
 //NAVIGATE BUTTON
-		
-		$( ".navigateEsercizio" ).html("");
-		$( ".navigateEsercizio" ).append("<a href='#' geoPosition='"+esercizioLatitude+","+esercizioLongitude+"'class='directions'><img src='img/navigation.png'>portami qui</a>");
 
+		$( ".directions" ).attr('geoPosition', esercizioLatitude+","+esercizioLongitude);
+		
 // DESCRIZIONE + TRANSLATE BUTTON
 		var codLingua = localStorage.getItem("codLingua");
 		if(!(codLingua == 'it' || codLingua == 'en')){
 			if(descrizioneEsercizio != undefined)
 			{
-			$( "#box-descrizioneEsercizio" ).show();
+			$( ".descrizioneEsercizio" ).show();
 			$( ".traduciDescrizioneEsercizio" ).html("");
-			$( ".traduciDescrizioneEsercizio" ).html( "<button class='translate' codLingua='"+codLingua+"' linguaDescrizione='"+linguaDescrizioneEsercizio+"'>Traduci</button>" );	
+			$( ".traduciDescrizioneEsercizio" ).html( "<a class='translate ui-btn ui-mini ui-btn-inline' codLingua='"+codLingua+"' linguaDescrizione='"+linguaDescrizioneEsercizio+"'>Translate</a>" );	
 			}
 			else{
-			$( "#box-descrizioneEsercizio" ).hide();
+			$( ".descrizioneEsercizio" ).hide();
 			}
 		}
-
-
-// PARCHEGGIO VICINO
-		
-		if (parcheggioVicino == undefined){
-		$( ".parcheggioVicino" ).html("");
-		}
-		else{
-		$( ".parcheggioVicino" ).html("");
-		$( ".parcheggioVicino" ).append( "<li class='immagineParcheggio'><img class='imgParcheggio' src='img/parcheggioVicino.png' style='width: 37px; height: 50px;'><p class='nomeParcheggio'>"+parcheggioVicino+"</p></li>" );
-		}
-		
 		
 // MAPPA + POSIZIONE UTENTE
 	
 		//INIZIALIZZAZIONE MAPPA
 		
-		$( "#map" ).remove();
-		var $map = $("<div>", {id: "map", class: "a", style:"width: 1920px; height:400px"});
-		$("#mappa").append($map);
-		
 		map = new L.Map('map');
-	
+		map.dragging.disable();
 		var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 		L.tileLayer(osmUrl, {minZoom: 13, maxZoom: 18}).addTo(map);
 		
@@ -529,7 +604,7 @@
 		}).addTo(map);
 		*/
 		
-		map.setView(new L.LatLng(45.80806, 9.08518),14); //MAPPA SU COMO
+		map.setView(new L.LatLng(esercizioLatitude, esercizioLongitude),16); //MAPPA SU COMO
 		
 		//BOTTONI CONTROLLO ZOOM
 		var controlloZoom = L.control({ position: 'bottomleft' });
@@ -551,7 +626,7 @@
       		
 		var markerIcon = L.icon({
 			iconUrl: 'img/marker-icon.png',
-			iconSize:     [25, 41], // size of the icon
+			iconSize:     [30, 41], // size of the icon
 			popupAnchor:  [0, -20] // point from which the popup should open relative to the iconAnchor
 		});
 		
@@ -567,13 +642,27 @@
 	 		
 			userLatitude = position.coords.latitude;
 			userLongitude = position.coords.longitude;
+			window.sessionStorage.setItem("userLatitude", userLatitude);
+			window.sessionStorage.setItem("userLongitude", userLongitude);
+			
+			//FACEBOOK
+			$(".votaFacebook").attr("latitude", userLatitude);
+			$(".votaFacebook").attr("longitude", userLongitude);
+			
+			//FOURSQUARE
+			$(".votaFoursquare").attr("latitude", userLatitude);
+			$(".votaFoursquare").attr("longitude", userLongitude);
+			
+			//TWITTER
+			$(".votaTwitter").attr("latitude", userLatitude);
+			$(".votaTwitter").attr("longitude", userLongitude);
 	
 			var distance = 5000;
 			var jsonPositionDir = path + "/position.js";
 			$.getJSON(jsonPositionDir, function( jsonPosition ) {
 				$.each(jsonPosition, function(index, info) {
 					currentDistance = getDistanceFromLatLonInKm(userLatitude,userLongitude,info.latEsercizio,info.lonEsercizio);
-					if(distance > currentDistance && info.idEsercizio != idEsercizio)
+					if(distance > currentDistance)
 					{
 						distance = currentDistance;
 						nearestEsercizio = info.idEsercizio;
@@ -581,7 +670,7 @@
 				});
 				console.log("Nodo vicino: "+nearestEsercizio);
 				console.log(distance);
-				if(distance < 500)
+				if(distance < 200)
 				{				
 					var jsonVetrinaSession = JSON.parse(window.sessionStorage.getItem("jsonVetrina"));
 					var obj = jsonVetrinaSession[0];
@@ -591,27 +680,27 @@
 									if(infoDistance.idEsercizio == nearestEsercizio){
 										var minutes = Math.floor(infoDistance.time / 60);
 										var seconds = infoDistance.time - minutes * 60;
-										$(".distanzaEsercizio").html(infoDistance.distance+"m - "+minutes+":"+seconds+" min<p class='esercizioVicino'>Ora sei vicino a "+infoDistance.nomeEsercizio+"</p>");
+										$(".distanzaEsercizio").html("<img src='img/distanza.png'>"+infoDistance.distance+"m - "+minutes+":"+seconds+" min<p class='esercizioVicino'>"+window.localStorage.getItem("vicinoA")+" "+infoDistance.nomeEsercizio+"</p>");
 									}
 								});
 						}
 						else{
-						$(".distanzaEsercizio").html("+200m");
+						$(".distanzaEsercizio").html("<img src='img/distanza.png'>+200m");
 						}
 				}
 				else
 				{
-				$(".distanzaEsercizio").html("Troppo lontato per calcolare");
+				$(".distanzaEsercizio").html("<img src='img/distanza.png'>"+window.localStorage.getItem("troppoLontano")+"");
 				}
 			
 			}); //END GET JSON POSITION 
-	
-			var userAccuracy = position.coords.accuracy 
+			
+			var userAccuracy = position.coords.accuracy;
 
 			if (!markerUtente) {
-			markerUtente = L.userMarker([userLatitude, userLongitude],{pulsing:true}).bindPopup("Sei qui.").addTo(map);
+			markerUtente = L.userMarker([userLatitude, userLongitude],{pulsing:true}).addTo(map);
 			markerUtente.setAccuracy(userAccuracy);
-			map.setView(new L.LatLng(userLatitude, userLongitude),16);
+			//map.setView(new L.LatLng(esercizioLatitude, esercizioLongitude),16);
 			}
 			markerUtente.setLatLng([userLatitude, userLongitude],{pulsing:true}).update();
 	
@@ -624,8 +713,7 @@
 // CLICK ZOOM BUTTONS
 	
 		$(document).on("click", 'button.groupMarker', function(){
-			group = new L.featureGroup([markerEsercizio, markerUtente]);
-			map.fitBounds(group.getBounds().pad(0.25));
+			map.setView(new L.LatLng(esercizioLatitude, esercizioLongitude),16);
 		});
 		
 		$(document).on("click", 'button.userMarker', function(){
@@ -643,7 +731,7 @@
 	
 // CLICK TRANSLATE GOOGLE
 	$(document).on("click", '.translate', function(){
-		var descrizioneTranslate = $(".descrizioneEsercizio").text();
+		var descrizioneTranslate = sessionStorage.getItem('descrizioneEsercizio');
 		var linguaDescrizione = $(this).attr('linguaDescrizione');
 		var codLingua = $(this).attr('codLingua');
 		var urlTranslate = encodeURI("http://translate.google.com/#"+linguaDescrizione+"/"+codLingua+"/"+descrizioneTranslate+"");
@@ -686,39 +774,204 @@
 	}
 	
 	// /FUNZIONE DIRECTIONS
+	
+	    $(document).on("click", '.morelink', function(){
+		var moretext = ""+window.localStorage.getItem("mostra")+"";
+		var lesstext = ""+window.localStorage.getItem("nascondi")+"";
+		if($(this).hasClass("less")) {
+            $(this).removeClass("less");
+            $(this).html(moretext);
+        } else {
+            $(this).addClass("less");
+            $(this).html(lesstext);
+        }
+        $(this).parent().prev().toggle();
+        $(this).prev().toggle();
+        return false;
+    });
+		
+	$(document).on("click", '.votaFacebook', function(){
+	
+	idEsercizio = $("h3.nomeEsercizio").attr('idEsercizio');
+	latitudeFacebook = $(".votaTwitter").attr('latitude');
+	longitudeFacebook = $(".votaTwitter").attr('longitude');
+	nomeEsercizio = $("h3.nomeEsercizio").html();
+	
+	FB.ui(
+	{
+		method: 'feed',
+		name: $("h3.nomeEsercizio").html(),
+		link: 'http://www.wificomo.com/it/node/'+idEsercizio,
+		picture: 'http://www.wificomo.com/imgs/logoShopincomo.jpg',
+		caption: 'Shopincomo',
+		description: $("p.descrizioneEsercizio").html()
+	},
+	function(response) {
+		if (response) {
+			$.ajax({
+				type: 'POST',
+				url: 'http://www.wificomo.com/ccn20/votiSocial.php',
+				data: { idNegozio: idEsercizio, socialNetwork: 'Facebook', nomeNegozio: $("h3.nomeEsercizio").html(), latitude: latitudeFacebook, longitude: longitudeFacebook}
+				}).done(function( msg ) {
+				alert(window.localStorage.getItem("postPubblicato"));
+			});	
+		} 
+		else {
+		alert('Post was not published.');
+		}
+	}
+	);
+	
+	});
+	
+	$(document).on("click", '.votaFoursquare', function(){
+		
+		var latitude = $(this).attr('latitude');
+		var longitude = $(this).attr('longitude');
+		var nomeEsercizioFoursquare = $(this).attr('nomeEsercizio');
+		var tokenFoursquare = window.localStorage.getItem("tokenFoursquare");		
+									
+		$.getJSON('https://api.foursquare.com/v2/venues/search?ll='+latitude+','+longitude+'&limit=4&query='+nomeEsercizioFoursquare+'&radius=100&oauth_token='+tokenFoursquare+'&v=20140410',
+			function(data) {
+			venues = data.response.venues;
+			$("ul#lista_checkin").html("");
+			$("ul#lista_checkin").append($("<li data-role='divider' data-theme='b'>Check In</li>"));
+				if (venues.length == 0) {
+					$("ul#lista_checkin").append($("<li></li>",{"html":""+window.localStorage.getItem("noCheckin")+"" }));
+				}
+				else {
+					for (var i = 0; i < venues.length; i++) {
+					$("ul#lista_checkin").append($("<li></li>",{"html":"<a href='#' class='link_ckeckin' idVenue='"+venues[i].id+"'>"+venues[i].name+"</a>" }));
+					}
+				}
+				$("ul#lista_checkin").listview("destroy").listview();
+			});
+	});
+	
+	
+	$(document).on("click", '.link_ckeckin', function(){
+				
+		var tokenFoursquare = window.localStorage.getItem("tokenFoursquare");	
+		var idVenue = $(this).attr('idVenue');
+		
+		idEsercizio = $("h3.nomeEsercizio").attr('idEsercizio');
+		latitudeFoursquare = $(".votaTwitter").attr('latitude');
+		longitudeFoursquare = $(".votaTwitter").attr('longitude');
+		nomeEsercizio = $("h3.nomeEsercizio").html();
+		
+		//var idUserFoursquare = window.localStorage.getItem("idUserFoursquare");
+					
+		var urlFoursquare = 'https://api.foursquare.com/v2/checkins/add?venueId=' + idVenue +'&v=20140410&oauth_token=' + tokenFoursquare;
+		$.post(urlFoursquare, function() {
+		    $.ajax({
+				type: 'POST',
+				url: 'http://www.wificomo.com/ccn20/votiSocial.php',
+				data: { idNegozio: idEsercizio, socialNetwork: 'Foursquare', nomeNegozio: $("h3.nomeEsercizio").html(), latitude: latitudeFoursquare, longitude: longitudeFoursquare}
+				}).done(function( msg ) {
+				alert(window.localStorage.getItem("checkinPubblicato"));
+			});	
+		$( "#popupCheckin" ).popup( "close" )
+		});
+			
+	});
+	
+	$(document).on("click", '.votaTwitter', function(){
+		
+		idEsercizio = $("h3.nomeEsercizio").attr('idEsercizio');
+		latitudeTwitter = $(".votaTwitter").attr('latitude');
+		longitudeTwitter = $(".votaTwitter").attr('longitude');
+		urlEsercizio = "http://www.wificomo.com/it/node/"+idEsercizio;
+		nomeEsercizio = $("h3.nomeEsercizio").html();
+		
+		var tokenTwitter = window.localStorage.getItem("twitterToken");		
+		var tokenTwitterSecret = window.localStorage.getItem("twitterVerifier");			
+		var urlTwitter = 'http://www.wificomo.com/twitter/votaTwitter.php';
+		var tweet = "ShopInComo @ "+nomeEsercizio.substr(0, 50)+" "+urlEsercizio;
+
+		 // fire off the request to /form.php
+		var request = $.ajax({
+			url: urlTwitter,
+			type: "post",
+			data: {access_token: tokenTwitter, access_token_secret: tokenTwitterSecret, tweet: tweet}
+    });
+
+    // callback handler that will be called on success
+    request.done(function (response){
+        	$.ajax({
+				type: 'POST',
+				url: 'http://www.wificomo.com/ccn20/votiSocial.php',
+				data: { idNegozio: idEsercizio, socialNetwork: 'Twitter', nomeNegozio: $("h3.nomeEsercizio").html(), latitude: latitudeTwitter, longitude: longitudeTwitter}
+				}).done(function( msg ) {
+				alert(window.localStorage.getItem("tweetPubblicato"));
+					});		
+		// log a message to the console
+        
+    });
+
+    // callback handler that will be called on failure
+    request.fail(function (response){
+        // log the error to the console
+        alert("error");
+    });
+		
+	});
 		
 	</script>
 	
-	<!-- NOME ESERCIZIO -->
-	
-	<div id="box-nomeEsercizio">
-	<h3 class="nomeEsercizio"></h3>
-	</div>
-	
-	<!-- /NOME ESERCIZIO -->
-	
-	<!-- MAPPA + INDIRIZZO + DIRECTIONS + PANORAMICA + DISTANZA -->
-	<div id="mappa"></div>
-	<ul class="funzionalitaMappa">
-	<li class="singolaFunzionalitaMappa indirizzoEsercizio"></li>
-	<li class="singolaFunzionalitaMappa navigateEsercizio"></li>
-	<li class="singolaFunzionalitaMappa distanzaEsercizio"></li>
-	</ul>
-	<!-- /MAPPA + INDIRIZZO + DIRECTIONS + PANORAMICA + DISTANZA -->
-	
+	<ul data-role="listview" data-inset="true" style="background:fd613d" class="listaMappa">
+    <li style="background:#fd613d">
+	<h3 class="nomeEsercizio" style="color:white; text-shadow:none"></h3>
+	<p class="indirizzoEsercizio" style="color:white; text-shadow:none"></p>
+    <p class="brandEsercizio" style="color:white; text-shadow:none"></p>
+	</li>
+	<li>
 	<!-- DESCRIZIONE ESERCIZIO -->
-	
-	<div id="box-descrizioneEsercizio">
-	<p class="descrizioneEsercizio"></p>
+	<p class="descrizioneEsercizio showDescrizione"></p>
 	<p class="traduciDescrizioneEsercizio"></p>
-	</div>
 	<!-- /DESCRIZIONE ESERCIZIO -->
-	
-	<!-- PARCHEGGIO VICINO ESERCIZIO -->
-	
-	<ul class="parcheggioVicino">
+	</li>
+	<li>
+	<div id="mappa"></div>
+	</li>
+	<li class="navigateEsercizio">
+	<a class="directions" href="#"><img src="img/navigation.png">
+	<h2 class="titoloNavigazione"></h2>
+	<p class="distanzaEsercizio"></p>
+	</a>
+	</li>
+	<li>
+	<img src="img/parcheggio.png">
+	<h2 class="nomeParcheggioVicino"></h2>
+	<p class="indirizzoParcheggioVicino"></p>
+	</li>
 	</ul>
-	<!-- /PARCHEGGIO VICINO ESERCIZIO -->
+	
+	<ul data-role="listview" data-inset="true" class="listaSocial">
+	<li id="buttonFacebook">
+	<a href="#" class="votaFacebook" idEsercizio=""><img id="votaFacebook" src="img/collegaFacebook.png">
+	<h2>Facebook</h2>
+	<p class="didascaliaSocial"></p>
+	</a>
+	</li>
+	<li id="buttonFoursquare">
+	<a href="#" class="votaFoursquare" idEsercizio=""><img id="votaFoursquare" src="">
+	<h2>Foursquare</h2>
+	<p class="didascaliaSocial"></p>
+	</a>
+	</li>
+	<li id="buttonTwitter">
+	<a href="#" class="votaTwitter" idEsercizio=""><img id="votaTwitter" src="">
+	<h2>Twitter</h2>
+	<p class="didascaliaSocial"></p>
+	</a>
+	</li>
+	</ul>
+	
+	<div data-role="popup" id="popupCheckin" data-theme="b">
+		<a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
+		<ul id="lista_checkin" data-role="listview" style="min-width:210px;" data-theme="d">
+		</ul>
+	</div>
 		
 	</div><!-- /content -->
 
@@ -769,17 +1022,21 @@
 	
 	$.each(JSON.parse(jsonVetrina), function(index, info) {
 				
-		$("h3.nomeEsercizio").html(info.NomeEsercizio);
-		$("ul#orariEsercizio").append($("<li data-role='list-divider'>Orari di Apertura</li>"));
-		$("ul#orariEsercizio").append($("<li>Lunedi: "+info.Orario.lunedi+"</li>"));
-		$("ul#orariEsercizio").append($("<li>Martedi: "+info.Orario.martedi+"</li>"));
-		$("ul#orariEsercizio").append($("<li>Mercoledi: "+info.Orario.mercoledi+"</li>"));
-		$("ul#orariEsercizio").append($("<li>Giovedi: "+info.Orario.giovedi+"</li>"));
-		$("ul#orariEsercizio").append($("<li>Venerdi: "+info.Orario.venerdi+"</li>"));
-		$("ul#orariEsercizio").append($("<li>Sabato: "+info.Orario.sabato+"</li>"));
-		$("ul#orariEsercizio").append($("<li>Domenica: "+info.Orario.domenica+"</li>"));
+		if (info.mostraOrari == "si"){
+		$("ul#orariEsercizio").append($("<li data-role='list-divider'>"+window.localStorage.getItem("orariApertura")+"</li>"));
+		$("ul#orariEsercizio").append($("<li>"+window.localStorage.getItem("lunedi")+": "+info.Orario.lunedi+"</li>"));
+		$("ul#orariEsercizio").append($("<li>"+window.localStorage.getItem("martedi")+": "+info.Orario.martedi+"</li>"));
+		$("ul#orariEsercizio").append($("<li>"+window.localStorage.getItem("mercoledi")+": "+info.Orario.mercoledi+"</li>"));
+		$("ul#orariEsercizio").append($("<li>"+window.localStorage.getItem("giovedi")+": "+info.Orario.giovedi+"</li>"));
+		$("ul#orariEsercizio").append($("<li>"+window.localStorage.getItem("venerdi")+": "+info.Orario.venerdi+"</li>"));
+		$("ul#orariEsercizio").append($("<li>"+window.localStorage.getItem("sabato")+": "+info.Orario.sabato+"</li>"));
+		$("ul#orariEsercizio").append($("<li>"+window.localStorage.getItem("domenica")+": "+info.Orario.domenica+"</li>"));
 		$("ul#orariEsercizio").listview("refresh");
-							
+		}
+		else {
+		$("ul#orariEsercizio").append($("<li data-role='list-divider'>"+window.localStorage.getItem("noOrari")+"</li>"));
+		$("ul#orariEsercizio").listview("refresh");
+		}
 	});
 		
 		
@@ -790,14 +1047,6 @@
 	
 	
 	</script>
-	
-	<!-- NOME ESERCIZIO -->
-	
-	<div id="box-nomeEsercizio">
-	<h3 class="nomeEsercizio"></h3>
-	</div>
-	
-	<!-- /NOME ESERCIZIO -->
 	
 	<!-- ORARI -->
 	<ul id="orariEsercizio" data-role="listview" data-inset="true">
@@ -815,7 +1064,6 @@
                 <li><a href="#" class="ui-btn-active ui-state-persist"><img src="img/orari.png"></a></li>
                 <li><a href="#vetrinaContatti" data-transition="slide"><img src="img/contatti.png"></a></li>
 				<li><a href="#vetrinaStatistiche" data-transition="slide"><img src="img/statistiche.png"></a></li>
-				<!-- <li><a href="#" data-icon="camera">Gallery</a></li> -->
             </ul>
         </div>
 		<!-- /NAVBAR -->
@@ -854,15 +1102,15 @@
 	
 	$.each(JSON.parse(jsonVetrina), function(index, info) {
 				
-		$("h3.nomeEsercizio").html(info.NomeEsercizio);
-		$("ul#contattiEsercizio").append($("<li data-role='list-divider'>Contatti</li>"));
-		$("ul#contattiEsercizio").append($("<li>Indirizzo: "+info.Indirizzo+" "+info.Citta+"</li>"));
-		if (info.Telefono != undefined){$("ul#contattiEsercizio").append($("<li><a href=tel:"+info.Telefono.replace(/ /g,'')+">Telefono: "+info.Telefono+"</a></li>"))};
-		if (info.Website != undefined){$("ul#contattiEsercizio").append($("<li><a href="+info.Website+">Website: "+info.Website+"</a></li>"))};
-		if (info.Email != undefined){$("ul#contattiEsercizio").append($("<li><a href=mailto:"+info.Email+">Email: "+info.Email+"</a></li>"))};
-		if (info.Facebook != undefined){$("ul#contattiEsercizio").append($("<li>Facebook: "+info.Facebook+"</li>"))};
-		if (info.Twitter != undefined){$("ul#contattiEsercizio").append($("<li>Twitter: "+info.Twitter+"</li>"))};
-		if (info.Foursquare != undefined){$("ul#contattiEsercizio").append($("<li>Foursquare: "+info.Foursquare+"</li>"))};
+		$("ul#contattiEsercizio").append($("<li data-role='list-divider'>"+window.localStorage.getItem("contatti")+"</li>"));
+		$("ul#contattiEsercizio").append($("<li>"+info.Indirizzo+" "+info.Citta+"</li>"));
+		if (info.Telefono != undefined){$("ul#contattiEsercizio").append($("<li><a href=tel:"+info.Telefono.replace(/ /g,'')+"><img src='img/contattiTelefono.png'><h2>"+window.localStorage.getItem("telefono")+"</h2><p>"+info.Telefono+"</p></a></li>"))};
+		if (info.Website != undefined){$("ul#contattiEsercizio").append($("<li><a href='#' class='website' urlWebsite="+info.Website+"><img src='img/contattiWebsite.png'><h2>Website</h2><p>"+info.Website+"</p></a></li>"))};
+		if (info.Email != undefined){$("ul#contattiEsercizio").append($("<li><a href=mailto:"+info.Email+"><img src='img/contattiEmail.png'><h2>E-mail</h2><p>"+info.Email+"</p></a></li>"))};
+		if (info.Facebook != undefined){$("ul#contattiEsercizio").append($("<li><a href='#' class='website' urlWebsite="+info.Facebook.substring(info.Facebook.indexOf('w'))+"><img src='img/collegaFacebook.png'><h2>Facebook</h2></a></li>"))};
+		if (info.Twitter != undefined){$("ul#contattiEsercizio").append($("<li><a href='#' class='website' urlWebsite="+info.Twitter.substring(info.Twitter.indexOf('w'))+"><img src='img/collegaTwitter.png'><h2>Twitter</p></h2></li>"))};
+		if (info.Foursquare != undefined){$("ul#contattiEsercizio").append($("<li><a href='#' class='website' urlWebsite="+info.Foursquare.substring(info.Foursquare.indexOf('w'))+"><img src='img/collegaFoursquare.png'><h2>Foursquare</h2></a></li>"))};
+		if (info.Tripadvisor != undefined){$("ul#contattiEsercizio").append($("<li><a href='#' class='website' urlWebsite="+info.Tripadvisor.substring(info.Tripadvisor.indexOf('w'))+"><img src='img/collegaTripadvisor.png'><h2>Tripadvisor</h2></a></li>"))};
 		$("ul#contattiEsercizio").listview("refresh");
 							
 	});
@@ -872,20 +1120,19 @@
 	});
 	// /PAGEBEFORESHOW
 	
+	// CLICK WEBSITE
+	$(document).on("click", '.website', function(){
+		
+		var url = $(this).attr('urlWebsite');
+		var urlTranslate = encodeURI("http://"+url+"");
+		var ref = window.open(urlTranslate, '_blank', 'location=yes');
+	});
+	
 	
 	
 	</script>
 	
-	<!-- NOME ESERCIZIO -->
-	
-	<div id="box-nomeEsercizio">
-	<h3 class="nomeEsercizio"></h3>
-	</div>
-	
-	<!-- /NOME ESERCIZIO -->
-	
 	<!-- CONTATTI ESERCIZIO -->
-	
 	<ul id="contattiEsercizio" data-role="listview" data-inset="true">
 	</ul>
 	
@@ -924,13 +1171,17 @@
 	
 	<script type="text/javascript" charset="utf-8">
 	
-	$( document ).on( "pagebeforeshow", "#vetrinaStatistiche", function() {
+$( document ).on( "pagebeforeshow", "#vetrinaStatistiche", function() {
 	
 	document.addEventListener("backbutton", onBackKeyDown, false);
 		
 		function onBackKeyDown(e) {
 		e.preventDefault();
 		}
+		
+	$(".intervalli").append($('<button class="ui-btn" id="intervallo" value="7giorni">7 '+window.localStorage.getItem("giorni")+'</button>'));
+	$(".intervalli").append($('<button class="ui-btn" id="intervallo"value="15giorni">15 '+window.localStorage.getItem("giorni")+'</button>'));
+	$(".intervalli").append($('<button class="ui-btn" id="intervallo" value="30giorni">30 '+window.localStorage.getItem("giorni")+'</button>'));
 	
 	var jsonVetrina = window.sessionStorage.getItem("jsonVetrina");
 	
@@ -950,9 +1201,17 @@
 	
 	if(checkStatistiche == "si"){
 	
-		//var checkConnection = checkConnection();
-		//if (checkConnection =! "No_network")
-		//{
+		var	connectionStatus = navigator.onLine ? 'online' : 'offline';
+		if (connectionStatus == "online")
+		{
+			
+			$.mobile.loading( "show", {
+            text: "loading",
+            textVisible: true,
+            theme: "a",
+            textonly: false
+			});
+			
 			$(function () {
 			var chart;
 			var perShapeGradient = {
@@ -965,7 +1224,9 @@
 			$(document).ready(function() {
 		
 			$.getJSON("http://www.wificomo.com/ccn20/JSONbarchart.php", {idNegozio: idEsercizio}, function( json ) {
-		
+				
+				$.mobile.loading( "hide" );
+				
 				jsonFilter = jQuery.grep(json, function (v) {
 				return v.intervallo == "15giorni";
 				console.log("filtro base: ");
@@ -1025,7 +1286,7 @@
 						enabled: true
 						},
 						title: {
-						text: 'Voti'
+						text: ''+window.localStorage.getItem("voti")+''
 						}
 					},
 					tooltip: {
@@ -1113,7 +1374,7 @@
 						enabled: true
 						},
 						title: {
-						text: 'Voti'
+						text: ''+window.localStorage.getItem("voti")+''
 						}
 					},
 					tooltip: {
@@ -1150,14 +1411,18 @@
 		
 			});
 		
-		//}
-		//else{
-		//$("#checkStatistiche").html("Questa funzionalità è disponibile solo se collegati alla rete 3G o WiFi");
-		//}
+		}
+		else{
+		$("button#intervallo").hide();
+		$("ul#statisticheEsercizio").append($("<li data-role='list-divider'>"+window.localStorage.getItem("essereOnline")+"</li>"));
+		$("ul#statisticheEsercizio").listview("refresh");
+		}
 	
 	}
 	else{
-	$("#checkStatistiche").html("Il negoziante non permette la visualizzazione pubblica delle statistiche");
+	$("button#intervallo").hide();
+	$("ul#statisticheEsercizio").append($("<li data-role='list-divider'>"+window.localStorage.getItem("noStatistiche")+"</li>"));
+	$("ul#statisticheEsercizio").listview("refresh");
 	}
 		
 	// /NOME ESERCIZIO + STATISTICHE
@@ -1167,22 +1432,12 @@
 
 	</script>
 	
-	<!-- NOME ESERCIZIO -->
-	
-	<div id="box-nomeEsercizio">
-	<h3 class="nomeEsercizio"></h3>
-	</div>
-	
-	<!-- /NOME ESERCIZIO -->
-	
 	<!-- STATISTICHE -->
+	<ul id="statisticheEsercizio" data-role="listview" data-inset="true">
+	</ul>
 	<div id="box-statisticheEsercizio">
-	<p id="checkStatistiche"></p>
 	<div id="barChart" style="width: 1920px; height:450px"></div>
-	<div>
-	<button id="intervallo" value="7giorni">7 giorni</button>
-	<button id="intervallo"value="15giorni">15 giorni</button>
-	<button id="intervallo" value="30giorni">30 giorni</button>
+	<div class="intervalli">
 	</div>
 	</div>
 	<!-- /STATISTICHE -->
