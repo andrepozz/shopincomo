@@ -411,7 +411,7 @@
 		$("ul#listaEsercizi").html("");
 				
 		$.each(eserciziSort, function(index, info) {
-		if(info.idCategoria > 1644){idCategoriaIcon = "other.png";}
+		if(info.idCategoria > 1644 || info.idCategoria == undefined){idCategoriaIcon = "other.png";}
 		else{idCategoriaIcon = ""+info.idCategoria+".png";}
 		$("ul#listaEsercizi").append($("<li></li>",{"html":"<a href='#vetrinaMappa' class='esercizio' idEsercizio='" + info.idEsercizio + "' data-transition='slide' ><img src='img/categorie/"+idCategoriaIcon+"'><h2>"+info.nomeEsercizio+" "+idCategoriaIcon+"</h2><p><img src='img/tempoVicini.png'> "+info.distance+" m</p></a>" }));
 		});
