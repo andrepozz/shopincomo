@@ -413,7 +413,7 @@
 									if(infoDistance.idEsercizio == nearestEsercizio){
 										var minutes = Math.floor(infoDistance.time / 60);
 										var seconds = infoDistance.time - minutes * 60;
-										$(".distanzaEsercizio").html("<img src='img/distanza.png'>"+infoDistance.distance+"m - "+minutes+":"+seconds+" min<p class='esercizioVicino'>Ora sei vicino a "+infoDistance.nomeEsercizio+"</p>");
+										$(".distanzaEsercizio").html("<img src='img/distanza.png'>"+infoDistance.distance+"m - "+minutes+":"+seconds+" min<p class='esercizioVicino'>"+window.localStorage.getItem("vicinoA")+" "+infoDistance.nomeEsercizio+"</p>");
 									}
 								});
 						}
