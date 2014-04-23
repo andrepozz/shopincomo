@@ -1,46 +1,3 @@
-<!--
-#categorie
-	DONE:
-	- fixed header
-	- fixed footer
-	- back button carat-l
-	- paginazione rimossa
-	
-#esercizi
-	DONE:
-	- fixed header
-	- fixed footer
-	- back button carat-l
-
-#vetrinaMappa
-	DONE:
-	- fixed header
-	- fixed footer
-	- back button carat-l
-
-#vetrinaOrari
-	DONE:
-	- fixed header
-	- fixed footer
-	- back button carat-l
-
-#vetrinaContatti
-	DONE:
-	- fixed header
-	- fixed footer
-	- back button carat-l
-	- href:tel Telefono
-	- href:mailto Email
-	- link sito web
-	TO DO:
-	- icone
-
-#vetrinaStatistiche
-	DONE:
-	- fixed header
-	- fixed footer
-	- back button carat-l
--->
 <!DOCTYPE html>
 <html>
 <head>
@@ -92,15 +49,7 @@
 		function onBackKeyDown(e) {
 		e.preventDefault();
 		}
-	
-	// T.HEADER
-	//var indietro = window.localStorage.getItem("indietro");
-	//$("a#indietro").text(indietro);
-	
-	// T.H1
-	//var titolo = window.localStorage.getItem("Categorie");
-	//$("h1#titolo").text(titolo);
-	
+		
 	//CARICA JSON CATEGORIE
 	var path = window.localStorage.getItem("pathSD");
 	var jsonPath = path + "/categorie.js";
@@ -207,7 +156,7 @@
 	var fieldsetFiltro = $('fieldset#fieldsetFiltro');
 	
 	fieldsetFiltro.controlgroup("container").html("");
-	fieldsetFiltro.controlgroup("container").append('<input type="radio" class="filtro" name="filtro" id="all" value="all" checked="checked"><label for="all">Tutti</label>');
+	fieldsetFiltro.controlgroup("container").append('<input type="radio" class="filtro" name="filtro" id="all" value="all" checked="checked"><label for="all">'+window.sessionStorage.getItem("tutti")+'</label>');
 	
 	var sottocategorie = [];
 	
