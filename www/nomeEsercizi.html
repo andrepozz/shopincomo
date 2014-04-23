@@ -395,7 +395,7 @@
 			$.getJSON(jsonPositionDir, function( jsonPosition ) {
 				$.each(jsonPosition, function(index, info) {
 					currentDistance = getDistanceFromLatLonInKm(userLatitude,userLongitude,info.latEsercizio,info.lonEsercizio);
-					if(distance > currentDistance && info.idEsercizio != idEsercizio)
+					if(distance > currentDistance)
 					{
 						distance = currentDistance;
 						nearestEsercizio = info.idEsercizio;
@@ -423,7 +423,7 @@
 				}
 				else
 				{
-				$(".distanzaEsercizio").html("<img width='16px' height='16px' src='img/distanza.png'>"+window.localStorage.getItem("troppoLontano")+"");
+				$(".distanzaEsercizio").html("<img src='img/distanza.png'>"+window.localStorage.getItem("troppoLontano")+"");
 				}
 			
 			}); //END GET JSON POSITION 
@@ -937,6 +937,14 @@
 		var	connectionStatus = navigator.onLine ? 'online' : 'offline';
 		if (connectionStatus == "online")
 		{
+			
+			$.mobile.loading( "show", {
+            text: "loading",
+            textVisible: true,
+            theme: "b",
+            textonly: false
+			});
+			
 			$(function () {
 			var chart;
 			var perShapeGradient = {
@@ -949,7 +957,9 @@
 			$(document).ready(function() {
 		
 			$.getJSON("http://www.wificomo.com/ccn20/JSONbarchart.php", {idNegozio: idEsercizio}, function( json ) {
-		
+				
+				$.mobile.loading( "hide" );
+				
 				jsonFilter = jQuery.grep(json, function (v) {
 				return v.intervallo == "15giorni";
 				console.log("filtro base: ");
