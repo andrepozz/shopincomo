@@ -595,14 +595,10 @@
 		
 		map = new L.Map('map');
 		map.dragging.disable();
-		var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-		L.tileLayer(osmUrl, {minZoom: 13, maxZoom: 18}).addTo(map);
+		//var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+		//L.tileLayer(osmUrl, {minZoom: 13, maxZoom: 18}).addTo(map);
 		
-		/*
-		L.tileLayer('img/como/{z}/{x}/{y}.png', {
-		maxZoom: 18
-		}).addTo(map);
-		*/
+		L.tileLayer('img/como/{z}/{x}/{y}.jpg', {minZoom: 15, maxZoom: 18}).addTo(map);
 		
 		map.setView(new L.LatLng(esercizioLatitude, esercizioLongitude),16); //MAPPA SU COMO
 		

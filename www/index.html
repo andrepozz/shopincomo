@@ -1548,14 +1548,12 @@
 		
 		map = new L.Map('map');
 		map.dragging.disable();
-		var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-		L.tileLayer(osmUrl, {minZoom: 13, maxZoom: 18}).addTo(map);
 		
-		/*
-		L.tileLayer('img/como/{z}/{x}/{y}.png', {
-		maxZoom: 18
-		}).addTo(map);
-		*/
+		//var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+		//L.tileLayer(osmUrl, {minZoom: 13, maxZoom: 18}).addTo(map);
+		
+		L.tileLayer('img/como/{z}/{x}/{y}.jpg', {minZoom: 15, maxZoom: 18}).addTo(map);
+
 		
 		map.setView(new L.LatLng(esercizioLatitude, esercizioLongitude),16); //MAPPA SU COMO
 		
@@ -2438,7 +2436,58 @@
 		
 	</script>
 	
-	<p>CREDITS + LOGHI</p>
+<ul data-role="listview" data-inset="true">
+    <li>
+        <img src="img/politecnico.png">
+		<h2>Politecnico di Milano</h2>
+		<p>Dipartimento di Elettronica, Informazione e Bioingegneria</p>
+    </li>
+    <li>
+        <img src="img/comunecomo.png">
+		<h2>Comune di Como</h2>
+		<p></p>
+    </li>
+    <li>
+        <img src="img/cameracommercio.png">
+		<h2>Camera di Commercio Como</h2>
+		<p></p>
+    </li>
+    <li>
+        <img src="img/confcommercio.png">
+		<h2>Confcommercio Como</h2>
+		<p></p>
+    </li>
+    <li>
+        <img src="img/regionelombardia.png">
+		<h2>Regione Lombardia</h2>
+		<p></p>
+    </li>
+    <li>
+        <img src="img/cna.png">
+		<h2>CNA Como</h2>
+		<p></p>
+    </li>
+    <li>
+        <img src="img/confartigianato.png">
+		<h2>Confartigianato</h2>
+		<p></p>
+    </li>
+    <li>
+        <img src="img/unindustria.png">
+		<h2>Unindustria Como</h2>
+		<p></p>
+    </li>
+    <li>
+        <img src="img/compagniaopere.png">
+		<h2>Compagnia delle Opere Como</h2>
+		<p></p>
+    </li>
+    <li>
+        <img src="img/confesercenti.png">
+		<h2>Confesercenti</h2>
+		<p></p>
+    </li>
+</ul>
 
 	</div>
 	<!-- /CONTENT -->
