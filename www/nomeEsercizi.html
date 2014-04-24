@@ -519,7 +519,7 @@
 		alert(latitude);
 		var longitude = $(this).attr('longitude');
 		alert(longitude);
-		var nomeEsercizioFoursquare = $(this).attr('nomeEsercizio');
+		var nomeEsercizioFoursquare = $("h3.nomeEsercizio").html();
 		alert(nomeEsercizioFoursquare);
 		var tokenFoursquare = window.localStorage.getItem("tokenFoursquare");		
 		alert(tokenFoursquare);					
