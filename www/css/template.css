@@ -82,6 +82,51 @@ vertical-align: middle;
 width: 1em;
 }
 
+.headerUpdateDisponibili{
+background: #FD613D;
+color: #ffffff;
+text-align: center;
+text-transform:uppercase;
+}
+
+h3.titoloCollegaFacebook{
+background: #3c5193;
+padding: 3px;
+color: white;
+text-shadow: none;
+text-transform:uppercase;
+}
+
+p.descrizioneCollegaFacebook{
+background-color:rgba(255,255,255,0.9);
+}
+
+h3.titoloCollegaFoursquare{
+background: #219ecc;
+padding: 3px;
+color: white;
+text-shadow: none;
+text-transform:uppercase;
+}
+
+p.descrizioneCollegaFoursquare{
+background-color:rgba(255,255,255,0.9);
+}
+
+h3.titoloCollegaTwitter{
+background: #2da8e0;
+padding: 3px;
+color: white;
+text-shadow: none;
+text-transform:uppercase;
+}
+
+p.descrizioneCollegaTwitter{
+background-color:rgba(255,255,255,0.9);
+}
+
+
+
 /*OPZIONI*/
 
 p.countUpdates{
@@ -193,6 +238,49 @@ margin-bottom: 3px;
 ul.downloadList li img.iconaTipologia{
 vertical-align: middle;
 width: 2em;
+}
+
+.headerUpdateDisponibili{
+background: #FD613D;
+color: #ffffff;
+text-align: center;
+text-transform:uppercase;
+}
+
+h3.titoloCollegaFacebook{
+background: #3c5193;
+padding: 4px;
+color: white;
+text-shadow: none;
+text-transform:uppercase;
+}
+
+p.descrizioneCollegaFacebook{
+background-color:rgba(255,255,255,0.9);
+}
+
+h3.titoloCollegaFoursquare{
+background: #219ecc;
+padding: 4px;
+color: white;
+text-shadow: none;
+text-transform:uppercase;
+}
+
+p.descrizioneCollegaFoursquare{
+background-color:rgba(255,255,255,0.9);
+}
+
+h3.titoloCollegaTwitter{
+background: #2da8e0;
+padding: 4px;
+color: white;
+text-shadow: none;
+text-transform:uppercase;
+}
+
+p.descrizioneCollegaTwitter{
+background-color:rgba(255,255,255,0.9);
 }
 
 /*OPZIONI*/
@@ -309,6 +397,49 @@ margin-bottom: 3px;
 
 ul.downloadList li img{
 vertical-align: middle;
+}
+
+.headerUpdateDisponibili{
+background: #FD613D;
+color: #ffffff;
+text-align: center;
+text-transform:uppercase;
+}
+
+h3.titoloCollegaFacebook{
+background: #3c5193;
+padding: 5px;
+color: white;
+text-shadow: none;
+text-transform:uppercase;
+}
+
+p.descrizioneCollegaFacebook{
+background-color:rgba(255,255,255,0.9);
+}
+
+h3.titoloCollegaFoursquare{
+background: #219ecc;
+padding: 5px;
+color: white;
+text-shadow: none;
+text-transform:uppercase;
+}
+
+p.descrizioneCollegaFoursquare{
+background-color:rgba(255,255,255,0.9);
+}
+
+h3.titoloCollegaTwitter{
+background: #2da8e0;
+padding: 5px;
+color: white;
+text-shadow: none;
+text-transform:uppercase;
+}
+
+p.descrizioneCollegaTwitter{
+background-color:rgba(255,255,255,0.9);
 }
 
 /*OPZIONI*/
@@ -430,6 +561,42 @@ background: #FD613D;
 color: #ffffff;
 text-align: center;
 text-transform:uppercase;
+}
+
+h3.titoloCollegaFacebook{
+background: #3c5193;
+padding: 5px;
+color: white;
+text-shadow: none;
+text-transform:uppercase;
+}
+
+p.descrizioneCollegaFacebook{
+background-color:rgba(255,255,255,0.9);
+}
+
+h3.titoloCollegaFoursquare{
+background: #219ecc;
+padding: 5px;
+color: white;
+text-shadow: none;
+text-transform:uppercase;
+}
+
+p.descrizioneCollegaFoursquare{
+background-color:rgba(255,255,255,0.9);
+}
+
+h3.titoloCollegaTwitter{
+background: #2da8e0;
+padding: 5px;
+color: white;
+text-shadow: none;
+text-transform:uppercase;
+}
+
+p.descrizioneCollegaTwitter{
+background-color:rgba(255,255,255,0.9);
 }
 
 /*OPZIONI*/
