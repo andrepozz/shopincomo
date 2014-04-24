@@ -1101,14 +1101,14 @@
 		
 		}
 		else{
-		$("button#intervallo").hide();
+		$("#box-statisticheEsercizio").hide();
 		$("ul#statisticheEsercizio").append($("<li data-role='list-divider'>"+window.localStorage.getItem("essereOnline")+"</li>"));
 		$("ul#statisticheEsercizio").listview("refresh");
 		}
 	
 	}
 	else{
-	$("button#intervallo").hide();
+	$("#box-statisticheEsercizio").hide();
 	$("ul#statisticheEsercizio").append($("<li data-role='list-divider'>"+window.localStorage.getItem("noStatistiche")+"</li>"));
 	$("ul#statisticheEsercizio").listview("refresh");
 	}
