@@ -831,7 +831,7 @@
 			function(data) {
 			venues = data.response.venues;
 			$("ul#lista_checkin").html("");
-			$("ul#lista_checkin").append($("<li data-role='divider' data-theme='b'>Check In</li>"));
+			$("ul#lista_checkin").append($("<li data-role='divider'>Check In</li>"));
 				if (venues.length == 0) {
 					$("ul#lista_checkin").append($("<li></li>",{"html":""+window.localStorage.getItem("noCheckin")+"" }));
 				}
@@ -965,7 +965,7 @@
 	
 	<div data-role="popup" id="popupCheckin" data-theme="b">
 		<a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
-		<ul id="lista_checkin" data-role="listview">
+		<ul id="lista_checkin" data-role="listview" style="min-width:210px;">
 		</ul>
 	</div>
 		
