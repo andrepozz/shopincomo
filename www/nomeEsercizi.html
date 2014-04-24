@@ -516,26 +516,20 @@
 	$(document).on("click", '.votaFoursquare', function(){
 		
 		var latitude = $(this).attr('latitude');
-		alert(latitude);
 		var longitude = $(this).attr('longitude');
-		alert(longitude);
 		var nomeEsercizioFoursquare = $("h3.nomeEsercizio").html();
-		alert(nomeEsercizioFoursquare);
-		var tokenFoursquare = window.localStorage.getItem("tokenFoursquare");		
-		alert(tokenFoursquare);					
+		var tokenFoursquare = window.localStorage.getItem("tokenFoursquare");							
 		$.getJSON('https://api.foursquare.com/v2/venues/search?ll='+latitude+','+longitude+'&limit=4&query='+nomeEsercizioFoursquare+'&radius=100&oauth_token='+tokenFoursquare+'&v=20140410',
 			function(data) {
 			venues = data.response.venues;
 			$("ul#lista_checkin").html("");
 			$("ul#lista_checkin").append($("<li data-role='divider' data-theme='b'>Check In</li>"));
-				alert(venues.length);
 				if (venues.length == 0) {
 					$("ul#lista_checkin").append($("<li></li>",{"html":""+window.localStorage.getItem("noCheckin")+"" }));
 				}
 				else {
 					for (var i = 0; i < venues.length; i++) {
 					$("ul#lista_checkin").append($("<li></li>",{"html":"<a href='#' class='link_ckeckin' idVenue='"+venues[i].id+"'>"+venues[i].name+"</a>" }));
-					alert(venues[i].name);
 					}
 				}
 				$("ul#lista_checkin").listview("destroy").listview();
