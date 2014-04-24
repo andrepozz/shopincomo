@@ -878,7 +878,7 @@
 		
 		var latitude = $(this).attr('latitude');
 		var longitude = $(this).attr('longitude');
-		var nomeEsercizioFoursquare = $(this).attr('nomeEsercizio');
+		var nomeEsercizioFoursquare = $("h3.nomeEsercizio").html();
 		var tokenFoursquare = window.localStorage.getItem("tokenFoursquare");		
 									
 		$.getJSON('https://api.foursquare.com/v2/venues/search?ll='+latitude+','+longitude+'&limit=4&query='+nomeEsercizioFoursquare+'&radius=100&oauth_token='+tokenFoursquare+'&v=20140410',
@@ -1004,7 +1004,7 @@
 	</a>
 	</li>
 	<li id="buttonFoursquare">
-	<a href="#" class="votaFoursquare" idEsercizio=""><img id="votaFoursquare" src="">
+	<a href="#popupCheckin" data-rel="popup" class="votaFoursquare" idEsercizio=""><img id="votaFoursquare" src="">
 	<h2>Foursquare</h2>
 	<p class="didascaliaSocial"></p>
 	</a>
