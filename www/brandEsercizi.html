@@ -501,20 +501,20 @@
 			$(".votaTwitter").attr("latitude", userLatitude);
 			$(".votaTwitter").attr("longitude", userLongitude);
 	
-			var distance = 5000;
+			var distanceVetrina = 5000;
 			var jsonPositionDir = path + "/position.js";
 			$.getJSON(jsonPositionDir, function( jsonPosition ) {
 				$.each(jsonPosition, function(index, info) {
-					currentDistance = getDistanceFromLatLonInKm(userLatitude,userLongitude,info.latEsercizio,info.lonEsercizio);
-					if(distance > currentDistance)
+					currentDistanceVetrina = getDistanceFromLatLonInKm(userLatitude,userLongitude,info.latEsercizio,info.lonEsercizio);
+					if(distanceVetrina > currentDistanceVetrina)
 					{
-						distance = currentDistance;
+						distanceVetrina = currentDistanceVetrina;
 						nearestEsercizio = info.idEsercizio;
 					}
 				});
 				console.log("Nodo vicino: "+nearestEsercizio);
-				console.log(distance);
-				if(distance < 200)
+				console.log(distanceVetrina);
+				if(distanceVetrina < 200)
 				{				
 					var jsonVetrinaSession = JSON.parse(window.sessionStorage.getItem("jsonVetrina"));
 					var obj = jsonVetrinaSession[0];
@@ -524,7 +524,7 @@
 									if(infoDistance.idEsercizio == nearestEsercizio){
 										var minutes = Math.floor(infoDistance.time / 60);
 										var seconds = infoDistance.time - minutes * 60;
-										$(".distanzaEsercizio").html("<img src='img/distanza.png'>"+infoDistance.distance+"m - "+minutes+":"+seconds+" min<p class='esercizioVicino'>"+window.localStorage.getItem("vicinoA")+" "+infoDistance.nomeEsercizio+"</p>");
+										$(".distanzaEsercizio").html("<img src='img/distanza.png'>"+infoDistance.distance+" m - "+minutes+":"+seconds+" min<p class='esercizioVicino'>"+window.localStorage.getItem("vicinoA")+" "+infoDistance.nomeEsercizio+"</p>");
 									}
 								});
 						}
