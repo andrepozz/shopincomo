@@ -385,6 +385,73 @@
 	
 	// TRADUZIONI------------------------------------------------------------------------------
 	
+		$.getJSON("js/lingue.js", function( lingue ) {
+			
+	
+	window.localStorage.setItem("nome", lingue[lingua].nome);
+	window.localStorage.setItem("nomiEsercizi", lingue[lingua].nomiEsercizi);
+	window.localStorage.setItem("position", lingue[lingua].position);
+	window.localStorage.setItem("categorie", lingue[lingua].categorie);
+	window.localStorage.setItem("esercizi", lingue[lingua].esercizi);
+	window.localStorage.setItem("sottoCategorie", lingue[lingua].sottoCategorie);
+	window.localStorage.setItem("brandEsercizi", lingue[lingua].brandEsercizi);
+	window.localStorage.setItem("downloadFunzionalita", lingue[lingua].downloadFunzionalita);
+	window.localStorage.setItem("downloadEsercizi", lingue[lingua].downloadEsercizi);
+	window.localStorage.setItem("attendere", lingue[lingua].attendere);
+	window.localStorage.setItem("continua", lingue[lingua].continua);
+	window.localStorage.setItem("localizzando", lingue[lingua].localizzando);
+	window.localStorage.setItem("salta", lingue[lingua].salta);
+	window.localStorage.setItem("chiudi", lingue[lingua].chiudi);
+	window.localStorage.setItem("vota", lingue[lingua].vota);
+	window.localStorage.setItem("voti", lingue[lingua].voti);
+	window.localStorage.setItem("essereOnline", lingue[lingua].essereOnline);
+	window.localStorage.setItem("onlineSetup", lingue[lingua].onlineSetup);
+	window.localStorage.setItem("distanza", lingue[lingua].distanza);
+	window.localStorage.setItem("votoTrendy", lingue[lingua].votoTrendy);
+	window.localStorage.setItem("votoPopular", lingue[lingua].votoPopular);
+	window.localStorage.setItem("tutti", lingue[lingua].tutti);
+	window.localStorage.setItem("giorni", lingue[lingua].giorni);
+	window.localStorage.setItem("noStatistiche", lingue[lingua].noStatistiche);
+	window.localStorage.setItem("contatti", lingue[lingua].contatti);
+	window.localStorage.setItem("telefono", lingue[lingua].telefono);
+	window.localStorage.setItem("orariApertura", lingue[lingua].orariApertura);
+	window.localStorage.setItem("noOrari", lingue[lingua].noOrari);
+	window.localStorage.setItem("lunedi", lingue[lingua].lunedi);
+	window.localStorage.setItem("martedi", lingue[lingua].martedi);
+	window.localStorage.setItem("mercoledi", lingue[lingua].mercoledi);
+	window.localStorage.setItem("giovedi", lingue[lingua].giovedi);
+	window.localStorage.setItem("venerdi", lingue[lingua].venerdi);
+	window.localStorage.setItem("sabato", lingue[lingua].sabato);
+	window.localStorage.setItem("domenica", lingue[lingua].domenica);
+	window.localStorage.setItem("votaNegozio", lingue[lingua].votaNegozio);
+	window.localStorage.setItem("portamiQui", lingue[lingua].portamiQui);
+	window.localStorage.setItem("mostra", lingue[lingua].mostra);
+	window.localStorage.setItem("nascondi", lingue[lingua].nascondi);
+	window.localStorage.setItem("postPubblicato", lingue[lingua].postPubblicato);
+	window.localStorage.setItem("tweetPubblicato", lingue[lingua].tweetPubblicato);
+	window.localStorage.setItem("checkinPubblicato", lingue[lingua].checkinPubblicato);
+	window.localStorage.setItem("noCheckin", lingue[lingua].noCheckin);
+	window.localStorage.setItem("troppoLontano", lingue[lingua].troppoLontano);
+	window.localStorage.setItem("noRisultatiVicini", lingue[lingua].noRisultatiVicini);
+	window.localStorage.setItem("vicinoA", lingue[lingua].vicinoA);
+	window.localStorage.setItem("collegaSetupTitolo", lingue[lingua].collegaSetupTitolo);
+	window.localStorage.setItem("collegaSetupDescrizione", lingue[lingua].collegaSetupDescrizione);
+	window.localStorage.setItem("collegaSocial", lingue[lingua].collegaSocial);
+	window.localStorage.setItem("noCollegaSocial", lingue[lingua].noCollegaSocial);
+	window.localStorage.setItem("accountCollegato", lingue[lingua].accountCollegato);
+	window.localStorage.setItem("prossimoPasso", lingue[lingua].prossimoPasso);
+	window.localStorage.setItem("placeholderNome", lingue[lingua].placeholderNome);
+	window.localStorage.setItem("placeholderBrand", lingue[lingua].placeholderBrand);
+	window.localStorage.setItem("linguaApp", lingue[lingua].linguaApp);
+	window.localStorage.setItem("cambiaLinguaApp", lingue[lingua].cambiaLinguaApp);
+	window.localStorage.setItem("aggiorna", lingue[lingua].aggiorna);
+	window.localStorage.setItem("aggiornaDatabaseApp", lingue[lingua].aggiornaDatabaseApp);
+	window.localStorage.setItem("statusDatabase", lingue[lingua].statusDatabase);
+	window.localStorage.setItem("aggiornamentoCompletato", lingue[lingua].aggiornamentoCompletato);
+	window.localStorage.setItem("aggiornamentiDisponibili", lingue[lingua].aggiornamentiDisponibili);
+	window.localStorage.setItem("aggiornamentiPopupDescrizione", lingue[lingua].aggiornamentiPopupDescrizione);
+		
+	});
 	
 	
 	// /TRADUZIONI----------------------------------------------------------------------------
@@ -488,7 +555,7 @@
 								pathSD = pathSD+"/ccn";
 								window.localStorage.setItem('pathSD', pathSD);
 								
-								$("li.categorie").html("<img class='iconaTipologia' src='img/downloadCategorie.png'> DOWNLOAD "+window.localStorage.getItem("categorie")+" <img src='img/downloadok.png'>");
+								$("li.categorie").html("<img class='iconaTipologia' src='img/downloadCategorie.png'> DOWNLOAD "+window.localStorage.getItem("categorie")+"");
 								$("li.categorie").css("color","white");
 								$("li.categorie").css("background","#00CC00");
 								
@@ -616,7 +683,7 @@
 						localPath,
 						function(entry) {
 						
-						$("li."+pClass+"").html("<img class='iconaTipologia' src='img/download"+imgName+".png'> DOWNLOAD "+pClass+" <img src='img/downloadok.png'>");
+						$("li."+pClass+"").html("<img class='iconaTipologia' src='img/download"+imgName+".png'> DOWNLOAD "+pClass+"");
 						$("li."+pClass+"").css("color","white");
 						$("li."+pClass+"").css("background","#00CC00");
 						
@@ -675,7 +742,7 @@
 						numElementi = parseInt(numElementi)-1;							
 								if(numElementi == 0) {
 								
-									$("li.sottocategorie").html("<img class='iconaTipologia' src='img/downloadSottocategorie.png'> DOWNLOAD "+window.localStorage.getItem("sottoCategorie")+" <img src='img/downloadok.png'>");
+									$("li.sottocategorie").html("<img class='iconaTipologia' src='img/downloadSottocategorie.png'> DOWNLOAD "+window.localStorage.getItem("sottoCategorie")+"");
 									$("li.sottocategorie").css("color","white");
 									$("li.sottocategorie").css("background","#00CC00");
 									$("p.downloadComplete").html("<a href='#setupNegoziLingua' class='ui-btn' data-transition='slide'>"+window.localStorage.getItem("continua")+"</a>");	
@@ -691,7 +758,7 @@
 							
 							if(numElementiError == 0) {
 								
-									$("li.sottocategorie").html("<img class='iconaTipologia' src='img/downloadSottocategorie.png'> DOWNLOAD "+window.localStorage.getItem("sottoCategorie")+" <img src='img/downloadok.png'>");
+									$("li.sottocategorie").html("<img class='iconaTipologia' src='img/downloadSottocategorie.png'> DOWNLOAD "+window.localStorage.getItem("sottoCategorie")+"");
 									$("li.sottocategorie").css("color","white");
 									$("li.sottocategorie").css("background","#00CC00");
 									$("p.downloadComplete").html("<a href='#setupNegoziLingua' class='ui-btn' data-transition='slide'>"+window.localStorage.getItem("continua")+"</a>");	

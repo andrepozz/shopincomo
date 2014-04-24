@@ -1,75 +1,3 @@
-<!--
-#index
-	DONE:
-	- fixed header
-	- fixed footer
-	- back button carat-l
-	
-#lingue
-	DONE:
-	- fixed header
-	- fixed footer
-	
-#setupCategorie:
-	DONE:
-	- fixed header
-	- fixed footer
-	
-#setupNegozi:
-	DONE:
-	- fixed header
-	- fixed footer
-	
-#facebook:
-	DONE:
-	- fixed header
-	- fixed footer
-	
-#foursquare:
-	DONE:
-	- fixed header
-	- fixed footer
-	
-#twitter:
-	DONE:
-	- fixed header
-	- fixed footer
-
-#vetrinaMappa
-	DONE:
-	- fixed header
-	- fixed footer
-	- back button carat-l
-
-#vetrinaOrari
-	DONE:
-	- fixed header
-	- fixed footer
-	- back button carat-l
-
-#vetrinaContatti
-	DONE:
-	- fixed header
-	- fixed footer
-	- back button carat-l
-	- href:tel Telefono
-	- href:mailto Email
-	- link sito web
-	TO DO:
-	- icone
-
-#vetrinaStatistiche
-	DONE:
-	- fixed header
-	- fixed footer
-	- back button carat-l
-
-#credits:
-	DONE:
-	- fixed header
-	- fixed footer
--->
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -422,6 +350,7 @@
 	window.localStorage.setItem("nomiEsercizi", lingue[lingua].nomiEsercizi);
 	window.localStorage.setItem("position", lingue[lingua].position);
 	window.localStorage.setItem("categorie", lingue[lingua].categorie);
+	window.localStorage.setItem("esercizi", lingue[lingua].esercizi);
 	window.localStorage.setItem("sottoCategorie", lingue[lingua].sottoCategorie);
 	window.localStorage.setItem("brandEsercizi", lingue[lingua].brandEsercizi);
 	window.localStorage.setItem("downloadFunzionalita", lingue[lingua].downloadFunzionalita);
@@ -709,7 +638,7 @@
 						localPath,
 						function(entry) {
 						
-						$("li."+pClass+"").html("<img class='iconaTipologia' src='img/download"+imgName+".png'> DOWNLOAD "+pClass+" <img src='img/downloadok.png'>");
+						$("li."+pClass+"").html("<img class='iconaTipologia' src='img/download"+imgName+".png'> DOWNLOAD "+pClass+"");
 						$("li."+pClass+"").css("color","white");
 						$("li."+pClass+"").css("background","#00CC00");
 						
@@ -768,7 +697,7 @@
 						numElementi = parseInt(numElementi)-1;							
 								if(numElementi == 0) {
 								
-									$("li.sottocategorie").html("<img class='iconaTipologia' src='img/downloadSottocategorie.png'> DOWNLOAD "+window.localStorage.getItem("sottoCategorie")+" <img src='img/downloadok.png'>");
+									$("li.sottocategorie").html("<img class='iconaTipologia' src='img/downloadSottocategorie.png'> DOWNLOAD "+window.localStorage.getItem("sottoCategorie")+"");
 									$("li.sottocategorie").css("color","white");
 									$("li.sottocategorie").css("background","#00CC00");
 									$("p.downloadComplete").html("<a href='#setupNegozi' class='ui-btn' data-transition='slide'>"+window.localStorage.getItem("continua")+"</a>");		
@@ -784,7 +713,7 @@
 							
 							if(numElementiError == 0) {
 								
-									$("li.sottocategorie").html("<img class='iconaTipologia' src='img/downloadSottocategorie.png'> DOWNLOAD "+window.localStorage.getItem("sottoCategorie")+" <img src='img/downloadok.png'>");
+									$("li.sottocategorie").html("<img class='iconaTipologia' src='img/downloadSottocategorie.png'> DOWNLOAD "+window.localStorage.getItem("sottoCategorie")+"");
 									$("li.sottocategorie").css("color","white");
 									$("li.sottocategorie").css("background","#00CC00");
 									$("p.downloadComplete").html("<a href='#setupNegozi' class='ui-btn' data-transition='slide'>"+window.localStorage.getItem("continua")+"</a>");			
