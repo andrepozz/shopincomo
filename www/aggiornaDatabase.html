@@ -34,7 +34,15 @@
 		<div role="main" class="ui-content" >
 	
 		<script>
-		$( "#aggiornaDatabase" ).on( "pageshow", function() {	
+		$( "#aggiornaDatabase" ).on( "pageshow", function() {
+
+		$("ul.downloadList").append($('<li class="'+window.localStorage.getItem("nomiEsercizi")+'"><img class="iconaTipologia" src="img/downloadnome.png"> UPDATE '+window.localStorage.getItem("nomiEsercizi")+'... <img src="img/download.gif"></li>'));
+		$("ul.downloadList").append($('<li class="brand"><img class="iconaTipologia" src="img/downloadbrand.png"> UPDATE brand... <img src="img/download.gif"></li>'));
+		$("ul.downloadList").append($('<li class="'+window.localStorage.getItem("brandEsercizi")+'"><img class="iconaTipologia" src="img/downloadbrandEsercizi.png"> UPDATE '+window.localStorage.getItem("brandEsercizi")+'... <img src="img/download.gif"></li>'));
+		$("ul.downloadList").append($('<li class="'+window.localStorage.getItem("position")+'"><img class="iconaTipologia" src="img/downloadposition.png"> UPDATE position... <img src="img/download.gif"></li>'));
+		$("ul.downloadList").append($('<li class="categorie"><img class="iconaTipologia" src="img/downloadCategorie.png"> UPDATE '+window.localStorage.getItem("categorie")+'...<img src="img/download.gif"></li>'));
+		$("ul.downloadList").append($('<li class="sottocategorie"><img class="iconaTipologia" src="img/downloadSottocategorie.png"> UPDATE '+window.localStorage.getItem("sottoCategorie")+'...<img src="img/download.gif"></li>'));
+		$("ul.downloadList").append($('<li class="'+window.localStorage.getItem("esercizi")+'"><img class="iconaTipologia" src="img/downloadnome.png"> UPDATE '+window.localStorage.getItem("esercizi")+'...<img src="img/download.gif"></li>'));
 		
 		sessionStorage.setItem("vetrineOK", 0);
 	
@@ -407,19 +415,11 @@
 	
 	</script>
 		
-	
+		
 	<ul class="downloadList">
-	<li class="nome"><img class="iconaTipologia" src="img/downloadnome.png"> UPDATE nomi... <img src="img/download.gif"></li>
-	<li class="brandEsercizi"><img class="iconaTipologia" src="img/downloadbrand.png"> UPDATE brand... <img src="img/download.gif"></li>
-	<li class="brand"><img class="iconaTipologia" src="img/downloadbrandEsercizi.png"> UPDATE brandEsercizi... <img src="img/download.gif"></li>
-	<li class="position"><img class="iconaTipologia" src="img/downloadposition.png"> UPDATE position... <img src="img/download.gif"></li>
-	<li class="categorie"><img class="iconaTipologia" src="img/downloadCategorie.png"> UPDATE categorie...<img src="img/download.gif"></li>
-	<li class="sottocategorie"><img class="iconaTipologia" src="img/downloadSottocategorie.png"> UPDATE sottocategorie...<img src="img/download.gif"></li>
-	<li class="vetrine"><img class="iconaTipologia" src="img/downloadEsercizi.png">aggiornamento vetrine...<img src="img/download.gif"></li>
-	<!-- <li class="distance">configurazione distanze... <img src="img/download.gif"></li> -->
 	</ul>
 	
-	<p class="downloadComplete">attendere...</p>
+	<p class="downloadComplete"><img src="img/download.gif"></p>
 	
 		</div>
 		<!-- /CONTENT -->
