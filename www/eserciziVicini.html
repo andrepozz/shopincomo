@@ -668,7 +668,7 @@
 			this._div.innerHTML = '<button class="groupMarker"><img src="img/userShop.png"></button><button class="userMarker"><img src="img/userPosition.png"></button>';
 			return this._div;
 		};
-		controlloZoom.addTo(map);
+		
 		
 		
 		var userLatitude;
@@ -694,7 +694,7 @@
 // FUNCTION SUCCESS WATCH POSITION
 
 		function onSuccess(position) {
-	 		
+	 		controlloZoom.addTo(map);
 			userLatitude = position.coords.latitude;
 			userLongitude = position.coords.longitude;
 			window.sessionStorage.setItem("userLatitude", userLatitude);
