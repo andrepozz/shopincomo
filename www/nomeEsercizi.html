@@ -530,7 +530,7 @@
 			$("ul#lista_checkin").append($("<li data-role='divider' data-theme='b'>Check In</li>"));
 				alert(venues.length);
 				if (venues.length == 0) {
-					$("ul#lista_checkin").append($("<li></li>",{"html":"ciao" }));
+					$("ul#lista_checkin").append($("<li></li>",{"html":""+window.localStorage.getItem("noCheckin")+"" }));
 				}
 				else {
 					for (var i = 0; i < venues.length; i++) {
@@ -649,7 +649,7 @@
 	</a>
 	</li>
 	<li id="buttonFoursquare">
-	<a href="#" class="votaFoursquare" idEsercizio=""><img id="votaFoursquare" src="">
+	<a href="#popupCheckin" class="votaFoursquare" idEsercizio=""><img id="votaFoursquare" src="">
 	<h2>Foursquare</h2>
 	<p class="didascaliaSocial"></p>
 	</a>
