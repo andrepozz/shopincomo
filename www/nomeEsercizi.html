@@ -482,8 +482,8 @@
 	$(document).on("click", '.votaFacebook', function(){
 	
 	idEsercizio = $("h3.nomeEsercizio").attr('idEsercizio');
-	latitudeFacebook = $(".votaTwitter").attr('latitude');
-	longitudeFacebook = $(".votaTwitter").attr('longitude');
+	latitudeFacebook = $(".votaFacebook").attr('latitude');
+	longitudeFacebook = $(".votaFacebook").attr('longitude');
 	nomeEsercizio = $("h3.nomeEsercizio").html();
 	
 	FB.ui(
@@ -493,7 +493,7 @@
 		link: 'http://www.wificomo.com/it/node/'+idEsercizio,
 		picture: 'http://www.wificomo.com/imgs/logoShopincomo.jpg',
 		caption: 'Shopincomo',
-		description: $("p.descrizioneEsercizio").html()
+		description: sessionStorage.getItem('descrizioneEsercizio')
 	},
 	function(response) {
 		if (response) {
