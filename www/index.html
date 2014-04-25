@@ -70,12 +70,16 @@
 	
 	watchID = navigator.geolocation.watchPosition(onSuccess, onError, options);
 	
+	if(window.sessionStorage.getItem("userLatitude") == null)
+	{
+	
 	$.mobile.loading( "show", {
             text: ""+window.localStorage.getItem("localizzando")+"",
             textVisible: true,
             theme: "b",
             textonly: false
 	});
+	}
 	
 	function onSuccess(position) {
 	
