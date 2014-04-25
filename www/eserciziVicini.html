@@ -565,7 +565,7 @@
 		var	connectionStatus = navigator.onLine ? 'online' : 'offline';
 		
 		//FACEBOOK
-		FB.init({ appId: "1448410138727682", nativeInterface: CDV.FB, useCachedDialogs: false });
+		FB.init({ appId: "771666006185274", nativeInterface: CDV.FB, useCachedDialogs: false });
 		//GET LOGIN STATUS
 		FB.getLoginStatus(function(response) {
 			//CONNESSO
@@ -843,8 +843,8 @@
 	$(document).on("click", '.votaFacebook', function(){
 	
 	idEsercizio = $("h3.nomeEsercizio").attr('idEsercizio');
-	latitudeFacebook = $(".votaTwitter").attr('latitude');
-	longitudeFacebook = $(".votaTwitter").attr('longitude');
+	latitudeFacebook = window.sessionStorage.getItem("userLatitude");
+	longitudeFacebook = window.sessionStorage.getItem("userLongitude");
 	nomeEsercizio = $("h3.nomeEsercizio").html();
 	
 	FB.ui(
@@ -854,7 +854,7 @@
 		link: 'http://www.wificomo.com/it/node/'+idEsercizio,
 		picture: 'http://www.wificomo.com/imgs/logoShopincomo.jpg',
 		caption: 'Shopincomo',
-		description: $("p.descrizioneEsercizio").html()
+		description: sessionStorage.getItem('descrizioneEsercizio')
 	},
 	function(response) {
 		if (response) {
@@ -876,8 +876,8 @@
 	
 	$(document).on("click", '.votaFoursquare', function(){
 		
-		var latitude = $(this).attr('latitude');
-		var longitude = $(this).attr('longitude');
+		var latitude = window.sessionStorage.getItem("userLatitude");
+		var longitude = window.sessionStorage.getItem("userLongitude");
 		var nomeEsercizioFoursquare = $("h3.nomeEsercizio").html();
 		var tokenFoursquare = window.localStorage.getItem("tokenFoursquare");		
 									
@@ -905,8 +905,8 @@
 		var idVenue = $(this).attr('idVenue');
 		
 		idEsercizio = $("h3.nomeEsercizio").attr('idEsercizio');
-		latitudeFoursquare = $(".votaFoursquare").attr('latitude');
-		longitudeFoursquare = $(".votaFoursquare").attr('longitude');
+		latitudeFoursquare = window.sessionStorage.getItem("userLatitude");
+		longitudeFoursquare = window.sessionStorage.getItem("userLongitude");
 		nomeEsercizio = $("h3.nomeEsercizio").html();
 		
 		//var idUserFoursquare = window.localStorage.getItem("idUserFoursquare");
@@ -928,8 +928,8 @@
 	$(document).on("click", '.votaTwitter', function(){
 		
 		idEsercizio = $("h3.nomeEsercizio").attr('idEsercizio');
-		latitudeTwitter = $(".votaTwitter").attr('latitude');
-		longitudeTwitter = $(".votaTwitter").attr('longitude');
+		latitudeTwitter = window.sessionStorage.getItem("userLatitude");
+		longitudeTwitter = window.sessionStorage.getItem("userLongitude");
 		urlEsercizio = "http://www.wificomo.com/it/node/"+idEsercizio;
 		nomeEsercizio = $("h3.nomeEsercizio").html();
 		

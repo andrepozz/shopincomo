@@ -333,19 +333,7 @@
 			userLongitude = position.coords.longitude;
 			window.sessionStorage.setItem("userLatitude", userLatitude);
 			window.sessionStorage.setItem("userLongitude", userLongitude);
-			
-			//FACEBOOK
-			$(".votaFacebook").attr("latitude", userLatitude);
-			$(".votaFacebook").attr("longitude", userLongitude);
-			
-			//FOURSQUARE
-			$(".votaFoursquare").attr("latitude", userLatitude);
-			$(".votaFoursquare").attr("longitude", userLongitude);
-			
-			//TWITTER
-			$(".votaTwitter").attr("latitude", userLatitude);
-			$(".votaTwitter").attr("longitude", userLongitude);
-	
+				
 			var distanceVetrina = 5000;
 			var jsonPositionDir = path + "/position.js";
 			$.getJSON(jsonPositionDir, function( jsonPosition ) {
@@ -482,8 +470,8 @@
 	$(document).on("click", '.votaFacebook', function(){
 	
 	idEsercizio = $("h3.nomeEsercizio").attr('idEsercizio');
-	latitudeFacebook = $(".votaFacebook").attr('latitude');
-	longitudeFacebook = $(".votaFacebook").attr('longitude');
+	latitudeFacebook = window.sessionStorage.getItem("userLatitude");
+	longitudeFacebook = window.sessionStorage.getItem("userLongitude");
 	nomeEsercizio = $("h3.nomeEsercizio").html();
 	
 	FB.ui(
@@ -515,8 +503,8 @@
 	
 	$(document).on("click", '.votaFoursquare', function(){
 		
-		var latitude = $(this).attr('latitude');
-		var longitude = $(this).attr('longitude');
+		var latitude = window.sessionStorage.getItem("userLatitude");
+		var longitude = window.sessionStorage.getItem("userLongitude");
 		var nomeEsercizioFoursquare = $("h3.nomeEsercizio").html();
 		var tokenFoursquare = window.localStorage.getItem("tokenFoursquare");							
 		$.getJSON('https://api.foursquare.com/v2/venues/search?ll='+latitude+','+longitude+'&limit=4&query='+nomeEsercizioFoursquare+'&radius=100&oauth_token='+tokenFoursquare+'&v=20140410',
@@ -543,8 +531,8 @@
 		var idVenue = $(this).attr('idVenue');
 		
 		idEsercizio = $("h3.nomeEsercizio").attr('idEsercizio');
-		latitudeFoursquare = $(".votaFoursquare").attr('latitude');
-		longitudeFoursquare = $(".votaFoursquare").attr('longitude');
+		latitudeFoursquare = window.sessionStorage.getItem("userLatitude");
+		longitudeFoursquare = window.sessionStorage.getItem("userLongitude");
 		nomeEsercizio = $("h3.nomeEsercizio").html();
 		
 		//var idUserFoursquare = window.localStorage.getItem("idUserFoursquare");
@@ -566,8 +554,8 @@
 	$(document).on("click", '.votaTwitter', function(){
 		
 		idEsercizio = $("h3.nomeEsercizio").attr('idEsercizio');
-		latitudeTwitter = $(".votaTwitter").attr('latitude');
-		longitudeTwitter = $(".votaTwitter").attr('longitude');
+		latitudeTwitter = window.sessionStorage.getItem("userLatitude");
+		longitudeTwitter = window.sessionStorage.getItem("userLongitude");
 		urlEsercizio = "http://www.wificomo.com/it/node/"+idEsercizio;
 		nomeEsercizio = $("h3.nomeEsercizio").html();
 		
