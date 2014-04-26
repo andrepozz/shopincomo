@@ -146,12 +146,9 @@
 	if(ritorno == "ok"){
 	filtroRitorno = window.sessionStorage.getItem("filtro");
 	sottocategoriaRitorno = window.sessionStorage.getItem('sottocategoria');
-	alert(sottocategoriaRitorno);
 		var existSottocategoria = [];
 		
 		if(sottocategoriaRitorno != 'all') {
-			$( "input#"+sottocategoriaRitorno+"" ).attr( "checked", "checked" );
-			$( "input#"+sottocategoriaRitorno+"" ).checkboxradio("refresh");
 			jsonFiltro = $.grep(jsonSottocategorie, function(v) {
 			if ($.inArray(v.nomeEsercizio, existSottocategoria) !== -1) {
 				return false;
@@ -267,10 +264,12 @@
 					});
 					
 					countNegozi = countNegoziSottocategoria.length;
-					
+		
+		sottocategoriaRitorno = window.sessionStorage.getItem('sottocategoria');
+		
 		$('#fieldsetFiltro')
         .controlgroup("container")
-        .append('<input type="radio" name="filtro" class="filtro" id="' + id + '" value="'+j+'" /><label for="'+id+'">'+j+' ('+countNegozi+')</label>');
+        .append('<input type="radio" name="filtro" class="filtro" id="' + id + '" value="'+j+'" "'+if(ordinamentoRitorno == id){ "'checked' = 'checked'"}+'" /><label for="'+id+'">'+j+' ('+countNegozi+')</label>');
 					}
 				}
 			}
