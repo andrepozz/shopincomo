@@ -110,7 +110,7 @@
 	
 	$("ul#lista_esercizi").html("");
 	$("#fieldsetOrdinamento").controlgroup("container").html("");
-	$("#fieldsetOrdinamento").controlgroup("container").append($('<input type="radio" class="ordinamento" name="ordinamento" id="distanza" value="distanza" checked="checked"><label for="distanza">'+window.localStorage.getItem("distanza")+'</label>'));
+	$("#fieldsetOrdinamento").controlgroup("container").append($('<input type="radio" class="ordinamento" name="ordinamento" id="distanza" value="distanza"><label for="distanza">'+window.localStorage.getItem("distanza")+'</label>'));
 	$("#fieldsetOrdinamento").controlgroup("container").append($('<input type="radio" class="ordinamento" name="ordinamento" id="nome" value="nome"><label for="nome">'+window.localStorage.getItem("nome")+'</label>'));
 	$("#fieldsetOrdinamento").controlgroup("container").append($('<input type="radio" class="ordinamento" name="ordinamento" id="votoPopular" value="votoPopular"><label for="votoPopular">'+window.localStorage.getItem("votoPopular")+'</label>'));
 	$("#fieldsetOrdinamento").controlgroup("container").append($('<input type="radio" class="ordinamento" name="ordinamento" id="votoTrendy" value="votoTrendy"><label for="votoTrendy">'+window.localStorage.getItem("votoTrendy")+'</label>'));
@@ -146,10 +146,11 @@
 	if(ritorno == "ok"){
 	filtroRitorno = window.sessionStorage.getItem("filtro");
 	sottocategoriaRitorno = window.sessionStorage.getItem('sottocategoria');
-	
+		
 		var existSottocategoria = [];
 		
 		if(sottocategoriaRitorno != 'all') {
+			$( "input#"+sottocategoriaRitorno+"" ).attr( "checked", "checked" );
 			jsonFiltro = $.grep(jsonSottocategorie, function(v) {
 			if ($.inArray(v.nomeEsercizio, existSottocategoria) !== -1) {
 				return false;
@@ -167,7 +168,7 @@
 		//RIORDINA SE SELEZIONATO UN ORDINAMENTO
 		ordinamentoRitorno = window.sessionStorage.getItem("ordinamento");
 		if(ordinamentoRitorno != null) {
-
+			$( "input#"+ordinamentoRitorno+"" ).attr( "checked", "checked" );
 			switch (ordinamentoRitorno)
 			{
 			case "nome":
@@ -195,6 +196,8 @@
 			
 			$("ul#lista_esercizi").listview("refresh");
 			
+			
+			
 			sessionStorage.setItem('currentJSON', JSON.stringify(jsonOrdinamento));
 
 		}
@@ -217,6 +220,8 @@
 	jsonSottocategorie = jsonSottocategorie.sort(function(a,b) { return parseFloat(a.distance) - parseFloat(b.distance) } );
 	
 	window.sessionStorage.setItem("ordinamento", "distanza");
+	
+	$( "input#distanza" ).attr( "checked", "checked" );
 					
 	//LISTA ESERCIZI
 	$.each(jsonSottocategorie, function(index, info) {
