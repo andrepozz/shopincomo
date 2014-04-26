@@ -216,6 +216,7 @@
 	{
 	jsonSottocategorie = jsonSottocategorie.sort(function(a,b) { return parseFloat(a.distance) - parseFloat(b.distance) } );
 	
+	window.sessionStorage.setItem("ordinamento", "distanza");
 					
 	//LISTA ESERCIZI
 	$.each(jsonSottocategorie, function(index, info) {
