@@ -151,6 +151,7 @@
 		
 		if(sottocategoriaRitorno != 'all') {
 			$( "input#"+sottocategoriaRitorno+"" ).attr( "checked", "checked" );
+			$( "input#"+sottocategoriaRitorno+"" ).checkboxradio("refresh");
 			jsonFiltro = $.grep(jsonSottocategorie, function(v) {
 			if ($.inArray(v.nomeEsercizio, existSottocategoria) !== -1) {
 				return false;
@@ -169,6 +170,7 @@
 		ordinamentoRitorno = window.sessionStorage.getItem("ordinamento");
 		if(ordinamentoRitorno != null) {
 			$( "input#"+ordinamentoRitorno+"" ).attr( "checked", "checked" );
+			$( "input#"+ordinamentoRitorno+"" ).checkboxradio("refresh");
 			switch (ordinamentoRitorno)
 			{
 			case "nome":
@@ -222,6 +224,7 @@
 	window.sessionStorage.setItem("ordinamento", "distanza");
 	
 	$( "input#distanza" ).attr( "checked", "checked" );
+	$( "input#distanza" ).checkboxradio("refresh");
 					
 	//LISTA ESERCIZI
 	$.each(jsonSottocategorie, function(index, info) {
