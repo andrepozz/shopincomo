@@ -299,7 +299,7 @@
 		var controlloZoom = L.control({ position: 'bottomleft' });
 		controlloZoom.onAdd = function (map) {
 			this._div = L.DomUtil.create('div', 'controlloZoom');
-			this._div.innerHTML = '<button class="groupMarker"><img src="img/userShop.png"></button><button class="userMarker"><img src="img/userPosition.png"></button>';
+			this._div.innerHTML = '<button class="groupMarker"><img src="img/userShop.png"></button><button class="userMarker"><img src="img/download.gif"></button>';
 			return this._div;
 		};
 		controlloZoom.addTo(map);
@@ -328,6 +328,8 @@
 // FUNCTION SUCCESS WATCH POSITION
 
 		function onSuccess(position) {
+		
+			$("button.userMarker").html("<img src='img/userPosition.png'>");
 	 		
 			userLatitude = position.coords.latitude;
 			userLongitude = position.coords.longitude;
