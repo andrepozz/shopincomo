@@ -414,7 +414,8 @@
 	$(document).on("click", 'a#clearSession', function(){
 	sessionStorage.removeItem('ritorno');
 	sessionStorage.removeItem("filtro");
-	sessionStorage.setItem("ordinamento");
+	sessionStorage.removeItem("ordinamento");
+	sessionStorage.removeItem('sottocategoria');
 	});
 	
 	function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
