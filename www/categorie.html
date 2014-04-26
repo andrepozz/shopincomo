@@ -91,8 +91,8 @@
 	<!-- /HEADER -->
 	<div data-role="header" data-position="fixed" data-tap-toggle="false">
 	<h1></h1>
-	<a href="#categorie" class="ui-btn ui-icon-carat-l ui-btn-icon-notext ui-alt-icon ui-nodisc-icon" data-transition="slide" data-direction="reverse">indietro</a>
-	<a href="index.html" rel="external" class="ui-btn ui-icon-home ui-btn-icon-notext ui-alt-icon ui-nodisc-icon" data-transition="slide" data-direction="reverse">indietro</a>
+	<a href="#categorie" id="clearSession" class="ui-btn ui-icon-carat-l ui-btn-icon-notext ui-alt-icon ui-nodisc-icon" data-transition="slide" data-direction="reverse">indietro</a>
+	<a href="index.html" id="clearSession" rel="external" class="ui-btn ui-icon-home ui-btn-icon-notext ui-alt-icon ui-nodisc-icon" data-transition="slide" data-direction="reverse">indietro</a>
 	</div>
 	<!-- /HEADER -->
 
@@ -109,7 +109,7 @@
 	}
 	
 	$("ul#lista_esercizi").html("");
-	
+	$("#fieldsetOrdinamento").controlgroup("container").html("");
 	$("#fieldsetOrdinamento").controlgroup("container").append($('<input type="radio" class="ordinamento" name="ordinamento" id="distanza" value="distanza" checked="checked"><label for="distanza">'+window.localStorage.getItem("distanza")+'</label>'));
 	$("#fieldsetOrdinamento").controlgroup("container").append($('<input type="radio" class="ordinamento" name="ordinamento" id="nome" value="nome"><label for="nome">'+window.localStorage.getItem("nome")+'</label>'));
 	$("#fieldsetOrdinamento").controlgroup("container").append($('<input type="radio" class="ordinamento" name="ordinamento" id="votoPopular" value="votoPopular"><label for="votoPopular">'+window.localStorage.getItem("votoPopular")+'</label>'));
@@ -122,6 +122,17 @@
 		
 	var jsonSottocategorie;
 	
+	
+	userLatitude = window.sessionStorage.getItem("userLatitude");
+	userLongitude = window.sessionStorage.getItem("userLongitude");
+	
+	ritorno = window.sessionStorage.getItem("ritorno");
+	
+	if(ritorno == "ok"){
+	jsonSottocategorie = JSON.parse(sessionStorage.getItem('currentJSON'));
+	}
+	else
+	{
 	$.ajax({
 	url: jsonPath,
 	dataType: 'json',
@@ -131,9 +142,6 @@
 		}
 	});
 	
-	userLatitude = window.sessionStorage.getItem("userLatitude");
-	userLongitude = window.sessionStorage.getItem("userLongitude");
-		
 	for(var i=0; i<jsonSottocategorie.length; i++ ){
 		var distance;	
 		distance = getDistanceFromLatLonInKm(userLatitude, userLongitude, jsonSottocategorie[i].latitudeEsercizio, jsonSottocategorie[i].longitudeEsercizio);
@@ -141,6 +149,7 @@
 	}
 	
 	jsonSottocategorie = jsonSottocategorie.sort(function(a,b) { return parseFloat(a.distance) - parseFloat(b.distance) } );
+	}	
 	
 				
 	//LISTA ESERCIZI
@@ -156,7 +165,7 @@
 	var fieldsetFiltro = $('fieldset#fieldsetFiltro');
 	
 	fieldsetFiltro.controlgroup("container").html("");
-	fieldsetFiltro.controlgroup("container").append('<input type="radio" class="filtro" name="filtro" id="all" value="all" checked="checked"><label for="all">'+window.sessionStorage.getItem("tutti")+'</label>');
+	fieldsetFiltro.controlgroup("container").append('<input type="radio" class="filtro" name="filtro" id="all" value="all" checked="checked"><label for="all">'+window.localStorage.getItem("tutti")+'</label>');
 	
 	var sottocategorie = [];
 	
@@ -348,6 +357,13 @@
 	$(document).on("click", 'a.esercizio', function(){
 	idEsercizio = $(this).attr('idEsercizio');
 	});
+
+	// ON 'click' pulisci sessione
+	$(document).on("click", 'a#clearSession', function(){
+	sessionStorage.removeItem('ritorno');
+	sessionStorage.removeItem("filtro");
+	sessionStorage.setItem("ordinamento");
+	});
 	
 	function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
   
@@ -418,8 +434,8 @@
 
 	<div data-role="header" data-position="fixed" data-tap-toggle="false">
 		<h1></h1>
-		<a href="#esercizi" class="ui-btn ui-icon-carat-l ui-btn-icon-notext ui-alt-icon ui-nodisc-icon" data-transition="slide" data-direction="reverse">indietro</a>
-		<a href="index.html" rel="external" class="ui-btn ui-icon-home ui-btn-icon-notext ui-alt-icon ui-nodisc-icon" data-transition="slide" data-direction="reverse">indietro</a>
+		<a href="#esercizi" id="ritornoLista" class="ui-btn ui-icon-carat-l ui-btn-icon-notext ui-alt-icon ui-nodisc-icon" data-transition="slide" data-direction="reverse">indietro</a>
+		<a href="index.html" id="ritornoLista" rel="external" class="ui-btn ui-icon-home ui-btn-icon-notext ui-alt-icon ui-nodisc-icon" data-transition="slide" data-direction="reverse">indietro</a>
 	</div><!-- /header -->
 
 	<div role="main" class="ui-content" >
@@ -735,6 +751,12 @@
 		//ref.addEventListener('loadstart', function() { alert(event.url); });
 	});
 	
+// CLICK BACK TO LISTA ESERCIZI
+	$(document).on("click", '#ritornoLista', function(){
+		ritorno = "ok";
+		window.sessionStorage.setItem("ritorno", ritorno);
+	});
+	
 // FUNZIONE DISTANZA NEAREST NODE
 	
 	function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
@@ -993,8 +1015,8 @@
 
 	<div data-role="header" data-position="fixed" data-tap-toggle="false">
 		<h1></h1>
-		<a href="#esercizi" class="ui-btn ui-icon-carat-l ui-btn-icon-notext ui-alt-icon ui-nodisc-icon" data-transition="slide" data-direction="reverse">indietro</a>
-		<a href="index.html" rel="external" class="ui-btn ui-icon-home ui-btn-icon-notext ui-alt-icon ui-nodisc-icon" data-transition="slide" data-direction="reverse">indietro</a>
+		<a href="#esercizi" id="ritornoLista" class="ui-btn ui-icon-carat-l ui-btn-icon-notext ui-alt-icon ui-nodisc-icon" data-transition="slide" data-direction="reverse">indietro</a>
+		<a href="index.html" id="ritornoLista" rel="external" class="ui-btn ui-icon-home ui-btn-icon-notext ui-alt-icon ui-nodisc-icon" data-transition="slide" data-direction="reverse">indietro</a>
 	</div><!-- /header -->
 
 	<div role="main" class="ui-content" >
@@ -1041,6 +1063,12 @@
 	});
 	// /PAGEBEFORESHOW
 	
+// CLICK BACK TO LISTA ESERCIZI
+	$(document).on("click", '#ritornoLista', function(){
+		ritorno = "ok";
+		window.sessionStorage.setItem("ritorno", ritorno);
+	});
+	
 	
 	</script>
 	
@@ -1073,8 +1101,8 @@
 
 	<div data-role="header" data-position="fixed" data-tap-toggle="false">
 		<h1></h1>
-		<a href="#esercizi" class="ui-btn ui-icon-carat-l ui-btn-icon-notext ui-alt-icon ui-nodisc-icon" data-transition="slide" data-direction="reverse">indietro</a>
-		<a href="index.html" rel="external" class="ui-btn ui-icon-home ui-btn-icon-notext ui-alt-icon ui-nodisc-icon" data-transition="slide" data-direction="reverse">indietro</a>
+		<a href="#esercizi" id="ritornoLista" class="ui-btn ui-icon-carat-l ui-btn-icon-notext ui-alt-icon ui-nodisc-icon" data-transition="slide" data-direction="reverse">indietro</a>
+		<a href="index.html" id="ritornoLista" rel="external" class="ui-btn ui-icon-home ui-btn-icon-notext ui-alt-icon ui-nodisc-icon" data-transition="slide" data-direction="reverse">indietro</a>
 	</div><!-- /header -->
 
 	<div role="main" class="ui-content" >
@@ -1124,6 +1152,12 @@
 		var ref = window.open(urlTranslate, '_blank', 'location=yes');
 	});
 	
+// CLICK BACK TO LISTA ESERCIZI
+	$(document).on("click", '#ritornoLista', function(){
+		ritorno = "ok";
+		window.sessionStorage.setItem("ritorno", ritorno);
+	});
+	
 	
 	
 	</script>
@@ -1158,8 +1192,8 @@
 
 	<div data-role="header" data-position="fixed" data-tap-toggle="false">
 		<h1></h1>
-		<a href="#esercizi" class="ui-btn ui-icon-carat-l ui-btn-icon-notext ui-alt-icon ui-nodisc-icon" data-transition="slide" data-direction="reverse">indietro</a>
-		<a href="index.html" rel="external" class="ui-btn ui-icon-home ui-btn-icon-notext ui-alt-icon ui-nodisc-icon" data-transition="slide" data-direction="reverse">indietro</a>
+		<a href="#esercizi" id="ritornoLista" class="ui-btn ui-icon-carat-l ui-btn-icon-notext ui-alt-icon ui-nodisc-icon" data-transition="slide" data-direction="reverse">indietro</a>
+		<a href="index.html" id="ritornoLista" rel="external" class="ui-btn ui-icon-home ui-btn-icon-notext ui-alt-icon ui-nodisc-icon" data-transition="slide" data-direction="reverse">indietro</a>
 	</div><!-- /header -->
 
 	<div role="main" class="ui-content" >
@@ -1425,6 +1459,12 @@ $( document ).on( "pagebeforeshow", "#vetrinaStatistiche", function() {
 	
 	});
 	// /PAGEBEFORESHOW
+	
+// CLICK BACK TO LISTA ESERCIZI
+	$(document).on("click", '#ritornoLista', function(){
+		ritorno = "ok";
+		window.sessionStorage.setItem("ritorno", ritorno);
+	});
 
 	</script>
 	
