@@ -680,7 +680,8 @@
 	latitudeFacebook = window.sessionStorage.getItem("userLatitude");
 	longitudeFacebook = window.sessionStorage.getItem("userLongitude");
 	nomeEsercizio = $("h3.nomeEsercizio").html();
-	
+	var descrizioneFacebook;
+	if (sessionStorage.getItem('descrizioneEsercizio') != null){ descrizioneFacebook = sessionStorage.getItem('descrizioneEsercizio')};
 	FB.ui(
 	{
 		method: 'feed',
@@ -688,7 +689,7 @@
 		link: 'http://www.wificomo.com/it/node/'+idEsercizio,
 		picture: 'http://www.wificomo.com/imgs/logoShopincomo.jpg',
 		caption: 'Shopincomo',
-		description: sessionStorage.getItem('descrizioneEsercizio')
+		description: descrizioneFacebook
 	},
 	function(response) {
 		if (response) {
@@ -697,7 +698,7 @@
 				url: 'http://www.wificomo.com/ccn20/votiSocial.php',
 				data: { idNegozio: idEsercizio, socialNetwork: 'Facebook', nomeNegozio: $("h3.nomeEsercizio").html(), latitude: latitudeFacebook, longitude: longitudeFacebook}
 				}).done(function( msg ) {
-				alert(window.localStorage.getItem("postPubblicato"));
+				//alert(window.localStorage.getItem("postPubblicato"));
 			});	
 		} 
 		else {
