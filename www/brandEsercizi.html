@@ -203,6 +203,8 @@
 		else
 		{
 		window.sessionStorage.setItem("ordinamento", "distanza");
+		$( "input#distanza" ).attr( "checked", "checked" );
+		$( "input#distanza" ).checkboxradio("refresh");
 		jsonPath = jsonPath.sort(function(a,b) { return parseFloat(a.distance) - parseFloat(b.distance) } );
 		}	
 		
