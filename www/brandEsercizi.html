@@ -376,7 +376,8 @@
 		if (info.Brand != undefined) {
 		$(".brandEsercizio").html(info.Brand.join(", "));
 		} //FINE BRAND
-				
+		
+		sessionStorage.removeItem('descrizioneEsercizio');
 		if (info.Descrizione != undefined) {
 			$(".descrizioneEsercizio").html(info.Descrizione);
 			descrizioneEsercizio = info.Descrizione;
@@ -533,19 +534,7 @@
 			userLongitude = position.coords.longitude;
 			window.sessionStorage.setItem("userLatitude", userLatitude);
 			window.sessionStorage.setItem("userLongitude", userLongitude);
-			
-			//FACEBOOK
-			$(".votaFacebook").attr("latitude", userLatitude);
-			$(".votaFacebook").attr("longitude", userLongitude);
-			
-			//FOURSQUARE
-			$(".votaFoursquare").attr("latitude", userLatitude);
-			$(".votaFoursquare").attr("longitude", userLongitude);
-			
-			//TWITTER
-			$(".votaTwitter").attr("latitude", userLatitude);
-			$(".votaTwitter").attr("longitude", userLongitude);
-	
+				
 			var distanceVetrina = 5000;
 			var jsonPositionDir = path + "/position.js";
 			$.getJSON(jsonPositionDir, function( jsonPosition ) {
@@ -559,7 +548,7 @@
 				});
 				console.log("Nodo vicino: "+nearestEsercizio);
 				console.log(distanceVetrina);
-				if(distanceVetrina < 200)
+				if(distanceVetrina < 50)
 				{				
 					var jsonVetrinaSession = JSON.parse(window.sessionStorage.getItem("jsonVetrina"));
 					var obj = jsonVetrinaSession[0];

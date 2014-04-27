@@ -178,7 +178,8 @@
 		if (info.Brand != undefined) {
 		$(".brandEsercizio").html(info.Brand.join(", "));
 		} //FINE BRAND
-				
+		
+		sessionStorage.removeItem('descrizioneEsercizio');
 		if (info.Descrizione != undefined) {
 			$(".descrizioneEsercizio").html(info.Descrizione);
 			descrizioneEsercizio = info.Descrizione;
@@ -349,7 +350,7 @@
 				});
 				console.log("Nodo vicino: "+nearestEsercizio);
 				console.log(distanceVetrina);
-				if(distanceVetrina < 200)
+				if(distanceVetrina < 50)
 				{				
 					var jsonVetrinaSession = JSON.parse(window.sessionStorage.getItem("jsonVetrina"));
 					var obj = jsonVetrinaSession[0];
@@ -483,7 +484,7 @@
 		link: 'http://www.wificomo.com/it/node/'+idEsercizio,
 		picture: 'http://www.wificomo.com/imgs/logoShopincomo.jpg',
 		caption: 'Shopincomo',
-		description: sessionStorage.getItem('descrizioneEsercizio')
+		description: sessionStorage.getItem('descrizioneEsercizio');
 	},
 	function(response) {
 		if (response) {
