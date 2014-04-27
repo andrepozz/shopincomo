@@ -114,8 +114,8 @@
 
 	<div data-role="header" data-position="fixed" data-tap-toggle="false">
 		<h1></h1>
-		<a href="#brandEsercizi" class="ui-btn ui-icon-carat-l ui-btn-icon-notext ui-alt-icon ui-nodisc-icon" data-transition="slide" data-direction="reverse">indietro</a>
-		<a href="index.html" rel="external" class="ui-btn ui-icon-home ui-btn-icon-notext ui-alt-icon ui-nodisc-icon" data-transition="slide" data-direction="reverse">indietro</a>
+		<a href="#brandEsercizi" id="clearSession" class="ui-btn ui-icon-carat-l ui-btn-icon-notext ui-alt-icon ui-nodisc-icon" data-transition="slide" data-direction="reverse">indietro</a>
+		<a href="index.html" id="clearSession" rel="external" class="ui-btn ui-icon-home ui-btn-icon-notext ui-alt-icon ui-nodisc-icon" data-transition="slide" data-direction="reverse">indietro</a>
 	</div><!-- /header -->
 
 	<div role="main" class="ui-content" >
@@ -129,7 +129,7 @@
 		function onBackKeyDown(e) {
 		e.preventDefault();
 		}
-	
+	$("#fieldsetOrdinamento").controlgroup("container").html("");
 	$("#fieldsetOrdinamento").controlgroup("container").append($('<input type="radio" class="ordinamento" name="ordinamento" id="distanza" value="distanza" checked="checked"><label for="distanza">'+window.localStorage.getItem("distanza")+'</label>'));
 	$("#fieldsetOrdinamento").controlgroup("container").append($('<input type="radio" class="ordinamento" name="ordinamento" id="nome" value="nome"><label for="nome">'+window.localStorage.getItem("nome")+'</label>'));
 	$("#fieldsetOrdinamento").controlgroup("container").append($('<input type="radio" class="ordinamento" name="ordinamento" id="votoPopular" value="votoPopular"><label for="votoPopular">'+window.localStorage.getItem("votoPopular")+'</label>'));
@@ -161,14 +161,52 @@
 		jsonPath[i].distance = distance;
 	}
 	
+	
+	
 	//FILTRA PER BRAND
 		
 		jsonPath = $.grep(jsonPath, function(v) {
 			return v[brand] == idBrand;
 		});
 		
+	// ORDINA
+	
+		ritorno = window.sessionStorage.getItem("ritorno");
+		
+		if(ritorno == "ok" ){
+		ordinamentoRitorno = window.sessionStorage.getItem("ordinamento");
+		
+			$( "input#"+ordinamentoRitorno+"" ).attr( "checked", "checked" );
+			$( "input#"+ordinamentoRitorno+"" ).checkboxradio("refresh");
+			switch (ordinamentoRitorno)
+			{
+				case "nome":
+					jsonOrdinamento = jsonPath.sort(function (a, b) {
+						a = a.nomeEsercizio
+						b = b.nomeEsercizio;
+						return a.localeCompare(b);
+					});
+				break;
+				case "votoPopular":
+				jsonOrdinamento = jsonPath.sort(function(a,b) { return parseFloat(b.Punteggio.votoPopular) - parseFloat(a.Punteggio.votoPopular) } );
+				break;
+				case "votoTrendy":
+				jsonOrdinamento = jsonPath.sort(function(a,b) { return parseFloat(b.Punteggio.votoTrendy) - parseFloat(a.Punteggio.votoTrendy) } );
+				break;
+				case "distanza":
+				jsonOrdinamento = jsonPath.sort(function(a,b) { return parseFloat(a.distance) - parseFloat(b.distance) } );
+				break;
+			}
+		
+		
+		}
+		else
+		{
+		window.sessionStorage.setItem("ordinamento", "distanza");
 		jsonPath = jsonPath.sort(function(a,b) { return parseFloat(a.distance) - parseFloat(b.distance) } );
-			
+		}	
+		
+		
 		$("ul#listaEsercizi").html("");
 
 		$.each(jsonPath, function(index, info) {
@@ -184,11 +222,8 @@
 	ordinamento = $(this).val();
 	
 	console.log("ordinamento:" + ordinamento)
-	
-	//window.sessionStorage.setItem('start', 2);
-	//$("button#bottone").show();
-	
-	//window.sessionStorage.setItem("ordinamento", ordinamento);
+		
+	window.sessionStorage.setItem("ordinamento", ordinamento);
 	
 	switch (ordinamento)
 	{
@@ -229,6 +264,12 @@
 		idEsercizio = $(this).attr('idEsercizio');
 	});
 	
+	// ON 'click' pulisci sessione
+	$(document).on("click", 'a#clearSession', function(){
+	sessionStorage.removeItem('ritorno');
+	sessionStorage.removeItem("ordinamento");
+	});
+	
 	</script>
 	
 	<ul id="listaEsercizi" data-role="listview">
@@ -266,7 +307,7 @@
 
 	<div data-role="header" data-position="fixed" data-tap-toggle="false">
 		<h1></h1>
-		<a href="#eserciziBrand" class="ui-btn ui-icon-carat-l ui-btn-icon-notext ui-alt-icon ui-nodisc-icon" data-transition="slide" data-direction="reverse">indietro</a>
+		<a href="#eserciziBrand" id="ritornoLista" class="ui-btn ui-icon-carat-l ui-btn-icon-notext ui-alt-icon ui-nodisc-icon" data-transition="slide" data-direction="reverse">indietro</a>
 		<a href="index.html" rel="external" class="ui-btn ui-icon-home ui-btn-icon-notext ui-alt-icon ui-nodisc-icon" data-transition="slide" data-direction="reverse">indietro</a>
 	</div><!-- /header -->
 
@@ -585,6 +626,12 @@
 		//ref.addEventListener('loadstart', function() { alert(event.url); });
 	});
 	
+// CLICK BACK TO LISTA ESERCIZI
+	$(document).on("click", '#ritornoLista', function(){
+		ritorno = "ok";
+		window.sessionStorage.setItem("ritorno", ritorno);
+	});
+	
 // FUNZIONE DISTANZA NEAREST NODE
 	
 	function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
@@ -843,7 +890,7 @@
 
 	<div data-role="header" data-position="fixed" data-tap-toggle="false">
 		<h1></h1>
-		<a href="#eserciziBrand" class="ui-btn ui-icon-carat-l ui-btn-icon-notext ui-alt-icon ui-nodisc-icon" data-transition="slide" data-direction="reverse">indietro</a>
+		<a href="#eserciziBrand" id="ritornoLista" class="ui-btn ui-icon-carat-l ui-btn-icon-notext ui-alt-icon ui-nodisc-icon" data-transition="slide" data-direction="reverse">indietro</a>
 		<a href="index.html" rel="external" class="ui-btn ui-icon-home ui-btn-icon-notext ui-alt-icon ui-nodisc-icon" data-transition="slide" data-direction="reverse">indietro</a>
 	</div><!-- /header -->
 
@@ -891,6 +938,12 @@
 	});
 	// /PAGEBEFORESHOW
 	
+	// CLICK BACK TO LISTA ESERCIZI
+	$(document).on("click", '#ritornoLista', function(){
+		ritorno = "ok";
+		window.sessionStorage.setItem("ritorno", ritorno);
+	});
+	
 	
 	</script>
 	
@@ -923,7 +976,7 @@
 
 	<div data-role="header" data-position="fixed" data-tap-toggle="false">
 		<h1></h1>
-		<a href="#eserciziBrand" class="ui-btn ui-icon-carat-l ui-btn-icon-notext ui-alt-icon ui-nodisc-icon" data-transition="slide" data-direction="reverse">indietro</a>
+		<a href="#eserciziBrand" id="ritornoLista" class="ui-btn ui-icon-carat-l ui-btn-icon-notext ui-alt-icon ui-nodisc-icon" data-transition="slide" data-direction="reverse">indietro</a>
 		<a href="index.html" rel="external" class="ui-btn ui-icon-home ui-btn-icon-notext ui-alt-icon ui-nodisc-icon" data-transition="slide" data-direction="reverse">indietro</a>
 	</div><!-- /header -->
 
@@ -974,6 +1027,12 @@
 		var ref = window.open(urlTranslate, '_blank', 'location=yes');
 	});
 	
+	// CLICK BACK TO LISTA ESERCIZI
+	$(document).on("click", '#ritornoLista', function(){
+		ritorno = "ok";
+		window.sessionStorage.setItem("ritorno", ritorno);
+	});
+	
 	
 	
 	</script>
@@ -1008,7 +1067,7 @@
 
 	<div data-role="header">
 		<h1></h1>
-		<a href="#eserciziBrand" class="ui-btn ui-icon-carat-l ui-btn-icon-notext ui-alt-icon ui-nodisc-icon" data-transition="slide" data-direction="reverse">indietro</a>
+		<a href="#eserciziBrand" id="ritornoLista" class="ui-btn ui-icon-carat-l ui-btn-icon-notext ui-alt-icon ui-nodisc-icon" data-transition="slide" data-direction="reverse">indietro</a>
 		<a href="index.html" rel="external" class="ui-btn ui-icon-home ui-btn-icon-notext ui-alt-icon ui-nodisc-icon" data-transition="slide" data-direction="reverse">indietro</a>
 	</div><!-- /header -->
 
@@ -1275,6 +1334,12 @@
 	
 	});
 	// /PAGEBEFORESHOW
+	
+	// CLICK BACK TO LISTA ESERCIZI
+	$(document).on("click", '#ritornoLista', function(){
+		ritorno = "ok";
+		window.sessionStorage.setItem("ritorno", ritorno);
+	});
 
 	</script>
 	
