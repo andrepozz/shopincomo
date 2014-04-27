@@ -269,6 +269,10 @@
 		$('#fieldsetFiltro')
         .controlgroup("container")
         .append('<input type="radio" name="filtro" class="filtro" id="' + id + '" value="'+j+'"  /><label for="'+id+'">'+j+' ('+countNegozi+')</label>');
+		sottocategoriaRitorno = window.sessionStorage.getItem('sottocategoria');
+		if(sottocategoriaRitorno == id){ 
+		$( "input#"+id+"" ).attr( "checked", "checked" );
+		}
 					}
 				}
 			}
