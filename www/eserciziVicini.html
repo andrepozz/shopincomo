@@ -838,7 +838,7 @@
 	latitudeFacebook = window.sessionStorage.getItem("userLatitude");
 	longitudeFacebook = window.sessionStorage.getItem("userLongitude");
 	nomeEsercizio = $("h3.nomeEsercizio").html();
-	
+	if (info.Telefono != null){ descrizioneFacebook = sessionStorage.getItem('descrizioneEsercizio')};
 	FB.ui(
 	{
 		method: 'feed',
@@ -846,7 +846,7 @@
 		link: 'http://www.wificomo.com/it/node/'+idEsercizio,
 		picture: 'http://www.wificomo.com/imgs/logoShopincomo.jpg',
 		caption: 'Shopincomo',
-		description: sessionStorage.getItem('descrizioneEsercizio')
+		description: descrizioneFacebook
 	},
 	function(response) {
 		if (response) {
