@@ -838,6 +838,7 @@
 	latitudeFacebook = window.sessionStorage.getItem("userLatitude");
 	longitudeFacebook = window.sessionStorage.getItem("userLongitude");
 	nomeEsercizio = $("h3.nomeEsercizio").html();
+	var descrizioneFacebook;
 	if (sessionStorage.getItem('descrizioneEsercizio') != null){ descrizioneFacebook = sessionStorage.getItem('descrizioneEsercizio')};
 	FB.ui(
 	{
