@@ -108,6 +108,13 @@
 	e.preventDefault();
 	}
 	
+	$.mobile.loading( "show", {
+            text: "",
+            textVisible: true,
+            theme: "b",
+            textonly: false
+	});
+	
 	$("ul#lista_esercizi").html("");
 	$("#fieldsetOrdinamento").controlgroup("container").html("");
 	$("#fieldsetOrdinamento").controlgroup("container").append($('<input type="radio" class="ordinamento" name="ordinamento" id="distanza" value="distanza"><label for="distanza">'+window.localStorage.getItem("distanza")+'</label>'));
@@ -131,6 +138,7 @@
 	async: false,
 		success: function(data) {
 		jsonSottocategorie = data;
+		$.mobile.loading( "hide" );
 		}
 	});
 	
