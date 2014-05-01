@@ -1109,7 +1109,7 @@
 		
 		$("h2#h2loginFoursquare").html(""+window.localStorage.getItem("accountCollegato")+"");
 		$("p#ploginFoursquare").html(""+user+"");
-		$("a.foursquare").setAttribute("href", "#twitter");
+		$("a.foursquare").attr("href", "#twitter");
 		$("a.foursquare").removeClass('foursquare');
 		$("h2#h2skipFoursquare").html("Avanti");
 		$("p#pskipFoursquare").html(""+window.localStorage.getItem("continua")+"");
@@ -1137,7 +1137,7 @@
 		var user = data['response']['user']['firstName'];
 		$("h2#h2loginFoursquare").html(""+window.localStorage.getItem("accountCollegato")+"");
 		$("p#ploginFoursquare").html(""+user+"");
-		$("a.foursquare").setAttribute("href", "#twitter");
+		$("a.foursquare").attr("href", "#twitter");
 		$("a.foursquare").removeClass('foursquare');
 		$("h2#h2skipFoursquare").html(""+window.localStorage.getItem("prossimoPasso")+"");
 		$("p#pskipFoursquare").html(""+window.localStorage.getItem("continua")+"");
@@ -1225,7 +1225,7 @@
 		
 		$("h2#h2loginTwitter").html(""+window.localStorage.getItem("accountCollegato")+"");
 		$("p#ploginTwitter").html(""+twitterName+"");
-		$("a.twitter").setAttribute("href", "#index");
+		$("a.twitter").attr("href", "#index");
 		$("a.twitter").removeClass('twitter');
 		$("h2#h2skipTwitter").html(""+window.localStorage.getItem("prossimoPasso")+"");
 		$("p#pskipTwitter").html(""+window.localStorage.getItem("continua")+"");
@@ -1257,7 +1257,7 @@
 		
 		$("h2#h2loginTwitter").html(""+window.localStorage.getItem("accountCollegato")+"");
 		$("p#ploginTwitter").html(""+twitterName+"");
-		$("a.twitter").setAttribute("href", "#index");
+		$("a.twitter").attr("href", "#index");
 		$("a.twitter").removeClass('twitter');
 		$("h2#h2skipTwitter").html(""+window.localStorage.getItem("prossimoPasso")+"");
 		$("p#pskipTwitter").html(""+window.localStorage.getItem("continua")+"");
