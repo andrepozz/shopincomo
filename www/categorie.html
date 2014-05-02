@@ -109,8 +109,8 @@
 	}
 	
 	$.mobile.loading( "show", {
-            text: "",
-            textVisible: true,
+            text: " ",
+            textVisible: false,
             theme: "b",
             textonly: false
 	});
@@ -138,7 +138,6 @@
 	async: false,
 		success: function(data) {
 		jsonSottocategorie = data;
-		$.mobile.loading( "hide" );
 		}
 	});
 	
@@ -201,7 +200,7 @@
 			});
 			
 			$("ul#lista_esercizi").listview("refresh");
-			
+			$.mobile.loading( "hide" );
 			
 			
 			sessionStorage.setItem('currentJSON', JSON.stringify(jsonOrdinamento));
@@ -214,7 +213,7 @@
 			});
 			
 			$("ul#lista_esercizi").listview("refresh");
-			
+			$.mobile.loading( "hide" );
 			sessionStorage.setItem('currentJSON', JSON.stringify(jsonFiltro));
 
 		}
@@ -236,7 +235,7 @@
 	});
 	
 	$("ul#lista_esercizi").listview("refresh");
-	
+	$.mobile.loading( "hide" );
 	sessionStorage.setItem('currentJSON', JSON.stringify(jsonSottocategorie));
 	
 	
