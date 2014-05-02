@@ -71,6 +71,16 @@
 		idCategoria = $(this).attr('id');
 		jsonName = $(this).attr('jsonName');
 	});
+	
+	$( "#categorie" ).on('pagebeforehide', function(){
+        console.log("showing....");
+		$.mobile.loading( "show", {
+			text: "loading",
+			textVisible: true,
+			theme: "b",
+			html: ""
+		});
+    });
 		
 	</script>
 		
@@ -107,14 +117,7 @@
 	function onBackKeyDown(e) {
 	e.preventDefault();
 	}
-	
-	$.mobile.loading( "show", {
-	text: "foo",
-	textVisible: true,
-	theme: "b",
-	html: ""
-	});
-		
+			
 	$("ul#lista_esercizi").html("");
 	$("#fieldsetOrdinamento").controlgroup("container").html("");
 	$("#fieldsetOrdinamento").controlgroup("container").append($('<input type="radio" class="ordinamento" name="ordinamento" id="distanza" value="distanza"><label for="distanza">'+window.localStorage.getItem("distanza")+'</label>'));
@@ -239,6 +242,7 @@
 	
 	}	
 	
+	$.mobile.loading( 'hide' );
 
 	//INPUT FILTRO
 	var fieldsetFiltro = $('fieldset#fieldsetFiltro');
