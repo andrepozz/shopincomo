@@ -109,12 +109,12 @@
 	}
 	
 	$.mobile.loading( "show", {
-            text: " ",
-            textVisible: false,
-            theme: "b",
-            textonly: false
+	text: "foo",
+	textVisible: true,
+	theme: "b",
+	html: ""
 	});
-	
+		
 	$("ul#lista_esercizi").html("");
 	$("#fieldsetOrdinamento").controlgroup("container").html("");
 	$("#fieldsetOrdinamento").controlgroup("container").append($('<input type="radio" class="ordinamento" name="ordinamento" id="distanza" value="distanza"><label for="distanza">'+window.localStorage.getItem("distanza")+'</label>'));
@@ -200,7 +200,6 @@
 			});
 			
 			$("ul#lista_esercizi").listview("refresh");
-			$.mobile.loading( "hide" );
 			
 			
 			sessionStorage.setItem('currentJSON', JSON.stringify(jsonOrdinamento));
@@ -213,7 +212,6 @@
 			});
 			
 			$("ul#lista_esercizi").listview("refresh");
-			$.mobile.loading( "hide" );
 			sessionStorage.setItem('currentJSON', JSON.stringify(jsonFiltro));
 
 		}
@@ -235,7 +233,6 @@
 	});
 	
 	$("ul#lista_esercizi").listview("refresh");
-	$.mobile.loading( "hide" );
 	sessionStorage.setItem('currentJSON', JSON.stringify(jsonSottocategorie));
 	
 	
