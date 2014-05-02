@@ -556,9 +556,9 @@
 						
 								$.each(obj.Distanze, function(index, infoDistance) {
 									if(infoDistance.idEsercizio == nearestEsercizio){
-										var minutes = Math.floor(infoDistance.time / 60);
-										var seconds = infoDistance.time - minutes * 60;
-										$(".distanzaEsercizio").html("<img src='img/distanza.png'>"+infoDistance.distance+" m - "+minutes+":"+seconds+" min<p class='esercizioVicino'>"+window.localStorage.getItem("vicinoA")+" "+infoDistance.nomeEsercizio+"</p>");
+										var minutes = Math.ceil(infoDistance.time / 60);
+										//var seconds = infoDistance.time - minutes * 60;
+										$(".distanzaEsercizio").html("<img src='img/distanza.png'>"+infoDistance.distance+" m - "+minutes+" min<p class='esercizioVicino'>"+window.localStorage.getItem("vicinoA")+" "+infoDistance.nomeEsercizio+"</p>");
 									}
 								});
 						}
