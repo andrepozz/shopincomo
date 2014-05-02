@@ -71,17 +71,7 @@
 		idCategoria = $(this).attr('id');
 		jsonName = $(this).attr('jsonName');
 	});
-	
-	$( "#categorie" ).on('pagebeforehide', function(){
-        console.log("showing....");
-		$.mobile.loading( "show", {
-			text: "loading",
-			textVisible: true,
-			theme: "b",
-			html: ""
-		});
-    });
-		
+			
 	</script>
 		
 	<ul id="listaCategorie" data-role="listview">
@@ -109,7 +99,22 @@
 	<div role="main" class="ui-content" >
 	
 	<script type="text/javascript" charset="utf-8">
-
+	
+	$( "#esercizi" ).on( "pagebeforeshow", function() {
+	$("ul#lista_esercizi").html("");
+	
+	$.ajax({
+	url: jsonPath,
+	dataType: 'json',
+	async: false,
+		success: function(data) {
+		jsonSottocategorie = data;
+		}
+	});
+	
+	});
+	
+	
 	$( "#esercizi" ).on( "pageshow", function() {
 	
 	document.addEventListener("backbutton", onBackKeyDown, false);
@@ -134,16 +139,7 @@
 	
 	userLatitude = window.sessionStorage.getItem("userLatitude");
 	userLongitude = window.sessionStorage.getItem("userLongitude");
-	
-	$.ajax({
-	url: jsonPath,
-	dataType: 'json',
-	async: false,
-		success: function(data) {
-		jsonSottocategorie = data;
-		}
-	});
-	
+		
 	for(var i=0; i<jsonSottocategorie.length; i++ ){
 		var distance;	
 		distance = getDistanceFromLatLonInKm(userLatitude, userLongitude, jsonSottocategorie[i].latitudeEsercizio, jsonSottocategorie[i].longitudeEsercizio);
@@ -242,7 +238,6 @@
 	
 	}	
 	
-	$.mobile.loading( 'hide' );
 
 	//INPUT FILTRO
 	var fieldsetFiltro = $('fieldset#fieldsetFiltro');
