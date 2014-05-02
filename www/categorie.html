@@ -102,7 +102,14 @@
 	
 	$( "#esercizi" ).on( "pagebeforeshow", function() {
 	$("ul#lista_esercizi").html("");
-		
+	
+	$.mobile.loading( "show", {
+	text: "foo",
+	textVisible: true,
+	theme: "z",
+	html: ""
+	});
+	
 	});
 	
 	
@@ -237,7 +244,7 @@
 	
 	}	
 	
-
+	$.mobile.loading( "hide" );
 	//INPUT FILTRO
 	var fieldsetFiltro = $('fieldset#fieldsetFiltro');
 	
