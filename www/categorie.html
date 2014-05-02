@@ -102,21 +102,7 @@
 	
 	$( "#esercizi" ).on( "pagebeforeshow", function() {
 	$("ul#lista_esercizi").html("");
-	
-	//CARICA JSON CATEGORIE
-	var path = window.localStorage.getItem("pathSD");
-	var jsonPath = path + "/"+jsonName+".js";	
-	var jsonSottocategorie;
-	
-	$.ajax({
-	url: jsonPath,
-	dataType: 'json',
-	async: false,
-		success: function(data) {
-		jsonSottocategorie = data;
-		}
-	});
-	
+		
 	});
 	
 	
@@ -138,6 +124,20 @@
 		
 	userLatitude = window.sessionStorage.getItem("userLatitude");
 	userLongitude = window.sessionStorage.getItem("userLongitude");
+	
+	//CARICA JSON CATEGORIE
+	var path = window.localStorage.getItem("pathSD");
+	var jsonPath = path + "/"+jsonName+".js";	
+	var jsonSottocategorie;
+	
+	$.ajax({
+	url: jsonPath,
+	dataType: 'json',
+	async: false,
+		success: function(data) {
+		jsonSottocategorie = data;
+		}
+	});
 		
 	for(var i=0; i<jsonSottocategorie.length; i++ ){
 		var distance;	
