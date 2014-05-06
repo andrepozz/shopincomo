@@ -1222,6 +1222,7 @@
 		e.preventDefault();
 		}
 		
+	$(".intervalli").html("");
 	$(".intervalli").append($('<button class="ui-btn" id="intervallo" value="7giorni">7 '+window.localStorage.getItem("giorni")+'</button>'));
 	$(".intervalli").append($('<button class="ui-btn" id="intervallo"value="15giorni">15 '+window.localStorage.getItem("giorni")+'</button>'));
 	$(".intervalli").append($('<button class="ui-btn" id="intervallo" value="30giorni">30 '+window.localStorage.getItem("giorni")+'</button>'));
