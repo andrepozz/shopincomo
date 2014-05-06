@@ -79,9 +79,15 @@
 				return matcher.test(item.nomeBrand); 
 				}) 
 			
+				if(json_filter.length == 0){
+				html += "<li>"+window.localStorage.getItem("noRisultatiBrand")+"</li>";
+				}
+				else
+				{
 				$.each( json_filter, function (index, info) {
-					 html += "<li><a href='#eserciziBrand' class='brand' idBrand='"+info.idBrand+"' brand='"+info.nomeBrand+"' data-transition='slide' >" + info.nomeBrand + "</a></li>";
+					html += "<li><a href='#eserciziBrand' class='brand' idBrand='"+info.idBrand+"' brand='"+info.nomeBrand+"' data-transition='slide' >" + info.nomeBrand + "</a></li>";
 				});
+				}
 				
 				$ul.html( html );
 				$ul.listview( "refresh" );

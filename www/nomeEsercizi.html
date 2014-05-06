@@ -78,11 +78,17 @@
 		
 				json_filter = $.grep(data, function(item){
 				return matcher.test(item.nomeEsercizio); 
-				}) 
-			
+				})
+
+				if(json_filter.length == 0){
+				html += "<li>"+window.localStorage.getItem("noRisultatiNome")+"</li>";
+				}
+				else
+				{				
 				$.each( json_filter, function (index, info) {
 					 html += "<li><a href='#vetrinaMappa' class='esercizio' idEsercizio='" + info.idEsercizio + "' data-transition='slide' >" + info.nomeEsercizio + "</a></li>";
 				});
+				}
 				
 				$ul.html( html );
 				$ul.listview( "refresh" );

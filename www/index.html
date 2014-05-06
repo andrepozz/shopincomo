@@ -65,7 +65,7 @@
 	
 	//CHECK GEOLOCATION
 	var watchID = null;
-	var options = { maximumAge: 1500, timeout: 30000, enableHighAccuracy: true };
+	var options = { maximumAge: 1500, timeout: 20000, enableHighAccuracy: true };
 	
 	watchID = navigator.geolocation.watchPosition(onSuccess, onError, options);
 	
@@ -93,12 +93,17 @@
     }
 	
 	function onError(error) {
-            console.log('code: ' + error.code + '\n' + 'message: ' + error.message + '\n');
+        if(err.code==1){
+             // user said no!
+        }
+        if(err.code==2){
+             // position unavailable
+        }
+        if(err.code==3){
+              // timeout
+              watchID = navigator.geolocation.watchPosition(onSuccess, onError,{maximumAge: 1500, timeout: 20000, enableHighAccuracy : false});
+        }
     }
-
-
-
-
 	
 	// CHECK UPDATES
 	
@@ -188,7 +193,9 @@
 		
 		
 		function eserciziUpdate(fileEserciziMancanti){
-				
+		
+		timeoutUpdate();
+		
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem) {
 			
 			fileSystem.root.getDirectory("ccn", {create: true, exclusive: false}, function(dirEntry) {
@@ -229,6 +236,12 @@
 	}
 	//FINE CHECK UPDATES
 	
+	function timeoutUpdate()
+	{
+		setTimeout(function(){$.mobile.loading( "hide" )},15000);
+	}
+	
+	//FINE TIMEOUT UPDATES
 	
 	//ON "click"
 	$(document).on("click", 'a.qrCode', function(){
@@ -393,6 +406,8 @@
 	window.localStorage.setItem("noCheckin", lingue[lingua].noCheckin);
 	window.localStorage.setItem("troppoLontano", lingue[lingua].troppoLontano);
 	window.localStorage.setItem("noRisultatiVicini", lingue[lingua].noRisultatiVicini);
+	window.localStorage.setItem("noRisultatiBrand", lingue[lingua].noRisultatiBrand);
+	window.localStorage.setItem("noRisultatiNome", lingue[lingua].noRisultatiNome);
 	window.localStorage.setItem("vicinoA", lingue[lingua].vicinoA);
 	window.localStorage.setItem("collegaSetupTitolo", lingue[lingua].collegaSetupTitolo);
 	window.localStorage.setItem("collegaSetupDescrizione", lingue[lingua].collegaSetupDescrizione);
