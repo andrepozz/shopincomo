@@ -313,34 +313,10 @@
 							dataType: "json",
 							timeout: 15000,
 							success: function(data) {
-								if (data.length == 0 && fileEserciziMancanti.length == 0 && fileSistemaMancanti.length == 0 && fileCategorieMancanti.length == 0) {
-								//alert("NO aggiornamenti disponibili");
-								//$("p.countUpdates").html(""+window.localStorage.getItem("statusDatabase")+"");
-								$.mobile.loading( "hide" );
-								}
-								else {
-									$( "#updateDisponibili" ).popup("open");
-									$.mobile.loading( "hide" );
-								}
+								alert(data);
 								},
 							error: function(x, timeout, m) {
-								if(timeout === "timeout") {
-									if (fileEserciziMancanti.length != 0 && fileSistemaMancanti.length != 0 && fileCategorieMancanti.length != 0) {
-									$( "#updateDisponibili" ).popup("open");
-									$.mobile.loading( "hide" );
-									}
-									else{
-									$.mobile.loading( "hide" );
-									}
-								} else {
-									if (fileEserciziMancanti.length != 0 && fileSistemaMancanti.length != 0 && fileCategorieMancanti.length != 0) {
-									$( "#updateDisponibili" ).popup("open");
-									$.mobile.loading( "hide" );
-									}
-									else{
-									$.mobile.loading( "hide" );
-									}
-								}
+								alert(timeout);
 							}
 						});​ //AJAX CLOSE
 					
