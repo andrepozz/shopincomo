@@ -65,7 +65,7 @@
 	
 	//CHECK GEOLOCATION
 	var watchID = null;
-	var options = { maximumAge: 1500, timeout: 1000, enableHighAccuracy: true };
+	var options = { maximumAge: 1500, timeout: 10000, enableHighAccuracy: true };
 	
 	watchID = navigator.geolocation.watchPosition(onSuccess, onError, options);
 	
@@ -93,7 +93,6 @@
     }
 	
 	function onError(error) {
-        alert("TIMEOUT Codice errore " +error.code);
 		if(error.code==1){
              // user said no!
         }
@@ -147,7 +146,7 @@
 		
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem) {
 			
-			fileSystem.root.getDirectory("ccn", {create: true, exclusive: false}, function(dirEntry) {
+			fileSystem.root.getDirectory("ShopInComo", {create: true, exclusive: false}, function(dirEntry) {
 			
 				// Get a directory reader
 				var directoryReader = dirEntry.createReader();
@@ -189,7 +188,7 @@
 	function checkCategorie(fileSistemaMancanti){
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem) {
 			
-			fileSystem.root.getDirectory("ccn/categorie", {create: true, exclusive: false}, function(dirEntry) {
+			fileSystem.root.getDirectory("ShopinComo/categorie", {create: true, exclusive: false}, function(dirEntry) {
 			
 				// Get a directory reader
 				var directoryReader = dirEntry.createReader();
@@ -245,7 +244,7 @@
 	function checkVetrine(fileSistemaMancanti, fileCategorieMancanti) {	
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem) {
 			
-			fileSystem.root.getDirectory("ccn/esercizi", {create: true, exclusive: false}, function(dirEntry) {
+			fileSystem.root.getDirectory("ShopInComo/esercizi", {create: true, exclusive: false}, function(dirEntry) {
 			
 				// Get a directory reader
 				var directoryReader = dirEntry.createReader();
@@ -300,7 +299,7 @@
 		
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem) {
 			
-			fileSystem.root.getDirectory("ccn", {create: true, exclusive: false}, function(dirEntry) {
+			fileSystem.root.getDirectory("ShopInComo", {create: true, exclusive: false}, function(dirEntry) {
 			
 				dirEntry.getFile("categorie.js", {create: true, exclusive: false}, function(fileEntry) {
 										
@@ -610,7 +609,7 @@
 			
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem) {
 			
-			fileSystem.root.getDirectory("ccn", {create: true, exclusive: false}, function(dirEntry) {
+			fileSystem.root.getDirectory("ShopInComo", {create: true, exclusive: false}, function(dirEntry) {
 			
 				dirEntry.getFile(fileNameCategorie, {create: true, exclusive: false}, function(fileEntry) {
 										
@@ -630,7 +629,7 @@
 								var directory = dirEntry.fullPath;
 								var indexPath = directory.lastIndexOf("/");
 								var pathSD = directory.substr(7, indexPath-7);
-								pathSD = pathSD+"/ccn";
+								pathSD = pathSD+"/ShopInComo";
 								window.localStorage.setItem('pathSD', pathSD);
 								
 								$("li.categorie").html("<img class='iconaTipologia' src='img/downloadCategorie.png'> DOWNLOAD "+window.localStorage.getItem("categorie")+"");
@@ -675,7 +674,7 @@
 			
 			var urlSottocategorie = encodeURI("http://www.wificomo.com/ccn20/JSONsottocategorieNegozi.php?idCategoria="+info.idCategoria+"&language="+codLingua+"");	
 			var fileNameSottocategorie = info.jsonName+".js";
-			var directory = "ccn/categorie";
+			var directory = "ShopInComo/categorie";
 			
 			downloadSottocategorie(directory, fileNameSottocategorie, urlSottocategorie);
 			});
@@ -687,7 +686,7 @@
 	
 	var urlnomeEsercizi = encodeURI("http://www.wificomo.com/ccn20/JSONnomeEsercizi.php");	
 	var fileNamenomeEsercizi = "nomeEsercizi.js";
-	var directory = "ccn";
+	var directory = "ShopInComo";
 	var pClass = ""+window.localStorage.getItem("nomiEsercizi")+"";
 	var imgName = "nome";
 	
@@ -697,7 +696,7 @@
 	
 	var urlbrandEsercizi = encodeURI("http://www.wificomo.com/ccn20/JSONbrandEsercizi.php");
 	var fileNamebrandEsercizi = "brandEsercizi.js";
-	var directory = "ccn";
+	var directory = "ShopInComo";
 	var pClass = ""+window.localStorage.getItem("brandEsercizi")+"";
 	var imgName = "brandEsercizi";
 	
@@ -707,7 +706,7 @@
 	
 	var urlbrand = encodeURI("http://www.wificomo.com/ccn20/JSONbrand.php");
 	var fileNamebrand = "brand.js";
-	var directory = "ccn";
+	var directory = "ShopInComo";
 	var pClass = "brand";
 	var imgName = "brand";
 	
@@ -717,7 +716,7 @@
 	
 	var urlposition = encodeURI("http://www.wificomo.com/ccn20/JSONposition.php");
 	var filePosition = "position.js";
-	var directory = "ccn";
+	var directory = "ShopInComo";
 	var pClass = ""+window.localStorage.getItem("position")+"";
 	var imgName = "position";
 	
@@ -942,7 +941,7 @@
 		
 			var urlEsercizi = encodeURI("http://www.wificomo.com/ccn20/JSONvetrinaEsercizio.php?language="+codLingua+"&idEsercizio="+info.idEsercizio+"");	
 			var fileNameEsercizi = info.idEsercizio+".js";	
-			var directoryEsercizi = "ccn/esercizi";
+			var directoryEsercizi = "ShopInComo/esercizi";
 		
 			downloadVetrine(directoryEsercizi, fileNameEsercizi, urlEsercizi);
 			});
