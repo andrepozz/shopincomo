@@ -201,7 +201,7 @@
 					
 					var path = window.localStorage.getItem("pathSD");
 					var jsonPath = path + "/categorie.js";
-
+					alert("JSON PAth "+jsonPath);
 					var fileCategorieMancanti = [];		
 					$.getJSON(jsonPath, function( listaCategorie ) {
 						var fileCategorie = [];
@@ -209,6 +209,7 @@
 						
 							fileCategorie.push({
 							jsonNameCategorie: info.jsonName
+							alert();
 							});
 
 						
@@ -217,7 +218,7 @@
 					for (var i=0;i<fileCategorie.length;i++) {
 					rv = false;
 					for (var j=0;j<entries.length;j++) {
-					rv = rv ||  parseInt(fileCategorie[i].jsonNameCategorie) == parseInt(entries[j].name.substring(0, entries[j].name.length - 3));
+					rv = rv ||  fileCategorie[i].jsonNameCategorie == entries[j].name.substring(0, entries[j].name.length - 3);
 					}
 					if(!rv)
 					{
