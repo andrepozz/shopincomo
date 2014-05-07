@@ -1189,20 +1189,13 @@
 					var urlJSON = "http://www.wificomo.com/ccn20/JSONidEserciziUpdate.php?language="+localStorage.getItem("codLingua")+"&dataDownload="+dataDownload;
 
 						$.getJSON(urlJSON, function( data ) {
-							alert("data " +data.length);
-							alert("Eserc "+fileEserciziMancanti.length);
-							alert("Sist "+fileSistemaMancanti.length);
-							alert("Cat "+fileCategorieMancanti.length);
-
 							if (data.length == 0 && fileEserciziMancanti.length == 0 && fileSistemaMancanti.length == 0 && fileCategorieMancanti.length == 0) {
 								
 								$("p.countUpdates").html(""+window.localStorage.getItem("statusDatabase")+"");
 								$.mobile.loading( "hide" );
 							}
 							else if(data.length == 0 && (fileEserciziMancanti.length != 0 || fileSistemaMancanti.length != 0 || fileCategorieMancanti.length != 0)){
-								alert("QUI");
 								var numeroAggiornamenti = parseInt(fileEserciziMancanti.length)+parseInt(fileSistemaMancanti.length)+parseInt(fileCategorieMancanti.length);
-								alert(numeroAggiornamenti);
 								$("p.countUpdates").html(numeroAggiornamenti+" "+window.localStorage.getItem("aggiornamentiDisponibili")+"");
 								$( "div#update" ).html( $("<a href='#' class='ui-btn updateDatabase'>UPDATE</a>" ));
 								$.mobile.loading( "hide" );

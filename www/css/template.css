@@ -147,6 +147,18 @@ button.circleDistance img{
 width: 2em;
 }
 
+/*RICERCA PER NOME*/
+
+p.descrizioneRicercaNome{
+background-color:rgba(255,255,255,0.9);
+}
+
+/*RICERCA PER BRAND*/
+
+p.descrizioneRicercaBrand{
+background-color:rgba(255,255,255,0.9);
+}
+
 }
 
 @media only screen and (min-width:301px) and (max-width:400px){
@@ -301,6 +313,18 @@ border:1px solid #dcdcdc;
 
 button.circleDistance img{
 width: 2em;
+}
+
+/*RICERCA PER NOME*/
+
+p.descrizioneRicercaNome{
+background-color:rgba(255,255,255,0.9);
+}
+
+/*RICERCA PER BRAND*/
+
+p.descrizioneRicercaBrand{
+background-color:rgba(255,255,255,0.9);
 }
 
 
@@ -460,6 +484,18 @@ border:1px solid #dcdcdc;
 
 button.circleDistance img{
 width: 3em;
+}
+
+/*RICERCA PER NOME*/
+
+p.descrizioneRicercaNome{
+background-color:rgba(255,255,255,0.9);
+}
+
+/*RICERCA PER BRAND*/
+
+p.descrizioneRicercaBrand{
+background-color:rgba(255,255,255,0.9);
 }
 
  
@@ -622,6 +658,16 @@ text-decoration: none;
 border:1px solid #dcdcdc;
 }
 
+/*RICERCA PER NOME*/
 
+p.descrizioneRicercaNome{
+background-color:rgba(255,255,255,0.9);
+}
+
+/*RICERCA PER BRAND*/
+
+p.descrizioneRicercaBrand{
+background-color:rgba(255,255,255,0.9);
+}
 
 }
