@@ -39,7 +39,7 @@
 	</div><!-- /header -->
 
 	<div role="main" class="ui-content" >
-		
+	<p class="descrizioneRicercaNome"></p>	
 	<ul id="cerca_negozio" data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder=""></ul>
 	
 	<script type="text/javascript" charset="utf-8">
@@ -53,7 +53,7 @@
 	e.preventDefault();
 	}
 	
-	$("input").attr("placeholder", ""+window.localStorage.getItem("placeholderNome")+"");
+	$("p.descrizioneRicercaNome").html(""+window.localStorage.getItem("placeholderNome")+"");
 
 	
 	//CARICA JSON CATEGORIE
