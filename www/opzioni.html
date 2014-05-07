@@ -1016,7 +1016,108 @@
             textonly: false
 		});
 		
-		// CHECK ESISTENZA FILES ESERCIZI
+	//CHECK ESISTENZA FILE DI SISTEMA
+		
+		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem) {
+			
+			fileSystem.root.getDirectory("ShopInComo", {create: true, exclusive: false}, function(dirEntry) {
+			
+				// Get a directory reader
+				var directoryReader = dirEntry.createReader();
+
+				// Get a list of all the entries in the directory
+				directoryReader.readEntries(success,fail);
+				
+				function success(entries) {
+				
+					
+					var fileSistema = ["brandEsercizi.js","brand.js","categorie.js","nomeEsercizi.js","position.js","esercizi","categorie"];		
+					
+					var fileSistemaMancanti = [];					
+					for (var i=0;i<fileSistema.length;i++) {
+					rv = false;
+					for (var j=0;j<entries.length;j++) {
+					rv = rv ||  fileSistema[i] == entries[j].name;
+					}
+					if(!rv)
+					{
+					fileSistemaMancanti.push(fileSistema[i]);
+					}
+					}
+					//alert("File sistema mancanti" +fileSistemaMancanti.length);
+					checkCategorie(fileSistemaMancanti);
+										
+				}
+
+				function fail(error) {
+					console.log("Failed to list directory contents: " + error.code);
+				}
+			
+			}); // fileSystem.root.getDirectory
+			
+		}); // end of window.requestFileSystem
+		
+	// CHECK ESISTENZA CATEGORIE
+
+	function checkCategorie(fileSistemaMancanti){
+		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem) {
+			
+			fileSystem.root.getDirectory("ShopinComo/categorie", {create: true, exclusive: false}, function(dirEntry) {
+			
+				// Get a directory reader
+				var directoryReader = dirEntry.createReader();
+
+				// Get a list of all the entries in the directory
+				directoryReader.readEntries(success,fail);
+				
+				function success(entries) {
+					
+					var path = window.localStorage.getItem("pathSD");
+					var jsonPath = path + "/categorie.js";
+					var fileCategorieMancanti = [];		
+					$.getJSON(jsonPath, function( listaCategorie ) {
+						var fileCategorie = [];
+						$.each(listaCategorie, function(index, info) {
+						
+							fileCategorie.push({
+							jsonNameCategorie: info.jsonName
+							});
+
+						
+						});
+					
+					for (var i=0;i<fileCategorie.length;i++) {
+					rv = false;
+					for (var j=0;j<entries.length;j++) {
+					rv = rv ||  fileCategorie[i].jsonNameCategorie == entries[j].name.substring(0, entries[j].name.length - 3);
+					}
+					if(!rv)
+					{
+					fileCategorieMancanti.push(fileCategorie[i].jsonNameCategorie);
+					}
+					}
+					//eserciziUpdate(fileCategorieMancanti);
+					//alert("Categorie Mancanti" +fileCategorieMancanti.length);
+					checkVetrine(fileSistemaMancanti, fileCategorieMancanti);
+					//window.sessionStorage.setItem("fileEserciziMancanti", JSON.stringify(fileEserciziMancanti));
+					});
+					
+				}
+
+				function fail(error) {
+					console.log("Failed to list directory contents: " + error.code);
+				}
+			
+			}); // fileSystem.root.getDirectory
+			
+		}); // end of window.requestFileSystem
+		
+	} // END FUNCTION CHECK CATEGORIE
+
+		
+	// CHECK ESISTENZA FILES ESERCIZI
+		
+	function checkVetrine(fileSistemaMancanti, fileCategorieMancanti){
 		
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem) {
 			
@@ -1055,7 +1156,7 @@
 					fileEserciziMancanti.push(idEsercizi[i].idEsercizio);
 					}
 					}
-					eserciziUpdate(fileEserciziMancanti);
+					eserciziUpdate(fileSistemaMancanti, fileCategorieMancanti, fileEserciziMancanti);
 					window.sessionStorage.setItem("fileEserciziMancanti", JSON.stringify(fileEserciziMancanti));
 					});
 					
@@ -1068,9 +1169,10 @@
 			}); // fileSystem.root.getDirectory
 			
 		}); // end of window.requestFileSystem
+	
+	} // END FUNCTION CHECK VETRINE
 		
-		
-		function eserciziUpdate(fileEserciziMancanti){
+		function eserciziUpdate(fileSistemaMancanti, fileCategorieMancanti, fileEserciziMancanti){
 				
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem) {
 			
@@ -1086,13 +1188,13 @@
 					var urlJSON = "http://www.wificomo.com/ccn20/JSONidEserciziUpdate.php?language="+localStorage.getItem("codLingua")+"&dataDownload="+dataDownload;
 
 						$.getJSON(urlJSON, function( data ) {
-							if (data.length == 0 && fileEserciziMancanti.length == 0) {
+							if (data.length == 0 && fileEserciziMancanti.length == 0 && fileSistemaMancanti.length == 0 && fileCategorieMancanti.length == 0) {
 								
 								$("p.countUpdates").html(""+window.localStorage.getItem("statusDatabase")+"");
 								$.mobile.loading( "hide" );
 							}
-							else if(data.length == 0 && fileEserciziMancanti.length != 0){
-								
+							else if(data.length == 0 && fileEserciziMancanti.length != 0 && fileSistemaMancanti.length != 0 && fileCategorieMancanti.length != 0){
+								var numeroAggiornamenti = parseInt(fileEserciziMancanti.length) + parseInt(fileSistemaMancanti.length) + parseInt(fileCategorieMancanti.length);
 								$("p.countUpdates").html(fileEserciziMancanti.length+" "+window.localStorage.getItem("aggiornamentiDisponibili")+"");
 								$( "div#update" ).html( $("<a href='#' class='ui-btn updateDatabase'>UPDATE</a>" ));
 								$.mobile.loading( "hide" );
@@ -1101,7 +1203,7 @@
 								$.each(data, function(index, info) {
 								
 								var countUpdates = data.length;
-								var updates = countUpdates+fileEserciziMancanti.length;
+								var updates = countUpdates+fileEserciziMancanti.length+fileSistemaMancanti.length+fileCategorieMancanti.length;
 								$("p.countUpdates").html(updates+" "+window.localStorage.getItem("aggiornamentiDisponibili")+"");
 								$( "div#update" ).html( $("<a href='#' class='ui-btn updateDatabase'>UPDATE</a>" ));
 								$.mobile.loading( "hide" );

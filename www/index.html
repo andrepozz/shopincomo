@@ -105,9 +105,6 @@
         }
     }
 	
-	// CHECK UPDATES
-	
-	//setTimeout(function () { checkUpdates(); }, 5000);
 	
 	// SET MENU
 	var codLinguaMenu = window.localStorage.getItem("codLingua");
@@ -309,18 +306,44 @@
 					localStorage.setItem("dataDownload", dataDownload );
 					
 					var urlJSON = "http://www.wificomo.com/ccn20/JSONidEserciziUpdate.php?language="+localStorage.getItem("codLingua")+"&dataDownload="+dataDownload;
-
-						$.getJSON(urlJSON, function( data ) {
-							if (data.length == 0 && fileEserciziMancanti.length == 0 && fileSistemaMancanti.length == 0 && fileCategorieMancanti.length == 0) {
+				
+						$.ajax({
+							url: urlJSON,
+							type: "GET",
+							dataType: "json",
+							timeout: 10000,
+							success: function(response) {
+								if (data.length == 0 && fileEserciziMancanti.length == 0 && fileSistemaMancanti.length == 0 && fileCategorieMancanti.length == 0) {
 								//alert("NO aggiornamenti disponibili");
 								//$("p.countUpdates").html(""+window.localStorage.getItem("statusDatabase")+"");
 								$.mobile.loading( "hide" );
+								}
+								else {
+									$( "#updateDisponibili" ).popup("open");
+									$.mobile.loading( "hide" );
+								}
+								},
+							error: function(x, timeout, m) {
+								if(timeout === "timeout") {
+									if (fileEserciziMancanti.length != 0 && fileSistemaMancanti.length != 0 && fileCategorieMancanti.length != 0) {
+									$( "#updateDisponibili" ).popup("open");
+									$.mobile.loading( "hide" );
+									}
+									else{
+									$.mobile.loading( "hide" );
+									}
+								} else {
+									if (fileEserciziMancanti.length != 0 && fileSistemaMancanti.length != 0 && fileCategorieMancanti.length != 0) {
+									$( "#updateDisponibili" ).popup("open");
+									$.mobile.loading( "hide" );
+									}
+									else{
+									$.mobile.loading( "hide" );
+									}
+								}
 							}
-							else {
-								$( "#updateDisponibili" ).popup("open");
-								$.mobile.loading( "hide" );
-							}
-						});
+						});​ //AJAX CLOSE
+						
 					});
 					 
 				}); // end of dirEntry.getFile
