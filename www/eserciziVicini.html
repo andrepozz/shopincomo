@@ -65,8 +65,6 @@
 	
 	var actualHeight = height.context.activeElement.clientHeight;
 	
-    $('#mapEsercizi').css('height', actualHeight);
-	
 	var mapEsercizi;
 	var userLatitudeVicini;
 	var userLongitudeVicini;
@@ -86,12 +84,12 @@
 	
 	//INIZIALIZZA MAPPA
 	
-	mapEsercizi = new L.Map('mapEsercizi');
-	mapEsercizi.dragging.disable();
-	var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-	//L.tileLayer(osmUrl, {minZoom: 13, maxZoom: 18}).addTo(mapEsercizi);
-	
-	L.tileLayer('img/como/{z}/{x}/{y}.jpg', {minZoom: 15, maxZoom: 18}).addTo(mapEsercizi);
+		mapEsercizi = new L.Map('mapEsercizi');
+		mapEsercizi.dragging.disable();
+		var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+		//L.tileLayer(osmUrl, {minZoom: 13, maxZoom: 18}).addTo(mapEsercizi);
+		
+		L.tileLayer('img/como/{z}/{x}/{y}.jpg', {minZoom: 15, maxZoom: 18}).addTo(mapEsercizi);
 
 	
 	//BOTTONI CONTROLLO ZOOM
@@ -103,51 +101,79 @@
 			};
 		
 		controlloDistance.addTo(mapEsercizi);	
-
+	
 	//CARICA JSON POSITION
 	var path = window.localStorage.getItem("pathSD");
 	var jsonPositionDir = path + "/position.js";
 	//var jsonPositionDir = "js/position.js";
-	$.getJSON(jsonPositionDir, function( jsonPosition ) {
 	
-	userLatitudeVicini = window.sessionStorage.getItem("userLatitude");
-	userLongitudeVicini = window.sessionStorage.getItem("userLongitude");
-	userAccuracyVicini = window.sessionStorage.getItem("userAccuracy");
+    $('#mapEsercizi').css('height', actualHeight);
 	
-	$('a.lista').attr('userLatitudeVicini', userLatitudeVicini);
-	$('a.lista').attr('userLongitudeVicini', userLongitudeVicini);
+	//CHECK GEOLOCATION
+	if(window.sessionStorage.getItem("userLatitude") == null) {
 	
-	var eserciziVicini = [];
+	$.mobile.loading( "show", {
+        text: ""+window.localStorage.getItem("localizzando")+"",
+        textVisible: true,
+        theme: "b",
+        textonly: false
+	});
+	
+	var watchID = null;
+	var options = { maximumAge: 1500, timeout: 10000, enableHighAccuracy: true };
+	
+	watchID = navigator.geolocation.watchPosition(onSuccess, onError, options);
+	
+	function onSuccess(position) {
+	
+	var userLatitude = position.coords.latitude;
+    var userLongitude = position.coords.longitude;
+	var userAccuracy = position.coords.accuracy;
+	
+	window.sessionStorage.setItem("userLatitude", userLatitude);
+	window.sessionStorage.setItem("userLongitude", userLongitude);
+	window.sessionStorage.setItem("userAccuracy", userAccuracy);
+	
+		$.getJSON(jsonPositionDir, function( jsonPosition ) {
+	
+		userLatitudeVicini = window.sessionStorage.getItem("userLatitude");
+		userLongitudeVicini = window.sessionStorage.getItem("userLongitude");
+		userAccuracyVicini = window.sessionStorage.getItem("userAccuracy");
+	
+		$('a.lista').attr('userLatitudeVicini', userLatitudeVicini);
+		$('a.lista').attr('userLongitudeVicini', userLongitudeVicini);
+	
+		var eserciziVicini = [];
 		
-	//NEAREST NODE
-	$.each(jsonPosition, function(index, info) {
+		//NEAREST NODE
+		$.each(jsonPosition, function(index, info) {
 
-		var currentDistance;
-		var currentEsercizio;
-		
-		if(!maxDistance){
-		maxDistance = 200;
-		$('a.lista').attr('maxDistance', maxDistance);
-		}
-		$('a.lista').attr('maxDistance', maxDistance);
-		
-		currentDistance = getDistanceFromLatLonInKm(userLatitudeVicini, userLongitudeVicini, info.latEsercizio, info.lonEsercizio);
-		currentEsercizio = info.idEsercizio;
-		
-			if(currentDistance < maxDistance) {
+			var currentDistance;
+			var currentEsercizio;
 			
-			var time = Math.round(parseInt(currentDistance)/(1.4)/60);
-			
-			eserciziVicini.push({
-			idEsercizio: info.idEsercizio,
-			nomeEsercizio: info.nomeEsercizio,
-			latEsercizio: info.latEsercizio,
-			lonEsercizio: info.lonEsercizio,
-			idCategoria: info.idCategoria,
-			distance: currentDistance,
-			time: time
-			});
+			if(!maxDistance){
+			maxDistance = 200;
+			$('a.lista').attr('maxDistance', maxDistance);
 			}
+			$('a.lista').attr('maxDistance', maxDistance);
+			
+			currentDistance = getDistanceFromLatLonInKm(userLatitudeVicini, userLongitudeVicini, info.latEsercizio, info.lonEsercizio);
+			currentEsercizio = info.idEsercizio;
+			
+				if(currentDistance < maxDistance) {
+				
+				var time = Math.round(parseInt(currentDistance)/(1.4)/60);
+				
+				eserciziVicini.push({
+				idEsercizio: info.idEsercizio,
+				nomeEsercizio: info.nomeEsercizio,
+				latEsercizio: info.latEsercizio,
+				lonEsercizio: info.lonEsercizio,
+				idCategoria: info.idCategoria,
+				distance: currentDistance,
+				time: time
+				});
+				}
 		});
 		
 		eserciziSort = eserciziVicini.sort(function(a,b) { return parseInt(a.distance) - parseInt(b.distance) } );
@@ -194,8 +220,124 @@
 		mapEsercizi.fitBounds(group.getBounds().pad(0.15));
 	
 	
-		}); // FINE GET JSON POSITION
+	}); // FINE GET JSON POSITION
+	
+	
+    } // END ON SUCCESS
+	
+	function onError(error) {
+        if(error.code==1){
+             // user said no!
+        }
+        if(error.code==2){
+             // position unavailable
+        }
+        if(error.code==3){
+              // timeout
+              watchID = navigator.geolocation.watchPosition(onSuccess, onError,{maximumAge: 1500, timeout: 20000, enableHighAccuracy : false});
+        }
+    }
+	
+	function clearWatch() {
+        if (watchID != null) {
+            navigator.geolocation.clearWatch(watchID);
+            watchID = null;
+        }
+    }
+
+	
+	} // END CHECK UPDATE
+	else
+	{
+	$.getJSON(jsonPositionDir, function( jsonPosition ) {
+	
+		userLatitudeVicini = window.sessionStorage.getItem("userLatitude");
+		userLongitudeVicini = window.sessionStorage.getItem("userLongitude");
+		userAccuracyVicini = window.sessionStorage.getItem("userAccuracy");
+	
+		$('a.lista').attr('userLatitudeVicini', userLatitudeVicini);
+		$('a.lista').attr('userLongitudeVicini', userLongitudeVicini);
+	
+		var eserciziVicini = [];
 		
+		//NEAREST NODE
+		$.each(jsonPosition, function(index, info) {
+
+			var currentDistance;
+			var currentEsercizio;
+			
+			if(!maxDistance){
+			maxDistance = 200;
+			$('a.lista').attr('maxDistance', maxDistance);
+			}
+			$('a.lista').attr('maxDistance', maxDistance);
+			
+			currentDistance = getDistanceFromLatLonInKm(userLatitudeVicini, userLongitudeVicini, info.latEsercizio, info.lonEsercizio);
+			currentEsercizio = info.idEsercizio;
+			
+				if(currentDistance < maxDistance) {
+				
+				var time = Math.round(parseInt(currentDistance)/(1.4)/60);
+				
+				eserciziVicini.push({
+				idEsercizio: info.idEsercizio,
+				nomeEsercizio: info.nomeEsercizio,
+				latEsercizio: info.latEsercizio,
+				lonEsercizio: info.lonEsercizio,
+				idCategoria: info.idCategoria,
+				distance: currentDistance,
+				time: time
+				});
+				}
+		});
+		
+		eserciziSort = eserciziVicini.sort(function(a,b) { return parseInt(a.distance) - parseInt(b.distance) } );
+		
+		
+		
+		if(!markersVicini){
+		markersVicini = new L.FeatureGroup();
+		}
+		else
+		{
+		mapEsercizi.removeLayer(markersVicini);
+		}
+		
+		$.each(eserciziSort, function(index, info) {
+		markerEsercizio = L.marker([info.latEsercizio, info.lonEsercizio], {icon: markerIcon}).bindPopup(info.nomeEsercizio);
+		markersVicini.addLayer(markerEsercizio);
+		});
+		
+		mapEsercizi.addLayer(markersVicini);
+	
+		if (!markerUtente) {
+		markerUtente = L.userMarker([userLatitudeVicini, userLongitudeVicini],{pulsing:true}).bindPopup("Sei qui.").addTo(mapEsercizi);
+		markerUtente.setAccuracy(userAccuracyVicini);
+		circle = L.circle([userLatitudeVicini, userLongitudeVicini], maxDistance, {
+		color: '#008000',
+		fillColor: '#008000',
+		fillOpacity: 0.5
+		}).addTo(mapEsercizi);
+		//ADATTA LA MAPPA
+		group = new L.featureGroup([markersVicini, markerUtente, circle]);
+		}
+	
+		//UPDATE POSIZIONE UTENTE
+		markerUtente.setLatLng([userLatitudeVicini, userLongitudeVicini],{pulsing:true}).update();
+		circleDistance = $(this).attr('circleDistance');
+		circle.setLatLng([userLatitudeVicini, userLongitudeVicini]);
+		circle.setRadius(parseInt(maxDistance)+15);
+		circle.setStyle({color: '#008000', fillColor: '#008000'})
+		circle.redraw();
+	
+		//RAGGRUPPA MARKER
+		group = new L.featureGroup([markersVicini, markerUtente, circle]);
+		mapEsercizi.fitBounds(group.getBounds().pad(0.15));
+	
+	
+	}); // FINE GET JSON POSITION
+	
+	// END ELSE GEOLOCATION
 		
 		
 	// CLICK ZOOM BUTTONS
