@@ -1044,7 +1044,7 @@
 					fileSistemaMancanti.push(fileSistema[i]);
 					}
 					}
-					//alert("File sistema mancanti" +fileSistemaMancanti.length);
+					alert("File sistema mancanti" +fileSistemaMancanti.length);
 					checkCategorie(fileSistemaMancanti);
 										
 				}
@@ -1060,6 +1060,7 @@
 	// CHECK ESISTENZA CATEGORIE
 
 	function checkCategorie(fileSistemaMancanti){
+		alert("checkCategorie");
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem) {
 			
 			fileSystem.root.getDirectory("ShopinComo/categorie", {create: true, exclusive: false}, function(dirEntry) {
@@ -1118,7 +1119,7 @@
 	// CHECK ESISTENZA FILES ESERCIZI
 		
 	function checkVetrine(fileSistemaMancanti, fileCategorieMancanti){
-		
+		alert("checkVetrine");
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem) {
 			
 			fileSystem.root.getDirectory("ShopInComo/esercizi", {create: true, exclusive: false}, function(dirEntry) {
@@ -1172,8 +1173,8 @@
 	
 	} // END FUNCTION CHECK VETRINE
 		
-		function eserciziUpdate(fileSistemaMancanti, fileCategorieMancanti, fileEserciziMancanti){
-				
+	function eserciziUpdate(fileSistemaMancanti, fileCategorieMancanti, fileEserciziMancanti){
+		alert("eserciziUpdate");		
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem) {
 			
 			fileSystem.root.getDirectory("ShopInComo", {create: true, exclusive: false}, function(dirEntry) {
