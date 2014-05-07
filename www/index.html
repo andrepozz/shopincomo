@@ -306,10 +306,6 @@
 					localStorage.setItem("dataDownload", dataDownload );
 					
 					var urlJSON = "http://www.wificomo.com/ccn20/JSONidEserciziUpdate.php?language="+localStorage.getItem("codLingua")+"&dataDownload="+dataDownload;
-
-						$.getJSON(urlJSON, function( data ) {
-							
-						});
 						
 						$.ajax({
 							url: "http://www.wificomo.com/ccn20/JSONidEserciziUpdate.php",
