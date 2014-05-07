@@ -132,6 +132,8 @@
     var userLongitude = position.coords.longitude;
 	var userAccuracy = position.coords.accuracy;
 	
+	clearWatch();
+	
 	window.sessionStorage.setItem("userLatitude", userLatitude);
 	window.sessionStorage.setItem("userLongitude", userLongitude);
 	window.sessionStorage.setItem("userAccuracy", userAccuracy);
