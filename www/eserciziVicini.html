@@ -253,7 +253,7 @@
 	{
 	alert("Ho la posizione");
 	$.getJSON(jsonPositionDir, function( jsonPosition ) {
-	
+		alert("ENTRO JSON");
 		userLatitudeVicini = window.sessionStorage.getItem("userLatitude");
 		userLongitudeVicini = window.sessionStorage.getItem("userLongitude");
 		userAccuracyVicini = window.sessionStorage.getItem("userAccuracy");
