@@ -306,18 +306,21 @@
 					localStorage.setItem("dataDownload", dataDownload );
 					
 					var urlJSON = "http://www.wificomo.com/ccn20/JSONidEserciziUpdate.php?language="+localStorage.getItem("codLingua")+"&dataDownload="+dataDownload+"";
-
+						
 						$.ajax({
 							url: "http://www.wificomo.com/ccn20/JSONidEserciziUpdate.php",
 							type: "GET",
 							dataType: "json",
 							data: {language: localStorage.getItem("codLingua"), dataDownload: dataDownload},
-							timeout: 15000,
-							async: false,
-							success: function(data) {
-								alert(data);
-								}
-						});​ 
+							timeout: 15000
+						}).done(function(response){
+							alert(response);
+						}).fail(function(jqXHR, textStatus){
+							if(textStatus == 'timeout')
+							{     
+								alert('Failed from timeout'); 
+							}
+						});
 					
 					
 					});
