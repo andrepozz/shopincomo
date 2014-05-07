@@ -108,11 +108,9 @@
 	var jsonPositionDir = path + "/position.js";
 	//var jsonPositionDir = "js/position.js";
 		
-	alert(window.sessionStorage.getItem("userLatitude"));
 	
 	//CHECK GEOLOCATION
 	if(window.sessionStorage.getItem("userLatitude") != null) {
-	alert("NON ho la posizione");
 	
 	$.mobile.loading( "show", {
         text: ""+window.localStorage.getItem("localizzando")+"",
@@ -121,19 +119,16 @@
         textonly: false
 	});
 	
-	var watchID = null;
 	var options = { maximumAge: 1500, timeout: 10000, enableHighAccuracy: true };
 	
-	watchID = navigator.geolocation.watchPosition(onSuccess, onError, options);
+	navigator.geolocation.getCurrentPosition(onSuccess, onError, options);
 	
 	function onSuccess(position) {
-	
+	$.mobile.loading( "hide" );
 	var userLatitude = position.coords.latitude;
     var userLongitude = position.coords.longitude;
 	var userAccuracy = position.coords.accuracy;
-	
-	clearWatch();
-	
+		
 	window.sessionStorage.setItem("userLatitude", userLatitude);
 	window.sessionStorage.setItem("userLongitude", userLongitude);
 	window.sessionStorage.setItem("userAccuracy", userAccuracy);
@@ -238,14 +233,7 @@
         }
         if(error.code==3){
               // timeout
-              watchID = navigator.geolocation.watchPosition(onSuccess, onError,{maximumAge: 1500, timeout: 20000, enableHighAccuracy : false});
-        }
-    }
-	
-	function clearWatch() {
-        if (watchID != null) {
-            navigator.geolocation.clearWatch(watchID);
-            watchID = null;
+              navigator.geolocation.getCurrentPosition(onSuccess, onError,{maximumAge: 1500, timeout: 20000, enableHighAccuracy : false});
         }
     }
 
@@ -253,16 +241,12 @@
 	} // END CHECK UPDATE
 	else
 	{
-	alert("Ho la posizione");
-	alert(jsonPositionDir);
+	
 	$.getJSON(jsonPositionDir, function( jsonPosition ) {
-		alert("ENTRO JSON");
+
 		userLatitudeVicini = window.sessionStorage.getItem("userLatitude");
 		userLongitudeVicini = window.sessionStorage.getItem("userLongitude");
 		userAccuracyVicini = window.sessionStorage.getItem("userAccuracy");
-		
-		alert(userLatitudeVicini);
-		alert(userLongitudeVicini);
 		
 		$('a.lista').attr('userLatitudeVicini', userLatitudeVicini);
 		$('a.lista').attr('userLongitudeVicini', userLongitudeVicini);

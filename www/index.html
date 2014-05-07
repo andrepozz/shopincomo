@@ -313,7 +313,6 @@
 							data: {language: localStorage.getItem("codLingua"), dataDownload: dataDownload},
 							timeout: 15000
 						}).done(function(response){
-							alert("resp "+response.length);
 							if (response.length == 0 && fileEserciziMancanti.length == 0 && fileSistemaMancanti.length == 0 && fileCategorieMancanti.length == 0) {
 								//alert("NO aggiornamenti disponibili");
 								//$("p.countUpdates").html(""+window.localStorage.getItem("statusDatabase")+"");
