@@ -65,7 +65,7 @@
 	
 	//CHECK GEOLOCATION
 	var watchID = null;
-	var options = { maximumAge: 1500, timeout: 10000, enableHighAccuracy: true };
+	var options = { maximumAge: 1500, timeout: 1000, enableHighAccuracy: true };
 	
 	watchID = navigator.geolocation.watchPosition(onSuccess, onError, options);
 	
@@ -93,7 +93,8 @@
     }
 	
 	function onError(error) {
-        if(error.code==1){
+        alert("TIMEOUT Codice errore " +error.code);
+		if(error.code==1){
              // user said no!
         }
         if(error.code==2){
@@ -157,8 +158,7 @@
 				function success(entries) {
 				
 					
-					var fileSistema = ["brandEsercizi.js","brand.js","categorie.js","nomeEsercizi.js","position.js","esercizi","categorie"];
-					alert(fileSistema.length);		
+					var fileSistema = ["brandEsercizi.js","brand.js","categorie.js","nomeEsercizi.js","position.js","esercizi","categorie"];		
 					
 					var fileSistemaMancanti = [];					
 					for (var i=0;i<fileSistema.length;i++) {
@@ -171,10 +171,8 @@
 					fileSistemaMancanti.push(fileSistema[i]);
 					}
 					}
-					alert("File sistema mancanti" +fileSistemaMancanti.length);
+					//alert("File sistema mancanti" +fileSistemaMancanti.length);
 					checkCategorie(fileSistemaMancanti);
-					//eserciziUpdate(fileEserciziMancanti);
-					//window.sessionStorage.setItem("fileSistemaMancanti", JSON.stringify(fileSistemaMancanti));
 										
 				}
 
@@ -203,7 +201,6 @@
 					
 					var path = window.localStorage.getItem("pathSD");
 					var jsonPath = path + "/categorie.js";
-					alert("JSON PAth "+jsonPath);
 					var fileCategorieMancanti = [];		
 					$.getJSON(jsonPath, function( listaCategorie ) {
 						var fileCategorie = [];
@@ -227,7 +224,7 @@
 					}
 					}
 					//eserciziUpdate(fileCategorieMancanti);
-					alert("Categorie Mancanti" +fileCategorieMancanti.length);
+					//alert("Categorie Mancanti" +fileCategorieMancanti.length);
 					checkVetrine(fileSistemaMancanti, fileCategorieMancanti);
 					//window.sessionStorage.setItem("fileEserciziMancanti", JSON.stringify(fileEserciziMancanti));
 					});
