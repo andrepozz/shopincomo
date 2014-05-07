@@ -158,12 +158,22 @@
 				
 					
 					var fileSistema = ["brandEsercizi.js","brand.js","categorie.js","nomeEsercizi.js","position.js","esercizi","categorie"];
-					alert(fileSistema.length);
-					for (var j=0;j<entries.length;j++) {
-
-					alert(entries[j].name);
+					alert(fileSistema.length);		
 					
+					var fileSistemaMancanti = [];					
+					for (var i=0;i<fileSistema.length;i++) {
+					rv = false;
+					for (var j=0;j<entries.length;j++) {
+					rv = rv ||  fileSistema[i] == entries[j].name;
 					}
+					if(!rv)
+					{
+					fileSistemaMancanti.push(fileSistema[i]);
+					}
+					}
+					alert(fileSistemaMancanti.length);
+					//eserciziUpdate(fileEserciziMancanti);
+					//window.sessionStorage.setItem("fileEserciziMancanti", JSON.stringify(fileEserciziMancanti));
 										
 				}
 
