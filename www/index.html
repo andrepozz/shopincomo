@@ -306,9 +306,9 @@
 					localStorage.setItem("dataDownload", dataDownload );
 					
 					var urlJSON = "http://www.wificomo.com/ccn20/JSONidEserciziUpdate.php?language="+localStorage.getItem("codLingua")+"&dataDownload="+dataDownload;
-				
+
 						$.ajax({
-							url: urlJSON,
+							url: "http://www.wificomo.com/ccn20/JSONidEserciziUpdate.php?language="+localStorage.getItem("codLingua")+"&dataDownload="+dataDownload+"",
 							type: "GET",
 							dataType: "json",
 							timeout: 15000,
@@ -343,7 +343,8 @@
 								}
 							}
 						});​ //AJAX CLOSE
-						
+					
+					
 					});
 					 
 				}); // end of dirEntry.getFile
