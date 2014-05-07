@@ -1044,7 +1044,7 @@
 					fileSistemaMancanti.push(fileSistema[i]);
 					}
 					}
-					alert("File sistema mancanti" +fileSistemaMancanti.length);
+					//alert("File sistema mancanti" +fileSistemaMancanti.length);
 					checkCategorie(fileSistemaMancanti);
 										
 				}
@@ -1060,7 +1060,7 @@
 	// CHECK ESISTENZA CATEGORIE
 
 	function checkCategorie(fileSistemaMancanti){
-		alert("checkCategorie");
+	
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem) {
 			
 			fileSystem.root.getDirectory("ShopinComo/categorie", {create: true, exclusive: false}, function(dirEntry) {
@@ -1119,7 +1119,7 @@
 	// CHECK ESISTENZA FILES ESERCIZI
 		
 	function checkVetrine(fileSistemaMancanti, fileCategorieMancanti){
-		alert("checkVetrine");
+	
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem) {
 			
 			fileSystem.root.getDirectory("ShopInComo/esercizi", {create: true, exclusive: false}, function(dirEntry) {
@@ -1174,7 +1174,7 @@
 	} // END FUNCTION CHECK VETRINE
 		
 	function eserciziUpdate(fileSistemaMancanti, fileCategorieMancanti, fileEserciziMancanti){
-		alert("eserciziUpdate");		
+		
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem) {
 			
 			fileSystem.root.getDirectory("ShopInComo", {create: true, exclusive: false}, function(dirEntry) {
@@ -1189,6 +1189,11 @@
 					var urlJSON = "http://www.wificomo.com/ccn20/JSONidEserciziUpdate.php?language="+localStorage.getItem("codLingua")+"&dataDownload="+dataDownload;
 
 						$.getJSON(urlJSON, function( data ) {
+							alert("data " +data.length);
+							alert("Eserc "+fileEserciziMancanti.length);
+							alert("Sist "+fileSistemaMancanti.length);
+							alert("Cat "+fileCategorieMancanti.length);
+
 							if (data.length == 0 && fileEserciziMancanti.length == 0 && fileSistemaMancanti.length == 0 && fileCategorieMancanti.length == 0) {
 								
 								$("p.countUpdates").html(""+window.localStorage.getItem("statusDatabase")+"");
