@@ -305,7 +305,11 @@
 					
 					localStorage.setItem("dataDownload", dataDownload );
 					
-					var urlJSON = "http://www.wificomo.com/ccn20/JSONidEserciziUpdate.php?language="+localStorage.getItem("codLingua")+"&dataDownload="+dataDownload+"";
+					var urlJSON = "http://www.wificomo.com/ccn20/JSONidEserciziUpdate.php?language="+localStorage.getItem("codLingua")+"&dataDownload="+dataDownload;
+
+						$.getJSON(urlJSON, function( data ) {
+							
+						});
 						
 						$.ajax({
 							url: "http://www.wificomo.com/ccn20/JSONidEserciziUpdate.php",
@@ -314,14 +318,37 @@
 							data: {language: localStorage.getItem("codLingua"), dataDownload: dataDownload},
 							timeout: 15000
 						}).done(function(response){
-							alert(response);
+							if (response.length == 0 && fileEserciziMancanti.length == 0 && fileSistemaMancanti.length == 0 && fileCategorieMancanti.length == 0) {
+								//alert("NO aggiornamenti disponibili");
+								//$("p.countUpdates").html(""+window.localStorage.getItem("statusDatabase")+"");
+								$.mobile.loading( "hide" );
+							}
+							else {
+								$( "#updateDisponibili" ).popup("open");
+								$.mobile.loading( "hide" );
+							}
 						}).fail(function(jqXHR, textStatus){
 							if(textStatus == 'timeout')
 							{     
-								alert('Failed from timeout'); 
+								if (fileEserciziMancanti.length == 0 && fileSistemaMancanti.length == 0 && fileCategorieMancanti.length == 0) {
+								$.mobile.loading( "hide" );
+								}
+								else {
+									$( "#updateDisponibili" ).popup("open");
+									$.mobile.loading( "hide" );
+								}
+							}
+							else
+							{
+								if (fileEserciziMancanti.length == 0 && fileSistemaMancanti.length == 0 && fileCategorieMancanti.length == 0) {
+								$.mobile.loading( "hide" );
+								}
+								else {
+									$( "#updateDisponibili" ).popup("open");
+									$.mobile.loading( "hide" );
+								}
 							}
 						});
-					
 					
 					});
 					 
