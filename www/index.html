@@ -209,7 +209,6 @@
 						
 							fileCategorie.push({
 							jsonNameCategorie: info.jsonName
-							alert();
 							});
 
 						
@@ -225,7 +224,7 @@
 					fileCategorieMancanti.push(fileCategorie[i].jsonNameCategorie);
 					}
 					}
-					eserciziUpdate(fileCategorieMancanti);
+					//eserciziUpdate(fileCategorieMancanti);
 					alert("Categorie Mancanti" +fileCategorieMancanti.length);
 					//window.sessionStorage.setItem("fileEserciziMancanti", JSON.stringify(fileEserciziMancanti));
 					});
