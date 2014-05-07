@@ -171,10 +171,64 @@
 					fileSistemaMancanti.push(fileSistema[i]);
 					}
 					}
-					alert(fileSistemaMancanti.length);
+					alert("File sistema mancanti" +fileSistemaMancanti.length);
 					//eserciziUpdate(fileEserciziMancanti);
-					//window.sessionStorage.setItem("fileEserciziMancanti", JSON.stringify(fileEserciziMancanti));
+					//window.sessionStorage.setItem("fileSistemaMancanti", JSON.stringify(fileSistemaMancanti));
 										
+				}
+
+				function fail(error) {
+					console.log("Failed to list directory contents: " + error.code);
+				}
+			
+			}); // fileSystem.root.getDirectory
+			
+		}); // end of window.requestFileSystem
+		
+	// CHECK ESISTENZA SOTTOCATEGORIE
+		
+		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem) {
+			
+			fileSystem.root.getDirectory("ccn/categorie", {create: true, exclusive: false}, function(dirEntry) {
+			
+				// Get a directory reader
+				var directoryReader = dirEntry.createReader();
+
+				// Get a list of all the entries in the directory
+				directoryReader.readEntries(success,fail);
+				
+				function success(entries) {
+					
+					var path = window.localStorage.getItem("pathSD");
+					var jsonPath = path + "/categorie.js";
+
+					var fileCategorieMancanti = [];		
+					$.getJSON(jsonPath, function( listaCategorie ) {
+						var fileCategorie = [];
+						$.each(listaCategorie, function(index, info) {
+						
+							fileCategorie.push({
+							jsonNameCategorie: info.jsonName
+							});
+
+						
+						});
+					
+					for (var i=0;i<fileCategorie.length;i++) {
+					rv = false;
+					for (var j=0;j<entries.length;j++) {
+					rv = rv ||  parseInt(fileCategorie[i].jsonNameCategorie) == parseInt(entries[j].name.substring(0, entries[j].name.length - 3));
+					}
+					if(!rv)
+					{
+					fileCategorieMancanti.push(fileCategorie[i].jsonNameCategorie);
+					}
+					}
+					eserciziUpdate(fileCategorieMancanti);
+					alert("Categorie Mancanti" +fileCategorieMancanti.length);
+					//window.sessionStorage.setItem("fileEserciziMancanti", JSON.stringify(fileEserciziMancanti));
+					});
+					
 				}
 
 				function fail(error) {
