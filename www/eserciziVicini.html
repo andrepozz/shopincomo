@@ -108,6 +108,8 @@
 	var jsonPositionDir = path + "/position.js";
 	//var jsonPositionDir = "js/position.js";
 		
+	alert(window.sessionStorage.getItem("userLatitude"));
+	
 	//CHECK GEOLOCATION
 	if(window.sessionStorage.getItem("userLatitude") == null) {
 	alert("NON ho la posizione");
@@ -255,7 +257,10 @@
 		userLatitudeVicini = window.sessionStorage.getItem("userLatitude");
 		userLongitudeVicini = window.sessionStorage.getItem("userLongitude");
 		userAccuracyVicini = window.sessionStorage.getItem("userAccuracy");
-	
+		
+		alert(userLatitudeVicini);
+		alert(userLongitudeVicini);
+		
 		$('a.lista').attr('userLatitudeVicini', userLatitudeVicini);
 		$('a.lista').attr('userLongitudeVicini', userLongitudeVicini);
 	
