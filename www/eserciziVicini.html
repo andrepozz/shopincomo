@@ -64,6 +64,7 @@
 	var height = $('[data-role="content"]').height(getRealContentHeight());
 	
 	var actualHeight = height.context.activeElement.clientHeight;
+	 $('#mapEsercizi').css('height', actualHeight);
 	
 	var mapEsercizi;
 	var userLatitudeVicini;
@@ -106,11 +107,10 @@
 	var path = window.localStorage.getItem("pathSD");
 	var jsonPositionDir = path + "/position.js";
 	//var jsonPositionDir = "js/position.js";
-	
-    $('#mapEsercizi').css('height', actualHeight);
-	
+		
 	//CHECK GEOLOCATION
 	if(window.sessionStorage.getItem("userLatitude") == null) {
+	alert("NON ho la posizione");
 	
 	$.mobile.loading( "show", {
         text: ""+window.localStorage.getItem("localizzando")+"",
@@ -249,6 +249,7 @@
 	} // END CHECK UPDATE
 	else
 	{
+	alert("Ho la posizione");
 	$.getJSON(jsonPositionDir, function( jsonPosition ) {
 	
 		userLatitudeVicini = window.sessionStorage.getItem("userLatitude");
