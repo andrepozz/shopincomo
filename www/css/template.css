@@ -151,12 +151,14 @@ width: 2em;
 
 p.descrizioneRicercaNome{
 background-color:rgba(255,255,255,0.9);
+white-space: normal !important;
 }
 
 /*RICERCA PER BRAND*/
 
 p.descrizioneRicercaBrand{
 background-color:rgba(255,255,255,0.9);
+white-space: normal !important;
 }
 
 }
@@ -319,12 +321,14 @@ width: 2em;
 
 p.descrizioneRicercaNome{
 background-color:rgba(255,255,255,0.9);
+white-space: normal !important;
 }
 
 /*RICERCA PER BRAND*/
 
 p.descrizioneRicercaBrand{
 background-color:rgba(255,255,255,0.9);
+white-space: normal !important;
 }
 
 
@@ -490,12 +494,14 @@ width: 3em;
 
 p.descrizioneRicercaNome{
 background-color:rgba(255,255,255,0.9);
+white-space: normal !important;
 }
 
 /*RICERCA PER BRAND*/
 
 p.descrizioneRicercaBrand{
 background-color:rgba(255,255,255,0.9);
+white-space: normal !important;
 }
 
  
@@ -662,12 +668,14 @@ border:1px solid #dcdcdc;
 
 p.descrizioneRicercaNome{
 background-color:rgba(255,255,255,0.9);
+white-space: normal !important;
 }
 
 /*RICERCA PER BRAND*/
 
 p.descrizioneRicercaBrand{
 background-color:rgba(255,255,255,0.9);
+white-space: normal !important;
 }
 
 }

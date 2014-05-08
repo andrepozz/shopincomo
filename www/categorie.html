@@ -114,6 +114,41 @@
 	function onBackKeyDown(e) {
 	e.preventDefault();
 	}
+						
+	$("ul#lista_esercizi").html("");
+	$("#fieldsetOrdinamento").controlgroup("container").html("");
+	$("#fieldsetOrdinamento").controlgroup("container").append($('<input type="radio" class="ordinamento" name="ordinamento" id="distanza" value="distanza"><label for="distanza">'+window.localStorage.getItem("distanza")+'</label>'));
+	$("#fieldsetOrdinamento").controlgroup("container").append($('<input type="radio" class="ordinamento" name="ordinamento" id="nome" value="nome"><label for="nome">'+window.localStorage.getItem("nome")+'</label>'));
+	$("#fieldsetOrdinamento").controlgroup("container").append($('<input type="radio" class="ordinamento" name="ordinamento" id="votoPopular" value="votoPopular"><label for="votoPopular">'+window.localStorage.getItem("votoPopular")+'</label>'));
+	$("#fieldsetOrdinamento").controlgroup("container").append($('<input type="radio" class="ordinamento" name="ordinamento" id="votoTrendy" value="votoTrendy"><label for="votoTrendy">'+window.localStorage.getItem("votoTrendy")+'</label>'));
+	$("#fieldsetOrdinamento").enhanceWithin().controlgroup("refresh");	
+	
+	
+	//CARICA JSON CATEGORIE
+	var path = window.localStorage.getItem("pathSD");
+	var jsonPath = path + "/categorie/"+jsonName+".js";	
+	var jsonSottocategorie;
+	
+	$.ajax({
+	url: jsonPath,
+	dataType: 'json',
+	async: false,
+		success: function(data) {
+		jsonSottocategorie = data;
+		}
+	});
+	
+	if(window.sessionStorage.getItem("userLatitude") != null) {
+	userLatitude = window.sessionStorage.getItem("userLatitude");
+	userLongitude = window.sessionStorage.getItem("userLongitude");
+		
+	for(var i=0; i<jsonSottocategorie.length; i++ ){
+		var distance;	
+		distance = getDistanceFromLatLonInKm(userLatitude, userLongitude, jsonSottocategorie[i].latitudeEsercizio, jsonSottocategorie[i].longitudeEsercizio);
+		jsonSottocategorie[i].distance = distance;
+	}
+	}
+	else{
 	
 	var watchID = null;
 	var options = { maximumAge: 1500, timeout: 10000, enableHighAccuracy: true };
@@ -143,37 +178,19 @@
               watchID = navigator.geolocation.watchPosition(onSuccess, onError,{maximumAge: 1500, timeout: 20000, enableHighAccuracy : false});
         }
     }
-					
-	$("ul#lista_esercizi").html("");
-	$("#fieldsetOrdinamento").controlgroup("container").html("");
-	$("#fieldsetOrdinamento").controlgroup("container").append($('<input type="radio" class="ordinamento" name="ordinamento" id="distanza" value="distanza"><label for="distanza">'+window.localStorage.getItem("distanza")+'</label>'));
-	$("#fieldsetOrdinamento").controlgroup("container").append($('<input type="radio" class="ordinamento" name="ordinamento" id="nome" value="nome"><label for="nome">'+window.localStorage.getItem("nome")+'</label>'));
-	$("#fieldsetOrdinamento").controlgroup("container").append($('<input type="radio" class="ordinamento" name="ordinamento" id="votoPopular" value="votoPopular"><label for="votoPopular">'+window.localStorage.getItem("votoPopular")+'</label>'));
-	$("#fieldsetOrdinamento").controlgroup("container").append($('<input type="radio" class="ordinamento" name="ordinamento" id="votoTrendy" value="votoTrendy"><label for="votoTrendy">'+window.localStorage.getItem("votoTrendy")+'</label>'));
-	$("#fieldsetOrdinamento").enhanceWithin().controlgroup("refresh");	
-		
+	
 	userLatitude = window.sessionStorage.getItem("userLatitude");
 	userLongitude = window.sessionStorage.getItem("userLongitude");
-	
-	//CARICA JSON CATEGORIE
-	var path = window.localStorage.getItem("pathSD");
-	var jsonPath = path + "/categorie/"+jsonName+".js";	
-	var jsonSottocategorie;
-	
-	$.ajax({
-	url: jsonPath,
-	dataType: 'json',
-	async: false,
-		success: function(data) {
-		jsonSottocategorie = data;
-		}
-	});
 		
 	for(var i=0; i<jsonSottocategorie.length; i++ ){
 		var distance;	
 		distance = getDistanceFromLatLonInKm(userLatitude, userLongitude, jsonSottocategorie[i].latitudeEsercizio, jsonSottocategorie[i].longitudeEsercizio);
 		jsonSottocategorie[i].distance = distance;
 	}
+	
+	}
+	
+
 	
 	ritorno = window.sessionStorage.getItem("ritorno");
 	
