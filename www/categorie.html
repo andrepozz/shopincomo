@@ -250,7 +250,7 @@
 		
 		//LISTA ESERCIZI
 		$.each(jsonSottocategorie, function(index, info) {
-			$("ul#lista_esercizi").append($("<li></li>",{"html":"<a href='#vetrinaMappa' class='esercizio' idEsercizio='" + info.idEsercizio + "' data-transition='slide' >" + info.nomeEsercizio +( window.sessionStorage.getItem("userLatitude") != null ? "<span class='ui-li-count'>"+ info.distance +"m</span>" : "" )+"</a>" }));
+			$("ul#lista_esercizi").append($("<li></li>",{"html":"<a href='#vetrinaMappa' class='esercizio' idEsercizio='" + info.idEsercizio + "' data-transition='slide' >" + info.nomeEsercizio +( window.sessionStorage.getItem("userLatitude") == null ? "<span class='ui-li-count'>"+ info.distance +"m</span>" : "" )+"</a>" }));
 		});
 		
 		$("ul#lista_esercizi").listview("refresh");
