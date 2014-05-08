@@ -135,44 +135,13 @@
 		function onBackKeyDown(e) {
 		e.preventDefault();
 		}
-		
-	var watchID = null;
-	var options = { maximumAge: 1500, timeout: 10000, enableHighAccuracy: true };
-	
-	watchID = navigator.geolocation.watchPosition(onSuccess, onError, options);
-	
-	function onSuccess(position) {
-	
-	var userLatitude = position.coords.latitude;
-    var userLongitude = position.coords.longitude;
-	var userAccuracy = position.coords.accuracy;
-	
-	window.sessionStorage.setItem("userLatitude", userLatitude);
-	window.sessionStorage.setItem("userLongitude", userLongitude);
-	window.sessionStorage.setItem("userAccuracy", userAccuracy);
-    }
-	
-	function onError(error) {
-		if(error.code==1){
-             // user said no!
-        }
-        if(error.code==2){
-             // position unavailable
-        }
-        if(error.code==3){
-              // timeout
-              watchID = navigator.geolocation.watchPosition(onSuccess, onError,{maximumAge: 1500, timeout: 20000, enableHighAccuracy : false});
-        }
-    }
-	
+
 	$("#fieldsetOrdinamento").controlgroup("container").html("");
 	$("#fieldsetOrdinamento").controlgroup("container").append($('<input type="radio" class="ordinamento" name="ordinamento" id="distanza" value="distanza"><label for="distanza">'+window.localStorage.getItem("distanza")+'</label>'));
 	$("#fieldsetOrdinamento").controlgroup("container").append($('<input type="radio" class="ordinamento" name="ordinamento" id="nome" value="nome"><label for="nome">'+window.localStorage.getItem("nome")+'</label>'));
 	$("#fieldsetOrdinamento").controlgroup("container").append($('<input type="radio" class="ordinamento" name="ordinamento" id="votoPopular" value="votoPopular"><label for="votoPopular">'+window.localStorage.getItem("votoPopular")+'</label>'));
 	$("#fieldsetOrdinamento").controlgroup("container").append($('<input type="radio" class="ordinamento" name="ordinamento" id="votoTrendy" value="votoTrendy"><label for="votoTrendy">'+window.localStorage.getItem("votoTrendy")+'</label>'));
 	$("#fieldsetOrdinamento").enhanceWithin().controlgroup("refresh");
-	
-
 	
 	//CARICA JSON CATEGORIE
 		
@@ -188,6 +157,59 @@
 		}
 	});
 		
+	if(window.sessionStorage.getItem("userLatitude") == null) {
+	
+	$.mobile.loading( "show", {
+        text: ""+window.localStorage.getItem("localizzando")+"",
+        textVisible: true,
+        theme: "b",
+        textonly: false
+	});
+		
+	var watchID = null;
+	var options = { maximumAge: 1500, timeout: 10000, enableHighAccuracy: true };
+	
+	watchID = navigator.geolocation.watchPosition(onSuccess, onError, options);
+	
+	function onSuccess(position) {
+	$.mobile.loading( "hide" );
+	var userLatitude = position.coords.latitude;
+    var userLongitude = position.coords.longitude;
+	var userAccuracy = position.coords.accuracy;
+	
+	window.sessionStorage.setItem("userLatitude", userLatitude);
+	window.sessionStorage.setItem("userLongitude", userLongitude);
+	window.sessionStorage.setItem("userAccuracy", userAccuracy);
+	
+	userLatitude = window.sessionStorage.getItem("userLatitude");
+	userLongitude = window.sessionStorage.getItem("userLongitude");
+		
+	for(var i=0; i<jsonPath.length; i++ ){
+		var distance;	
+		distance = getDistanceFromLatLonInKm(userLatitude, userLongitude, jsonPath[i].latitudeEsercizio, jsonPath[i].longitudeEsercizio);
+		jsonPath[i].distance = distance;
+	}
+    
+	
+	}
+	
+	function onError(error) {
+		if(error.code==1){
+             // user said no!
+        }
+        if(error.code==2){
+             // position unavailable
+        }
+        if(error.code==3){
+              // timeout
+			  $.mobile.loading( "hide" );
+              watchID = navigator.geolocation.watchPosition(onSuccess, onError,{maximumAge: 1500, timeout: 20000, enableHighAccuracy : false});
+        }
+    }
+	
+	}
+	else{
+	
 	userLatitude = window.sessionStorage.getItem("userLatitude");
 	userLongitude = window.sessionStorage.getItem("userLongitude");
 		
@@ -197,7 +219,8 @@
 		jsonPath[i].distance = distance;
 	}
 	
-	
+	}
+				
 	
 	//FILTRA PER BRAND
 		

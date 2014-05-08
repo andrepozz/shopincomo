@@ -184,7 +184,8 @@
         }
         if(error.code==3){
               // timeout
-              watchID = navigator.geolocation.watchPosition(onSuccess, onError,{maximumAge: 1500, timeout: 20000, enableHighAccuracy : false});
+              $.mobile.loading( "hide" );
+			  watchID = navigator.geolocation.watchPosition(onSuccess, onError,{maximumAge: 1500, timeout: 10000, enableHighAccuracy : false});
         }
     }
 	
