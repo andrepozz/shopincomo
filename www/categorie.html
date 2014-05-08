@@ -114,6 +114,35 @@
 	function onBackKeyDown(e) {
 	e.preventDefault();
 	}
+	
+	var watchID = null;
+	var options = { maximumAge: 1500, timeout: 10000, enableHighAccuracy: true };
+	
+	watchID = navigator.geolocation.watchPosition(onSuccess, onError, options);
+	
+	function onSuccess(position) {
+	
+	var userLatitude = position.coords.latitude;
+    var userLongitude = position.coords.longitude;
+	var userAccuracy = position.coords.accuracy;
+	
+	window.sessionStorage.setItem("userLatitude", userLatitude);
+	window.sessionStorage.setItem("userLongitude", userLongitude);
+	window.sessionStorage.setItem("userAccuracy", userAccuracy);
+    }
+	
+	function onError(error) {
+		if(error.code==1){
+             // user said no!
+        }
+        if(error.code==2){
+             // position unavailable
+        }
+        if(error.code==3){
+              // timeout
+              watchID = navigator.geolocation.watchPosition(onSuccess, onError,{maximumAge: 1500, timeout: 20000, enableHighAccuracy : false});
+        }
+    }
 					
 	$("ul#lista_esercizi").html("");
 	$("#fieldsetOrdinamento").controlgroup("container").html("");
@@ -220,7 +249,7 @@
 	else
 	{
 	
-		if(window.sessionStorage.getItem("userLatitude") == null) {
+		if(window.sessionStorage.getItem("userLatitude") != null) {
 	
 			jsonSottocategorie = jsonSottocategorie.sort(function(a,b) { return parseFloat(a.distance) - parseFloat(b.distance) } );
 			
@@ -250,7 +279,7 @@
 		
 		//LISTA ESERCIZI
 		$.each(jsonSottocategorie, function(index, info) {
-			$("ul#lista_esercizi").append($("<li></li>",{"html":"<a href='#vetrinaMappa' class='esercizio' idEsercizio='" + info.idEsercizio + "' data-transition='slide' >" + info.nomeEsercizio +( window.sessionStorage.getItem("userLatitude") == null ? "<span class='ui-li-count'>"+ info.distance +"m</span>" : "" )+"</a>" }));
+			$("ul#lista_esercizi").append($("<li></li>",{"html":"<a href='#vetrinaMappa' class='esercizio' idEsercizio='" + info.idEsercizio + "' data-transition='slide' >" + info.nomeEsercizio +( window.sessionStorage.getItem("userLatitude") != null ? "<span class='ui-li-count'>"+ info.distance +"m</span>" : "" )+"</a>" }));
 		});
 		
 		$("ul#lista_esercizi").listview("refresh");
@@ -356,7 +385,7 @@
 	
 		$("ul#lista_esercizi").html("");
 		$.each(jsonOrdinamento, function(index, info) {
-			$("ul#lista_esercizi").append($("<li></li>",{"html":"<a href='#vetrinaMappa' class='esercizio' idEsercizio='" + info.idEsercizio + "' data-transition='slide' >" + info.nomeEsercizio + " <span class='ui-li-count'>"+info.distance+"m</span></a>" }));
+			$("ul#lista_esercizi").append($("<li></li>",{"html":"<a href='#vetrinaMappa' class='esercizio' idEsercizio='" + info.idEsercizio + "' data-transition='slide' >" + info.nomeEsercizio +( window.sessionStorage.getItem("userLatitude") != null ? "<span class='ui-li-count'>"+ info.distance +"m</span>" : "" )+"</a>" }));
 		});
 		
 		$("ul#lista_esercizi").listview("refresh");
@@ -366,7 +395,7 @@
 	else {
 		$("ul#lista_esercizi").html("");
 		$.each(jsonFiltro, function(index, info) {
-			$("ul#lista_esercizi").append($("<li></li>",{"html":"<a href='#vetrinaMappa' class='esercizio' idEsercizio='" + info.idEsercizio + "' data-transition='slide' >" + info.nomeEsercizio + " <span class='ui-li-count'>"+info.distance+"m</span></a>" }));
+			$("ul#lista_esercizi").append($("<li></li>",{"html":"<a href='#vetrinaMappa' class='esercizio' idEsercizio='" + info.idEsercizio + "' data-transition='slide' >" + info.nomeEsercizio +( window.sessionStorage.getItem("userLatitude") != null ? "<span class='ui-li-count'>"+ info.distance +"m</span>" : "" )+"</a>" }));
 		});
 		
 		$("ul#lista_esercizi").listview("refresh");
@@ -433,7 +462,7 @@
 		$("ul#lista_esercizi").html("");
 		
 		$.each(jsonFiltro, function(index, info) {
-			$("ul#lista_esercizi").append($("<li></li>",{"html":"<a href='#vetrinaMappa' class='esercizio' idEsercizio='" + info.idEsercizio + "' data-transition='slide' >" + info.nomeEsercizio + " <span class='ui-li-count'>"+info.distance+"m</span></a>" }));
+			$("ul#lista_esercizi").append($("<li></li>",{"html":"<a href='#vetrinaMappa' class='esercizio' idEsercizio='" + info.idEsercizio + "' data-transition='slide' >" + info.nomeEsercizio +( window.sessionStorage.getItem("userLatitude") != null ? "<span class='ui-li-count'>"+ info.distance +"m</span>" : "" )+"</a>" }));
 		});
 		
 		$("ul#lista_esercizi").listview("refresh");
@@ -444,7 +473,7 @@
 	$("ul#lista_esercizi").html("");
 	
 	$.each(jsonOrdinamento, function(index, info) {
-		$("ul#lista_esercizi").append($("<li></li>",{"html":"<a href='#vetrinaMappa' class='esercizio' idEsercizio='" + info.idEsercizio + "' data-transition='slide' >" + info.nomeEsercizio + " <span class='ui-li-count'>"+info.distance+"m</span></a>" }));
+		$("ul#lista_esercizi").append($("<li></li>",{"html":"<a href='#vetrinaMappa' class='esercizio' idEsercizio='" + info.idEsercizio + "' data-transition='slide' >" + info.nomeEsercizio +( window.sessionStorage.getItem("userLatitude") != null ? "<span class='ui-li-count'>"+ info.distance +"m</span>" : "" )+"</a>" }));
 	});
 
 	$("ul#lista_esercizi").listview("refresh");
