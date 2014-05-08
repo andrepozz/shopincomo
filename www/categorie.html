@@ -113,6 +113,17 @@
 	function onBackKeyDown(e) {
 	e.preventDefault();
 	}
+	
+	$.mobile.loading( "show", {
+        text: ""+window.localStorage.getItem("localizzando")+"",
+        textVisible: true,
+        theme: "b",
+        textonly: false
+	});
+	
+	setTimeout(function(){
+		$.mobile.loading( "hide" );
+	},2000);
 			
 	$("ul#lista_esercizi").html("");
 	$("#fieldsetOrdinamento").controlgroup("container").html("");
