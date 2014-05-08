@@ -70,18 +70,7 @@
 	$(document).on("click", 'a.categoria', function(){
 		idCategoria = $(this).attr('id');
 		jsonName = $(this).attr('jsonName');
-		
-	$.mobile.loading( "show", {
-        text: ""+window.localStorage.getItem("localizzando")+"",
-        textVisible: true,
-        theme: "b",
-        textonly: false
-	});
-	
-	setTimeout(function(){
-		$.mobile.loading( "hide" );
-	},2000);
-		
+				
 	});
 			
 	</script>
@@ -114,6 +103,13 @@
 	
 	$( "#esercizi" ).on( "pagebeforeshow", function() {
 	$("ul#lista_esercizi").html("");
+	
+	$.mobile.loading( "show", {
+        text: ""+window.localStorage.getItem("localizzando")+"",
+        textVisible: true,
+        theme: "b",
+        textonly: false
+	});
 		
 	});
 	
@@ -125,6 +121,10 @@
 	function onBackKeyDown(e) {
 	e.preventDefault();
 	}
+	
+	setTimeout(function(){
+		$.mobile.loading( "hide" );
+	},2000);
 				
 	$("ul#lista_esercizi").html("");
 	$("#fieldsetOrdinamento").controlgroup("container").html("");
