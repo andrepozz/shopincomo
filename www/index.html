@@ -186,6 +186,7 @@
 	// CHECK ESISTENZA CATEGORIE
 
 	function checkCategorie(fileSistemaMancanti){
+		alert("Sono entrato categorie");
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem) {
 			
 			fileSystem.root.getDirectory("ShopinComo/categorie", {create: true, exclusive: false}, function(dirEntry) {
