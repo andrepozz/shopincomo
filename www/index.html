@@ -651,10 +651,18 @@
 						
 								//MEMORIZZA PATH
 								var directory = dirEntry.fullPath;
-								var indexPath = directory.lastIndexOf("/");
-								var pathSD = directory.substr(7, indexPath-7);
-								pathSD = pathSD+"/ShopInComo";
-								window.localStorage.setItem('pathSD', pathSD);
+								
+								if (device.platform === "Android") {
+									var indexPath = directory.lastIndexOf("/");
+									var pathSD = directory.substr(7, indexPath-7);
+									pathSD = pathSD+"/ShopInComo";
+									window.localStorage.setItem('pathSD', pathSD);
+								}
+								
+								if (device.platform === "iOS") {
+									var pathSD = directory;
+									window.localStorage.setItem('pathSD', pathSD);
+								}
 								
 								$("li.categorie").html("<img class='iconaTipologia' src='img/downloadCategorie.png'> DOWNLOAD "+window.localStorage.getItem("categorie")+"");
 								$("li.categorie").css("color","white");
