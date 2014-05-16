@@ -147,13 +147,13 @@
 			
 				// Get a directory reader
 				var directoryReader = dirEntry.createReader();
-
+				
 				// Get a list of all the entries in the directory
 				directoryReader.readEntries(success,fail);
 				
 				function success(entries) {
 				
-					
+					alert("Sono nel check sistema");
 					var fileSistema = ["brandEsercizi.js","brand.js","categorie.js","nomeEsercizi.js","position.js","esercizi","categorie"];		
 					
 					var fileSistemaMancanti = [];					
@@ -194,7 +194,7 @@
 				directoryReader.readEntries(success,fail);
 				
 				function success(entries) {
-					
+					alert("Sono nel check categorie");
 					var path = window.localStorage.getItem("pathSD");
 					var jsonPath = path + "/categorie.js";
 					var fileCategorieMancanti = [];		
@@ -250,7 +250,7 @@
 				directoryReader.readEntries(success,fail);
 				
 				function success(entries) {
-					
+					alert("Sono nel check vetrine");
 					var path = window.localStorage.getItem("pathSD");
 					var jsonPath = path + "/nomeEsercizi.js";
 
@@ -303,6 +303,7 @@
 					var dataDownload = Date.parse(metadata.modificationTime) / 1000;
 					
 					localStorage.setItem("dataDownload", dataDownload );
+					alert("Sono nel check update");
 					
 					var urlJSON = "http://www.wificomo.com/ccn20/JSONidEserciziUpdate.php?language="+localStorage.getItem("codLingua")+"&dataDownload="+dataDownload;
 						
