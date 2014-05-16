@@ -76,14 +76,21 @@
 						urlCategorie,
 						localPath,
 						
-						function(entry) {
-								alert("directory "+directory);	
+						function(entry) {	
 								//MEMORIZZA PATH
 								var directory = dirEntry.fullPath;
-								var indexPath = directory.lastIndexOf("/");
-								var pathSD = directory.substr(7, indexPath-7);
-								pathSD = pathSD+"/ccn";
-								window.localStorage.setItem('pathSD', pathSD);
+								
+								if (device.platform === "Android") {
+									var indexPath = directory.lastIndexOf("/");
+									var pathSD = directory.substr(7, indexPath-7);
+									pathSD = pathSD+"/ShopInComo";
+									window.localStorage.setItem('pathSD', pathSD);
+								}
+								
+								if (device.platform === "iOS") {
+									var pathSD = directory;
+									window.localStorage.setItem('pathSD', pathSD);
+								}
 								
 								$("li.categorie").html("<img class='iconaTipologia' src='img/downloadCategorie.png'> DOWNLOAD categorie <img src='img/downloadok.png'>");
 								$("li.categorie").css("color","white");
