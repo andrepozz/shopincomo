@@ -156,10 +156,11 @@
 					alert("Sono nel check sistema");
 					console.log("Sono nel check sistema");
 					var fileSistema = ["brandEsercizi.js","brand.js","categorie.js","nomeEsercizi.js","position.js","esercizi","categorie"];		
-					
+					console.log("fileSistema" +fileSistema);
 					var fileSistemaMancanti = [];					
 					for (var i=0;i<fileSistema.length;i++) {
 					rv = false;
+					console.log("entries.length" +entries.length);
 					for (var j=0;j<entries.length;j++) {
 					rv = rv ||  fileSistema[i] == entries[j].name;
 					}
@@ -169,6 +170,7 @@
 					}
 					}
 					//alert("File sistema mancanti" +fileSistemaMancanti.length);
+					console.log("fileSistemaMancanti" +fileSistemaMancanti);
 					checkCategorie(fileSistemaMancanti);
 										
 				}
