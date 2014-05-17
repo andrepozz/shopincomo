@@ -2,6 +2,14 @@ a{
 text-decoration:none;
 }
 
+/* FOOTER NAVBAR */
+
+.footerNavbar #vetrina:after { background:  url("../img/vetrina.svg") 50% 50% no-repeat; background-size: 24px 22px; }
+.footerNavbar #contatti:after { background:  url("../img/vetrina.svg") 50% 50% no-repeat; background-size: 24px 16px;  }
+.footerNavbar #orari:after { background:  url("../img/vetrina.svg") 50% 50% no-repeat;  background-size: 12px 26px; }
+.footerNavbar #statistiche:after { background:  url("../img/vetrina.svg") 50% 50% no-repeat;  background-size: 22px 27px; }
+
+
 /* MAPPA */
 
 #map {
