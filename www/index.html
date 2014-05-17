@@ -184,8 +184,8 @@
 		alert("Sono entrato categorie");
 		var dirCat = "ShopinComo/categorie";
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem) {
-			
-			fileSystem.root.getDirectory("categorie", {create: false, exclusive: false}, function(dirEntry) {
+			alert("filesystem "+fileSystem.path);
+			fileSystem.root.getDirectory("ShopInComo", {create: true, exclusive: false}, function(dirEntry) {
 			alert("dirEntry "+dirEntry.name);
 			alert("dirEntry "+dirEntry.path);
 				// Get a directory reader
