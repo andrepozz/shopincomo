@@ -193,7 +193,6 @@
 				directoryReader.readEntries(success,fail);
 				
 				function success(entries) {
-					alert("Sono nel check categorie");
 					var path = window.localStorage.getItem("pathSD");
 					var jsonPath = path + "/categorie.js";
 					var fileCategorieMancanti = [];		
@@ -248,7 +247,6 @@
 				directoryReader.readEntries(success,fail);
 				
 				function success(entries) {
-					alert("Sono nel check vetrine");
 					var path = window.localStorage.getItem("pathSD");
 					var jsonPath = path + "/nomeEsercizi.js";
 
@@ -301,7 +299,6 @@
 					var dataDownload = Date.parse(metadata.modificationTime) / 1000;
 					
 					localStorage.setItem("dataDownload", dataDownload );
-					alert("Sono nel check update");
 					
 					var urlJSON = "http://www.wificomo.com/ccn20/JSONidEserciziUpdate.php?language="+localStorage.getItem("codLingua")+"&dataDownload="+dataDownload;
 						
