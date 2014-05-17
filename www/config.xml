@@ -37,7 +37,7 @@
 	<gap:plugin name="com.phonegap.plugins.barcodescanner" />
 	<gap:plugin name="org.apache.cordova.splashscreen" />
 	<gap:plugin name="com.phonegap.plugin.statusbar" />
-	<preference name="StatusBarOverlaysWebView" value="false" />
+	<preference name="StatusBarOverlaysWebView" value="true" />
 	<preference name="StatusBarBackgroundColor" value="#FFFFFF" />
 	<icon src="icon.png" />
     <icon gap:density="ldpi" gap:platform="android" src="res/icon/android/icon-36-ldpi.png" />
