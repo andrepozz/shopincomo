@@ -2,12 +2,7 @@ a{
 text-decoration:none;
 }
 
-/* FOOTER NAVBAR */
 
-.footerNavbar #vetrina:after { background:  url("../img/vetrina.svg") 50% 50% no-repeat; background-size: 30px 30px; }
-.footerNavbar #contatti:after { background:  url("../img/vetrina.svg") 50% 50% no-repeat; background-size: 30px 30px;  }
-.footerNavbar #orari:after { background:  url("../img/vetrina.svg") 50% 50% no-repeat;  background-size: 30px 30px; }
-.footerNavbar #statistiche:after { background:  url("../img/vetrina.svg") 50% 50% no-repeat;  background-size: 30px 30px; }
 
 
 /* MAPPA */
