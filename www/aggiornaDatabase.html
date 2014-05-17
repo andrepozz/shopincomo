@@ -60,8 +60,6 @@
 					var localPath = fileEntry.fullPath;
 						
 						
-					alert("localPath "+localPath);
-						
 					if (device.platform === "Android" && localPath.indexOf("file://") === 0) {
 						localPath = localPath.substring(7);
 					}
