@@ -58,7 +58,10 @@
 				dirEntry.getFile(fileNameCategorie, {create: true, exclusive: false}, function(fileEntry) {
 										
 					var localPath = fileEntry.fullPath;
-
+						
+						
+					alert("localPath "+localPath);
+						
 					if (device.platform === "Android" && localPath.indexOf("file://") === 0) {
 						localPath = localPath.substring(7);
 					}
@@ -70,6 +73,8 @@
 						function(entry) {
 						
 								//MEMORIZZA PATH
+								var directory = dirEntry.fullPath;
+								
 								if (device.platform === "Android") {
 									var indexPath = directory.lastIndexOf("/");
 									var pathSD = directory.substr(7, indexPath-7);
