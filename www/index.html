@@ -220,7 +220,7 @@
 					}
 					}
 					//eserciziUpdate(fileCategorieMancanti);
-					//alert("Categorie Mancanti" +fileCategorieMancanti.length);
+					alert("Categorie Mancanti" +fileCategorieMancanti.length);
 					checkVetrine(fileSistemaMancanti, fileCategorieMancanti);
 					//window.sessionStorage.setItem("fileEserciziMancanti", JSON.stringify(fileEserciziMancanti));
 					});
@@ -228,7 +228,6 @@
 				}
 
 				function fail(error) {
-					alert("ho fallito categorie");
 					console.log("Failed to list directory contents: " + error.code);
 				}
 			
@@ -277,6 +276,7 @@
 					fileEserciziMancanti.push(idEsercizi[i].idEsercizio);
 					}
 					}
+					alert("File esercizi mancanti " +fileEserciziMancanti.length);
 					eserciziUpdate(fileSistemaMancanti, fileCategorieMancanti, fileEserciziMancanti);
 					window.sessionStorage.setItem("fileEserciziMancanti", JSON.stringify(fileEserciziMancanti));
 					});
@@ -316,7 +316,7 @@
 							timeout: 15000
 						}).done(function(response){
 							if (response.length == 0 && fileEserciziMancanti.length == 0 && fileSistemaMancanti.length == 0 && fileCategorieMancanti.length == 0) {
-								//alert("NO aggiornamenti disponibili");
+								alert("NO aggiornamenti disponibili");
 								//$("p.countUpdates").html(""+window.localStorage.getItem("statusDatabase")+"");
 								$.mobile.loading( "hide" );
 							}
