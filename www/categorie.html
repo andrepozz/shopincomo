@@ -901,10 +901,15 @@
 	});
 	// END OF PAGESHOW
 
-// CLICK DIRECTIONS GOOGLE
+// CLICK DIRECTIONS
 	$(document).on("click", 'a.directions', function(){
 		geoPosition = $(this).attr('geoPosition');
-		directions(geoPosition);
+		if (device.platform === "Android") {
+			directions(geoPosition);
+		}
+		if (device.platform === "iOS") {
+			window.location.href = "maps:q="+geoPosition+"";
+		}
 	});
 	
 // CLICK TRANSLATE GOOGLE
