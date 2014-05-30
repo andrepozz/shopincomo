@@ -83,6 +83,7 @@
 	
 	function onSuccess(position) {
 	alert("Success");
+	alert(position.coords.latitude);
 	var userLatitude = position.coords.latitude;
     var userLongitude = position.coords.longitude;
 	var userAccuracy = position.coords.accuracy;
@@ -135,7 +136,7 @@
 	if (connectionStatus == "online" && window.sessionStorage.getItem("doneCheckUpdates") != "si")
 	{
 		
-		timeoutUpdate();
+		//timeoutUpdate();
 		
 		$.mobile.loading( "show", {
             text: "Check Updates",
@@ -354,10 +355,10 @@
 			
 		}); // end of window.requestFileSystem
 		
-		}
-		
 		var doneCheckUpdates = "si"
 		window.sessionStorage.setItem("doneCheckUpdates", doneCheckUpdates);
+		}
+		
 	} //END OFFLINE
 	else{
 		$.mobile.loading( "hide" );	
