@@ -81,7 +81,7 @@
 	}
 	
 	function onSuccess(position) {
-	
+	alert("Success");
 	var userLatitude = position.coords.latitude;
     var userLongitude = position.coords.longitude;
 	var userAccuracy = position.coords.accuracy;
@@ -354,10 +354,14 @@
 		}); // end of window.requestFileSystem
 		
 		}
+		
+		var doneCheckUpdates = "si"
+		window.sessionStorage.setItem("doneCheckUpdates", doneCheckUpdates);
+	} //END OFFLINE
+	else{
+		$.mobile.loading( "hide" );	
 	}
-	var doneCheckUpdates = "si"
-	window.sessionStorage.setItem("doneCheckUpdates", doneCheckUpdates);
-	
+
 	}
 	//FINE CHECK UPDATES
 	
