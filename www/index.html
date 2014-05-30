@@ -93,7 +93,10 @@
 	var	connectionStatus = navigator.onLine ? 'online' : 'offline';
 	if (connectionStatus == "online" && window.sessionStorage.getItem("doneCheckUpdates") != "si")
 	{
-	checkUpdates();
+		checkUpdates();
+	}
+	else{
+		$.mobile.loading( "hide" );
 	}
     }
 	
@@ -139,7 +142,7 @@
 	if (connectionStatus == "online" && window.sessionStorage.getItem("doneCheckUpdates") != "si")
 	{
 		
-		//timeoutUpdate();
+		timeoutUpdate();
 		
 		$.mobile.loading( "show", {
             text: "Check Updates",
