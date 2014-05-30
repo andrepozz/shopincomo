@@ -67,7 +67,8 @@
 	var watchID = null;
 	var options = { maximumAge: 1500, timeout: 10000, enableHighAccuracy: false };
 	
-	watchID = navigator.geolocation.watchPosition(onSuccess, onError, options);
+	//watchID = navigator.geolocation.watchPosition(onSuccess, onError, options);
+	navigator.geolocation.getCurrentPosition(onSuccess, onError, options);
 	
 	if(window.sessionStorage.getItem("userLatitude") == null)
 	{
