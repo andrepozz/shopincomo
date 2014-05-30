@@ -65,11 +65,10 @@
 	
 	//CHECK GEOLOCATION
 	var watchID = null;
-	var options = { maximumAge: 1500, timeout: 10000, enableHighAccuracy: false };
+	var options = { maximumAge: 1500, timeout: 10000, enableHighAccuracy: true };
 	
 	//watchID = navigator.geolocation.watchPosition(onSuccess, onError, options);
 	navigator.geolocation.getCurrentPosition(onSuccess, onError, options);
-	
 	if(window.sessionStorage.getItem("userLatitude") == null)
 	{
 	
@@ -82,8 +81,8 @@
 	}
 	
 	function onSuccess(position) {
-	alert("Success");
 	alert(position.coords.latitude);
+	alert(position.coords.longitude);
 	var userLatitude = position.coords.latitude;
     var userLongitude = position.coords.longitude;
 	var userAccuracy = position.coords.accuracy;
@@ -91,17 +90,21 @@
 	window.sessionStorage.setItem("userLatitude", userLatitude);
 	window.sessionStorage.setItem("userLongitude", userLongitude);
 	window.sessionStorage.setItem("userAccuracy", userAccuracy);
+	var	connectionStatus = navigator.onLine ? 'online' : 'offline';
+	if (connectionStatus == "online" && window.sessionStorage.getItem("doneCheckUpdates") != "si")
+	{
 	checkUpdates();
+	}
     }
 	
 	function onError(error) {
-		alert("Geolocation Error");
+		console.log("Geolocation Error");
     	watchID = navigator.geolocation.watchPosition(onSuccess, onErrorTimeout,{maximumAge: 1500, timeout: 20000, enableHighAccuracy : false});
     }
 	
 	function onErrorTimeout(error) {
 		
-		alert("Geolocation Error Timeout");
+		console.log("Geolocation Error Timeout");
 		alert("Non è stato possibile localizzarti. La tua posizione verra impostata di default al centro di como");
 		var userLatitude = "45.80806";
 	    var userLongitude = "9.08518";
@@ -355,15 +358,11 @@
 			
 		}); // end of window.requestFileSystem
 		
-		var doneCheckUpdates = "si"
-		window.sessionStorage.setItem("doneCheckUpdates", doneCheckUpdates);
 		}
-		
-	} //END OFFLINE
-	else{
-		$.mobile.loading( "hide" );	
 	}
-
+	var doneCheckUpdates = "si"
+	window.sessionStorage.setItem("doneCheckUpdates", doneCheckUpdates);
+	
 	}
 	//FINE CHECK UPDATES
 	
