@@ -93,13 +93,13 @@
     }
 	
 	function onError(error) {
-		console.log("Geolocation Error");
+		alert("Geolocation Error");
     	watchID = navigator.geolocation.watchPosition(onSuccess, onErrorTimeout,{maximumAge: 1500, timeout: 20000, enableHighAccuracy : false});
     }
 	
 	function onErrorTimeout(error) {
 		
-		console.log("Geolocation Error Timeout");
+		alert("Geolocation Error Timeout");
 		alert("Non è stato possibile localizzarti. La tua posizione verra impostata di default al centro di como");
 		var userLatitude = "45.80806";
 	    var userLongitude = "9.08518";
