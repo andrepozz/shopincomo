@@ -73,16 +73,16 @@
 		if (device.platform === "iOS") {
 			watchID = navigator.geolocation.watchPosition(onSuccess, onError, options);
 		}
+		
+		if (device.platform === "Android") {
+
+		navigator.geolocation.getCurrentPosition(onSuccess, onError, options);
+		
+		}
 			
 	}, false);
 	
-	if (device.platform === "Android") {
-	
-	navigator.geolocation.getCurrentPosition(onSuccess, onError, options);
-		
-	}
-	
-	
+
 	if(window.sessionStorage.getItem("userLatitude") == null)
 	{
 	
@@ -115,17 +115,8 @@
 	
 	function onError(error) {
 		
-		if (device.platform === "Android") {
-	
 		navigator.geolocation.getCurrentPosition(onSuccess, onErrorTimeout,{maximumAge: 1500, timeout: 20000, enableHighAccuracy : false});
 		
-		}
-		
-		if (device.platform === "iOS") {
-    	
-		watchID = navigator.geolocation.watchPosition(onSuccess, onErrorTimeout,{maximumAge: 1500, timeout: 20000, enableHighAccuracy : false});
-		
-		}
     }
 	
 	function onErrorTimeout(error) {
