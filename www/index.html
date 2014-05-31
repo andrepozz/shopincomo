@@ -64,11 +64,25 @@
 	{
 	
 	//CHECK GEOLOCATION
+	
 	var watchID = null;
 	var options = { maximumAge: 1500, timeout: 10000, enableHighAccuracy: true };
 	
-	//watchID = navigator.geolocation.watchPosition(onSuccess, onError, options);
+	document.addEventListener("deviceready", function(){
+		
+		if (device.platform === "iOS") {
+			watchID = navigator.geolocation.watchPosition(onSuccess, onError, options);
+		}
+			
+	}, false);
+	
+	if (device.platform === "Android") {
+	
 	navigator.geolocation.getCurrentPosition(onSuccess, onError, options);
+		
+	}
+	
+	
 	if(window.sessionStorage.getItem("userLatitude") == null)
 	{
 	
@@ -78,11 +92,10 @@
             theme: "b",
             textonly: false
 	});
+	
 	}
 	
 	function onSuccess(position) {
-	alert(position.coords.latitude);
-	alert(position.coords.longitude);
 	var userLatitude = position.coords.latitude;
     var userLongitude = position.coords.longitude;
 	var userAccuracy = position.coords.accuracy;
@@ -101,21 +114,38 @@
     }
 	
 	function onError(error) {
-		console.log("Geolocation Error");
-    	watchID = navigator.geolocation.watchPosition(onSuccess, onErrorTimeout,{maximumAge: 1500, timeout: 20000, enableHighAccuracy : false});
+		
+		if (device.platform === "Android") {
+	
+		navigator.geolocation.getCurrentPosition(onSuccess, onErrorTimeout,{maximumAge: 1500, timeout: 20000, enableHighAccuracy : false});
+		
+		}
+		
+		if (device.platform === "iOS") {
+    	
+		watchID = navigator.geolocation.watchPosition(onSuccess, onErrorTimeout,{maximumAge: 1500, timeout: 20000, enableHighAccuracy : false});
+		
+		}
     }
 	
 	function onErrorTimeout(error) {
 		
 		console.log("Geolocation Error Timeout");
-		alert("Non è stato possibile localizzarti. La tua posizione verra impostata di default al centro di como");
+		alert(""+window.localStorage.getItem("noLocalizzazione")+"");
 		var userLatitude = "45.80806";
 	    var userLongitude = "9.08518";
 		var userAccuracy = "0";
 	
 		window.sessionStorage.setItem("userLatitude", userLatitude);
 		window.sessionStorage.setItem("userLongitude", userLongitude);
-		window.sessionStorage.setItem("userAccuracy", userAccuracy);	
+		window.sessionStorage.setItem("userAccuracy", userAccuracy);
+		if (connectionStatus == "online" && window.sessionStorage.getItem("doneCheckUpdates") != "si")
+		{
+			checkUpdates();
+		}
+		else{
+			$.mobile.loading( "hide" );
+		}
     }
 	
 	// SET MENU
@@ -508,6 +538,7 @@
 	window.localStorage.setItem("attendere", lingue[lingua].attendere);
 	window.localStorage.setItem("continua", lingue[lingua].continua);
 	window.localStorage.setItem("localizzando", lingue[lingua].localizzando);
+	window.localStorage.setItem("noLocalizzazione", lingue[lingua].noLocalizzazione);
 	window.localStorage.setItem("salta", lingue[lingua].salta);
 	window.localStorage.setItem("chiudi", lingue[lingua].chiudi);
 	window.localStorage.setItem("vota", lingue[lingua].vota);
