@@ -130,6 +130,7 @@
 		window.sessionStorage.setItem("userLatitude", userLatitude);
 		window.sessionStorage.setItem("userLongitude", userLongitude);
 		window.sessionStorage.setItem("userAccuracy", userAccuracy);
+		var	connectionStatus = navigator.onLine ? 'online' : 'offline';
 		if (connectionStatus == "online" && window.sessionStorage.getItem("doneCheckUpdates") != "si")
 		{
 			checkUpdates();
