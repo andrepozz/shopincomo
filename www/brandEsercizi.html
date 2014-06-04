@@ -774,8 +774,8 @@
 	{
 		method: 'feed',
 		name: $("h3.nomeEsercizio").html(),
-		link: 'http://www.wificomo.com/it/node/'+idEsercizio,
-		picture: 'http://www.wificomo.com/imgs/logoShopincomo.jpg',
+		link: 'http://shopincomo.comune.como.it/it/node/'+idEsercizio,
+		picture: 'http://shopincomo.comune.como.it/imgs/logoShopincomo.jpg',
 		caption: 'Shopincomo',
 		description: descrizioneFacebook
 	},
@@ -783,7 +783,7 @@
 		if (response) {
 			$.ajax({
 				type: 'POST',
-				url: 'http://www.wificomo.com/ccn20/votiSocial.php',
+				url: 'http://shopincomo.comune.como.it/ccn20/votiSocial.php',
 				data: { idNegozio: idEsercizio, socialNetwork: 'Facebook', nomeNegozio: $("h3.nomeEsercizio").html(), latitude: latitudeFacebook, longitude: longitudeFacebook}
 				}).done(function( msg ) {
 				//alert(window.localStorage.getItem("postPubblicato"));
@@ -838,7 +838,7 @@
 		$.post(urlFoursquare, function() {
 		    $.ajax({
 				type: 'POST',
-				url: 'http://www.wificomo.com/ccn20/votiSocial.php',
+				url: 'http://shopincomo.comune.como.it/ccn20/votiSocial.php',
 				data: { idNegozio: idEsercizio, socialNetwork: 'Foursquare', nomeNegozio: $("h3.nomeEsercizio").html(), latitude: latitudeFoursquare, longitude: longitudeFoursquare}
 				}).done(function( msg ) {
 				alert(window.localStorage.getItem("checkinPubblicato"));
@@ -853,12 +853,12 @@
 		idEsercizio = $("h3.nomeEsercizio").attr('idEsercizio');
 		latitudeTwitter = window.sessionStorage.getItem("userLatitude");
 		longitudeTwitter = window.sessionStorage.getItem("userLongitude");
-		urlEsercizio = "http://www.wificomo.com/it/node/"+idEsercizio;
+		urlEsercizio = "http://shopincomo.comune.como.it/it/node/"+idEsercizio;
 		nomeEsercizio = $("h3.nomeEsercizio").html();
 		
 		var tokenTwitter = window.localStorage.getItem("twitterToken");		
 		var tokenTwitterSecret = window.localStorage.getItem("twitterVerifier");			
-		var urlTwitter = 'http://www.wificomo.com/twitter/votaTwitter.php';
+		var urlTwitter = 'http://shopincomo.comune.como.it/twitter/votaTwitter.php';
 		var tweet = "#ShopInComo @ "+nomeEsercizio.substr(0, 50)+" "+urlEsercizio;
 
 		 // fire off the request to /form.php
@@ -872,7 +872,7 @@
     request.done(function (response){
         	$.ajax({
 				type: 'POST',
-				url: 'http://www.wificomo.com/ccn20/votiSocial.php',
+				url: 'http://shopincomo.comune.como.it/ccn20/votiSocial.php',
 				data: { idNegozio: idEsercizio, socialNetwork: 'Twitter', nomeNegozio: $("h3.nomeEsercizio").html(), latitude: latitudeTwitter, longitude: longitudeTwitter}
 				}).done(function( msg ) {
 				alert(window.localStorage.getItem("tweetPubblicato"));
@@ -1211,7 +1211,7 @@
 
 			$(document).ready(function() {
 		
-			$.getJSON("http://www.wificomo.com/ccn20/JSONbarchart.php", {idNegozio: idEsercizio}, function( json ) {
+			$.getJSON("http://shopincomo.comune.como.it/ccn20/JSONbarchart.php", {idNegozio: idEsercizio}, function( json ) {
 				
 				$.mobile.loading( "hide" );
 				

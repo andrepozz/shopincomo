@@ -155,14 +155,14 @@
 		
 		if(twitterToken == null) {
 			
-			var ref = window.open('http://www.wificomo.com/twitter/twitterConnect.php', '_blank', 'location=no');
+			var ref = window.open('http://shopincomo.comune.como.it/twitter/twitterConnect.php', '_blank', 'location=no');
 			ref.addEventListener('loadstart', function(event) {
 			closeTwitter(event.url,ref);
 			});  
 	
 			function closeTwitter(loc,ref) {
    
-				if (loc.indexOf("www.wificomo.com/twitter/twitterTokens.php?") > -1){
+				if (loc.indexOf("shopincomo.comune.como.it/twitter/twitterTokens.php?") > -1){
 				var twitterToken = loc.substring(loc.indexOf("oauth_token=")+12, loc.indexOf("&"));
 				var twitterVerifier = loc.substring(loc.indexOf("oauth_verifier=")+15, loc.indexOf("&t"));
 				var twitterName = loc.substring(loc.indexOf("twitterName=")+12);
@@ -205,7 +205,7 @@
 			tokenFoursquare = window.localStorage.getItem("tokenFoursquare");
 			if(tokenFoursquare == null) {
 			
-				var ref = window.open('https://foursquare.com/oauth2/authenticate?client_id=OEAMDK1KRKXV2ZMYSFC5GMV3WZRPNSXDPHTGOUHFKPQLQ0VH&response_type=token&redirect_uri=http://www.wificomo.com/ccn20/closeFoursquare.html', '_blank', 'location=no');
+				var ref = window.open('https://foursquare.com/oauth2/authenticate?client_id=OEAMDK1KRKXV2ZMYSFC5GMV3WZRPNSXDPHTGOUHFKPQLQ0VH&response_type=token&redirect_uri=http://shopincomo.comune.como.it/ccn20/closeFoursquare.html', '_blank', 'location=no');
 				ref.addEventListener('loadstart', function(event) {
 				closeFoursquare(event.url,ref);
 				}); 
@@ -218,7 +218,7 @@
 		
 			function closeFoursquare(loc,ref) {
    
-			if (loc.indexOf("www.wificomo.com/ccn20/closeFoursquare.html#") > -1){
+			if (loc.indexOf("shopincomo.comune.como.it/ccn20/closeFoursquare.html#") > -1){
 			var tokenFoursquare = loc.substring(loc.indexOf("=")+1);
 			window.localStorage.setItem("tokenFoursquare", tokenFoursquare);
 			
@@ -528,7 +528,7 @@
 	var idLingua = window.localStorage.getItem("idLingua");
 	var codLingua = window.localStorage.getItem("codLingua");
 	
-	var urlCategorie = encodeURI("http://www.wificomo.com/ccn20/JSONcategorie.php?language="+codLingua+"");	
+	var urlCategorie = encodeURI("http://shopincomo.comune.como.it/ccn20/JSONcategorie.php?language="+codLingua+"");	
 	var fileNameCategorie = "categorie.js";
 	
 		var fileTransfer = new FileTransfer();
@@ -606,7 +606,7 @@
 		
 			$.each(data, function(index, info) {
 			
-			var urlSottocategorie = encodeURI("http://www.wificomo.com/ccn20/JSONsottocategorieNegozi.php?idCategoria="+info.idCategoria+"&language="+codLingua+"");	
+			var urlSottocategorie = encodeURI("http://shopincomo.comune.como.it/ccn20/JSONsottocategorieNegozi.php?idCategoria="+info.idCategoria+"&language="+codLingua+"");	
 			var fileNameSottocategorie = info.jsonName+".js";
 			var directory = "ShopInComo/categorie";
 			
@@ -618,7 +618,7 @@
 	
 	//JSON RICERCA PER NOME
 	
-	var urlnomeEsercizi = encodeURI("http://www.wificomo.com/ccn20/JSONnomeEsercizi.php");	
+	var urlnomeEsercizi = encodeURI("http://shopincomo.comune.como.it/ccn20/JSONnomeEsercizi.php");	
 	var fileNamenomeEsercizi = "nomeEsercizi.js";
 	var directory = "ShopInComo";
 	var pClass = ""+window.localStorage.getItem("nomiEsercizi")+"";
@@ -628,7 +628,7 @@
 	
 	//JSON BRAND ESERCIZI
 	
-	var urlbrandEsercizi = encodeURI("http://www.wificomo.com/ccn20/JSONbrandEsercizi.php");
+	var urlbrandEsercizi = encodeURI("http://shopincomo.comune.como.it/ccn20/JSONbrandEsercizi.php");
 	var fileNamebrandEsercizi = "brandEsercizi.js";
 	var directory = "ShopInComo";
 	var pClass = ""+window.localStorage.getItem("brandEsercizi")+"";
@@ -638,7 +638,7 @@
 	
 	//JSON RICERCA PER BRAND
 	
-	var urlbrand = encodeURI("http://www.wificomo.com/ccn20/JSONbrand.php");
+	var urlbrand = encodeURI("http://shopincomo.comune.como.it/ccn20/JSONbrand.php");
 	var fileNamebrand = "brand.js";
 	var directory = "ShopInComo";
 	var pClass = "brand";
@@ -648,7 +648,7 @@
 	
 	//JSON POSITION
 	
-	var urlposition = encodeURI("http://www.wificomo.com/ccn20/JSONposition.php");
+	var urlposition = encodeURI("http://shopincomo.comune.como.it/ccn20/JSONposition.php");
 	var filePosition = "position.js";
 	var directory = "ShopInComo";
 	var pClass = ""+window.localStorage.getItem("position")+"";
@@ -675,6 +675,7 @@
 					if (device.platform === "Android" && localPath.indexOf("file://") === 0) {
 							localPath = localPath.substring(7);
 					}
+					
 					
 					fileTransfer.download(
 						fileURL,
@@ -826,7 +827,7 @@
 	$("h3.titoloDownloadEsercizi").html(window.localStorage.getItem("downloadEsercizi"));
 	
 	$.ajax({
-		url: "http://www.wificomo.com/ccn20/JSONidEsercizi.php?start=0&end=2000",
+		url: "http://shopincomo.comune.como.it/ccn20/JSONidEsercizi.php?start=0&end=2000",
 		dataType: 'json',
 		success: function(data) {
 		
@@ -854,7 +855,7 @@
 	var start = window.sessionStorage.getItem('start');
 	
 	$.ajax({	
-		url: "http://www.wificomo.com/ccn20/JSONidEsercizi.php?start="+start+"&end=50",
+		url: "http://shopincomo.comune.como.it/ccn20/JSONidEsercizi.php?start="+start+"&end=50",
 		dataType: 'json',
 		success: function(data) {
 		
@@ -862,7 +863,7 @@
 		
 			$.each(data, function(index, info) {
 		
-			var urlEsercizi = encodeURI("http://www.wificomo.com/ccn20/JSONvetrinaEsercizio.php?language="+codLingua+"&idEsercizio="+info.idEsercizio+"");	
+			var urlEsercizi = encodeURI("http://shopincomo.comune.como.it/ccn20/JSONvetrinaEsercizio.php?language="+codLingua+"&idEsercizio="+info.idEsercizio+"");	
 			var fileNameEsercizi = info.idEsercizio+".js";	
 			var directoryEsercizi = "ShopInComo/esercizi";
 		
@@ -1194,7 +1195,7 @@
 					
 					localStorage.setItem("dataDownload", dataDownload );
 					
-					var urlJSON = "http://www.wificomo.com/ccn20/JSONidEserciziUpdate.php?language="+localStorage.getItem("codLingua")+"&dataDownload="+dataDownload;
+					var urlJSON = "http://shopincomo.comune.como.it/ccn20/JSONidEserciziUpdate.php?language="+localStorage.getItem("codLingua")+"&dataDownload="+dataDownload;
 
 						$.getJSON(urlJSON, function( data ) {
 							if (data.length == 0 && fileEserciziMancanti.length == 0 && fileSistemaMancanti.length == 0 && fileCategorieMancanti.length == 0) {

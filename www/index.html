@@ -334,10 +334,10 @@
 					
 					localStorage.setItem("dataDownload", dataDownload );
 					
-					var urlJSON = "http://www.wificomo.com/ccn20/JSONidEserciziUpdate.php?language="+localStorage.getItem("codLingua")+"&dataDownload="+dataDownload;
+					var urlJSON = "http://shopincomo.comune.como.it/ccn20/JSONidEserciziUpdate.php?language="+localStorage.getItem("codLingua")+"&dataDownload="+dataDownload;
 						
 						$.ajax({
-							url: "http://www.wificomo.com/ccn20/JSONidEserciziUpdate.php",
+							url: "http://shopincomo.comune.como.it/ccn20/JSONidEserciziUpdate.php",
 							type: "GET",
 							dataType: "json",
 							data: {language: localStorage.getItem("codLingua"), dataDownload: dataDownload},
@@ -657,7 +657,7 @@
 	$("ul.downloadList").append($('<li class="categorie"><img class="iconaTipologia" src="img/downloadCategorie.png"> DOWNLOAD '+window.localStorage.getItem("categorie")+'...<img src="img/download.gif"></li>'));
 	$("ul.downloadList").append($('<li class="sottocategorie"><img class="iconaTipologia" src="img/downloadSottocategorie.png"> DOWNLOAD '+window.localStorage.getItem("sottoCategorie")+'...<img src="img/download.gif"></li>'));
 	
-	var urlCategorie = encodeURI("http://www.wificomo.com/ccn20/JSONcategorie.php?language="+codLingua+"");	
+	var urlCategorie = encodeURI("http://shopincomo.comune.como.it/ccn20/JSONcategorie.php?language="+codLingua+"");	
 	var fileNameCategorie = "categorie.js";
 		
 		var fileTransfer = new FileTransfer();
@@ -735,7 +735,7 @@
 		
 			$.each(data, function(index, info) {
 			
-			var urlSottocategorie = encodeURI("http://www.wificomo.com/ccn20/JSONsottocategorieNegozi.php?idCategoria="+info.idCategoria+"&language="+codLingua+"");	
+			var urlSottocategorie = encodeURI("http://shopincomo.comune.como.it/ccn20/JSONsottocategorieNegozi.php?idCategoria="+info.idCategoria+"&language="+codLingua+"");	
 			var fileNameSottocategorie = info.jsonName+".js";
 			var directory = "ShopInComo/categorie";
 			
@@ -747,7 +747,7 @@
 	
 	//JSON RICERCA PER NOME
 	
-	var urlnomeEsercizi = encodeURI("http://www.wificomo.com/ccn20/JSONnomeEsercizi.php");	
+	var urlnomeEsercizi = encodeURI("http://shopincomo.comune.como.it/ccn20/JSONnomeEsercizi.php");	
 	var fileNamenomeEsercizi = "nomeEsercizi.js";
 	var directory = "ShopInComo";
 	var pClass = ""+window.localStorage.getItem("nomiEsercizi")+"";
@@ -757,7 +757,7 @@
 	
 	//JSON BRAND ESERCIZI
 	
-	var urlbrandEsercizi = encodeURI("http://www.wificomo.com/ccn20/JSONbrandEsercizi.php");
+	var urlbrandEsercizi = encodeURI("http://shopincomo.comune.como.it/ccn20/JSONbrandEsercizi.php");
 	var fileNamebrandEsercizi = "brandEsercizi.js";
 	var directory = "ShopInComo";
 	var pClass = ""+window.localStorage.getItem("brandEsercizi")+"";
@@ -767,7 +767,7 @@
 	
 	//JSON RICERCA PER BRAND
 	
-	var urlbrand = encodeURI("http://www.wificomo.com/ccn20/JSONbrand.php");
+	var urlbrand = encodeURI("http://shopincomo.comune.como.it/ccn20/JSONbrand.php");
 	var fileNamebrand = "brand.js";
 	var directory = "ShopInComo";
 	var pClass = "brand";
@@ -777,7 +777,7 @@
 	
 	//JSON POSITION
 	
-	var urlposition = encodeURI("http://www.wificomo.com/ccn20/JSONposition.php");
+	var urlposition = encodeURI("http://shopincomo.comune.como.it/ccn20/JSONposition.php");
 	var filePosition = "position.js";
 	var directory = "ShopInComo";
 	var pClass = ""+window.localStorage.getItem("position")+"";
@@ -788,7 +788,7 @@
 	/*
 	//JSON DISTANCE
 	
-	var urldistance = encodeURI("http://www.wificomo.com/ccn20/JSONdistance.php");
+	var urldistance = encodeURI("http://shopincomo.comune.como.it/ccn20/JSONdistance.php");
 	var fileDistance = "distance.js";
 	var directory = "ccn";
 	var pClass = "distance";
@@ -966,7 +966,7 @@
 	$("h3.titoloDownloadEsercizi").html(window.localStorage.getItem("downloadEsercizi"));
 	
 	$.ajax({
-		url: "http://www.wificomo.com/ccn20/JSONidEsercizi.php?start=0&end=2000",
+		url: "http://shopincomo.comune.como.it/ccn20/JSONidEsercizi.php?start=0&end=2000",
 		dataType: 'json',
 		success: function(data) {
 		
@@ -994,7 +994,7 @@
 	var start = window.sessionStorage.getItem('start');
 	
 	$.ajax({	
-		url: "http://www.wificomo.com/ccn20/JSONidEsercizi.php?start="+start+"&end=50",
+		url: "http://shopincomo.comune.como.it/ccn20/JSONidEsercizi.php?start="+start+"&end=50",
 		dataType: 'json',
 		success: function(data) {
 		
@@ -1002,7 +1002,7 @@
 		
 			$.each(data, function(index, info) {
 		
-			var urlEsercizi = encodeURI("http://www.wificomo.com/ccn20/JSONvetrinaEsercizio.php?language="+codLingua+"&idEsercizio="+info.idEsercizio+"");	
+			var urlEsercizi = encodeURI("http://shopincomo.comune.como.it/ccn20/JSONvetrinaEsercizio.php?language="+codLingua+"&idEsercizio="+info.idEsercizio+"");	
 			var fileNameEsercizi = info.idEsercizio+".js";	
 			var directoryEsercizi = "ShopInComo/esercizi";
 		
@@ -1302,7 +1302,7 @@
 	
 	$(document).on("click", 'a.foursquare', function(){
 	
-	var ref = window.open('https://foursquare.com/oauth2/authenticate?client_id=OEAMDK1KRKXV2ZMYSFC5GMV3WZRPNSXDPHTGOUHFKPQLQ0VH&response_type=token&redirect_uri=http://www.wificomo.com/ccn20/closeFoursquare.html', '_blank', 'location=no');
+	var ref = window.open('https://foursquare.com/oauth2/authenticate?client_id=OEAMDK1KRKXV2ZMYSFC5GMV3WZRPNSXDPHTGOUHFKPQLQ0VH&response_type=token&redirect_uri=http://shopincomo.comune.como.it/ccn20/closeFoursquare.html', '_blank', 'location=no');
 	
 	ref.addEventListener('loadstart', function(event) {
     closeFoursquare(event.url,ref);
@@ -1310,7 +1310,7 @@
 	
 	function closeFoursquare(loc,ref) {
    
-		if (loc.indexOf("www.wificomo.com/ccn20/closeFoursquare.html#") > -1){
+		if (loc.indexOf("shopincomo.comune.como.it/ccn20/closeFoursquare.html#") > -1){
 		var tokenFoursquare = loc.substring(loc.indexOf("=")+1);
 		window.localStorage.setItem("tokenFoursquare", tokenFoursquare);
 		
@@ -1417,7 +1417,7 @@
 	
 	$(document).on("click", 'a.twitter', function(){
 	
-	var ref = window.open('http://www.wificomo.com/twitter/twitterConnect.php', '_blank', 'location=no');
+	var ref = window.open('http://shopincomo.comune.como.it/twitter/twitterConnect.php', '_blank', 'location=no');
 		
 		ref.addEventListener('loadstart', function(event) {
         closeTwitter(event.url,ref);
@@ -1425,7 +1425,7 @@
 	
 	function closeTwitter(loc,ref) {
    
-		if (loc.indexOf("www.wificomo.com/twitter/twitterTokens.php?") > -1){
+		if (loc.indexOf("shopincomo.comune.como.it/twitter/twitterTokens.php?") > -1){
 		
 		var twitterToken = loc.substring(loc.indexOf("oauth_token=")+12, loc.indexOf("&"));
 		var twitterVerifier = loc.substring(loc.indexOf("oauth_verifier=")+15, loc.indexOf("&t"));
@@ -1872,8 +1872,8 @@
 	{
 		method: 'feed',
 		name: $("h3.nomeEsercizio").html(),
-		link: 'http://www.wificomo.com/it/node/'+idEsercizio,
-		picture: 'http://www.wificomo.com/imgs/logoShopincomo.jpg',
+		link: 'http://shopincomo.comune.como.it/it/node/'+idEsercizio,
+		picture: 'http://shopincomo.comune.como.it/imgs/logoShopincomo.jpg',
 		caption: 'Shopincomo',
 		description: descrizioneFacebook
 	},
@@ -1881,7 +1881,7 @@
 		if (response) {
 			$.ajax({
 				type: 'POST',
-				url: 'http://www.wificomo.com/ccn20/votiSocial.php',
+				url: 'http://shopincomo.comune.como.it/ccn20/votiSocial.php',
 				data: { idNegozio: idEsercizio, socialNetwork: 'Facebook', nomeNegozio: $("h3.nomeEsercizio").html(), latitude: latitudeFacebook, longitude: longitudeFacebook}
 				}).done(function( msg ) {
 				//alert(window.localStorage.getItem("postPubblicato"));
@@ -1936,7 +1936,7 @@
 		$.post(urlFoursquare, function() {
 		    $.ajax({
 				type: 'POST',
-				url: 'http://www.wificomo.com/ccn20/votiSocial.php',
+				url: 'http://shopincomo.comune.como.it/ccn20/votiSocial.php',
 				data: { idNegozio: idEsercizio, socialNetwork: 'Foursquare', nomeNegozio: $("h3.nomeEsercizio").html(), latitude: latitudeFoursquare, longitude: longitudeFoursquare}
 				}).done(function( msg ) {
 				alert(window.localStorage.getItem("checkinPubblicato"));
@@ -1951,12 +1951,12 @@
 		idEsercizio = $("h3.nomeEsercizio").attr('idEsercizio');
 		latitudeTwitter = window.sessionStorage.getItem("userLatitude");
 		longitudeTwitter = window.sessionStorage.getItem("userLongitude");
-		urlEsercizio = "http://www.wificomo.com/it/node/"+idEsercizio;
+		urlEsercizio = "http://shopincomo.comune.como.it/it/node/"+idEsercizio;
 		nomeEsercizio = $("h3.nomeEsercizio").html();
 		
 		var tokenTwitter = window.localStorage.getItem("twitterToken");		
 		var tokenTwitterSecret = window.localStorage.getItem("twitterVerifier");			
-		var urlTwitter = 'http://www.wificomo.com/twitter/votaTwitter.php';
+		var urlTwitter = 'http://shopincomo.comune.como.it/twitter/votaTwitter.php';
 		var tweet = "#ShopInComo @ "+nomeEsercizio.substr(0, 50)+" "+urlEsercizio;
 
 		 // fire off the request to /form.php
@@ -1970,7 +1970,7 @@
     request.done(function (response){
         	$.ajax({
 				type: 'POST',
-				url: 'http://www.wificomo.com/ccn20/votiSocial.php',
+				url: 'http://shopincomo.comune.como.it/ccn20/votiSocial.php',
 				data: { idNegozio: idEsercizio, socialNetwork: 'Twitter', nomeNegozio: $("h3.nomeEsercizio").html(), latitude: latitudeTwitter, longitude: longitudeTwitter}
 				}).done(function( msg ) {
 				alert(window.localStorage.getItem("tweetPubblicato"));
@@ -2294,7 +2294,7 @@
 
 			$(document).ready(function() {
 		
-			$.getJSON("http://www.wificomo.com/ccn20/JSONbarchart.php", {idNegozio: idEsercizio}, function( json ) {
+			$.getJSON("http://shopincomo.comune.como.it/ccn20/JSONbarchart.php", {idNegozio: idEsercizio}, function( json ) {
 				
 				$.mobile.loading( "hide" );
 				

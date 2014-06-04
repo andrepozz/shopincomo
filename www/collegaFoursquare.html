@@ -48,14 +48,14 @@
 		
 		//ON "click" button.foursquareLogin
 		$(document).on("click", 'button.foursquareLogin', function(){
-			var ref = window.open('https://foursquare.com/oauth2/authenticate?client_id=4P4XY5XMV2EEGL4THQFXJFMJBTJN4WBNX1VIQGAUWDPHYZZF&response_type=token&redirect_uri=http://www.wificomo.com/ccn20/closeFoursquare.html', '_blank', 'location=no');
+			var ref = window.open('https://foursquare.com/oauth2/authenticate?client_id=4P4XY5XMV2EEGL4THQFXJFMJBTJN4WBNX1VIQGAUWDPHYZZF&response_type=token&redirect_uri=http://shopincomo.comune.como.it/ccn20/closeFoursquare.html', '_blank', 'location=no');
 			ref.addEventListener('loadstart', function(event) {
 			closeFoursquare(event.url,ref);
 			}); 
 	
 			function closeFoursquare(loc,ref) {
    
-				if (loc.indexOf("www.wificomo.com/ccn20/closeFoursquare.html#") > -1){
+				if (loc.indexOf("shopincomo.comune.como.it/ccn20/closeFoursquare.html#") > -1){
 				var tokenFoursquare = loc.substring(loc.indexOf("=")+1);
 				window.localStorage.setItem("tokenFoursquare", tokenFoursquare);
 				$("p.foursquare").html('<button class="foursquareLogout ui-btn ui-shadow">Foursquare: logout</button>');

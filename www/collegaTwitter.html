@@ -49,14 +49,14 @@
 		//ON "click" button.twitterLogin
 		$(document).on("click", 'button.twitterLogin', function(){
 	
-			var ref = window.open('http://www.wificomo.com/twitter/twitterConnect.php', '_blank', 'location=no');
+			var ref = window.open('http://shopincomo.comune.como.it/twitter/twitterConnect.php', '_blank', 'location=no');
 			ref.addEventListener('loadstart', function(event) {
 			closeTwitter(event.url,ref);
 			});  
 	
 			function closeTwitter(loc,ref) {
    
-				if (loc.indexOf("www.wificomo.com/twitter/twitterTokens.php?") > -1){
+				if (loc.indexOf("shopincomo.comune.como.it/twitter/twitterTokens.php?") > -1){
 				var twitterToken = loc.substring(loc.indexOf("oauth_token=")+12, loc.indexOf("&"));
 				var twitterVerifier = loc.substring(loc.indexOf("oauth_verifier=")+15, loc.indexOf("&t"));
 				var twitterName = loc.substring(loc.indexOf("twitterName=")+12);
