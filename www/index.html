@@ -668,15 +668,24 @@
 				function onGetDirectorySuccess(dirEntry){
 
 					alert("onGetDirectorySuccess");
-				
-				if (device.platform === "iOS") {
-				dirEntry.setMetadata(onSetMetadataDirectorySuccess, onSetMetadataDirectoryFail, { "com.apple.MobileBackup": 1});
-				}
 
-				if (device.platform === "Android") {
-				onSetMetadataDirectorySuccess(dirEntry);
-				}
-				
+					//MEMORIZZA PATH
+					var directory = dirEntry.fullPath;
+								
+						if (device.platform === "Android") {
+							var indexPath = directory.lastIndexOf("/");
+							var pathSD = directory.substr(7, indexPath-7);
+							pathSD = pathSD+"/ShopInComo";
+							window.localStorage.setItem('pathSD', pathSD);
+							onSetMetadataDirectorySuccess(dirEntry);
+						}
+								
+						if (device.platform === "iOS") {
+							dirEntry.setMetadata(onSetMetadataDirectorySuccess, onSetMetadataDirectoryFail, { "com.apple.MobileBackup": 1});
+							var pathSD = directory;
+							window.localStorage.setItem('pathSD', pathSD);
+						}
+								
 				} // close onGetDirectorySuccess
 
 				function onGetDirectoryFail(){
@@ -735,24 +744,6 @@
 						
 						function(entry) {
 						
-								//MEMORIZZA PATH
-								var directory = fileEntry.fullPath;
-
-								alert(directory);
-								
-								if (device.platform === "Android") {
-									var indexPath = directory.lastIndexOf("/");
-									var pathSD = directory.substr(7, indexPath-7);
-									alert(pathSD);
-									pathSD = pathSD+"/ShopInComo";
-									window.localStorage.setItem('pathSD', pathSD);
-								}
-								
-								if (device.platform === "iOS") {
-									var pathSD = directory;
-									window.localStorage.setItem('pathSD', pathSD);
-								}
-								
 								$("li.categorie").html("<img class='iconaTipologia' src='img/downloadCategorie.png'> DOWNLOAD "+window.localStorage.getItem("categorie")+"");
 								$("li.categorie").css("color","white");
 								$("li.categorie").css("background","#00CC00");
