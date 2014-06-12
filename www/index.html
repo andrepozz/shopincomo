@@ -721,7 +721,7 @@
 
 				} // close onGetFileFail
 
-				function onSetMetadataFileSuccess(fileEntry, dirEntry){
+				function onSetMetadataFileSuccess(fileEntry){
 
 					var localPath = fileEntry.fullPath;
 
@@ -736,11 +736,14 @@
 						function(entry) {
 						
 								//MEMORIZZA PATH
-								var directory = dirEntry.fullPath;
+								var directory = fileEntry.fullPath;
+
+								alert(directory);
 								
 								if (device.platform === "Android") {
 									var indexPath = directory.lastIndexOf("/");
 									var pathSD = directory.substr(7, indexPath-7);
+									alert(pathSD);
 									pathSD = pathSD+"/ShopInComo";
 									window.localStorage.setItem('pathSD', pathSD);
 								}
