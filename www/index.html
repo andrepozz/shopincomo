@@ -248,7 +248,7 @@
 
 	function checkCategorie(fileSistemaMancanti){
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem) {
-			fileSystem.root.getDirectory("ShopInComo", {create: true, exclusive: false}, onGetDirectorySuccess, onGetDirectoryFail);
+			fileSystem.root.getDirectory("ShopInComo/categorie", {create: true, exclusive: false}, onGetDirectorySuccess, onGetDirectoryFail);
 
 				function onGetDirectorySuccess(dirEntry){
 								
@@ -329,7 +329,7 @@
 	function checkVetrine(fileSistemaMancanti, fileCategorieMancanti) {	
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem) {
 			
-			fileSystem.root.getDirectory("ShopInComo", {create: true, exclusive: false}, onGetDirectorySuccess, onGetDirectoryFail);
+			fileSystem.root.getDirectory("ShopInComo/esercizi", {create: true, exclusive: false}, onGetDirectorySuccess, onGetDirectoryFail);
 
 				function onGetDirectorySuccess(dirEntry){
 
@@ -809,6 +809,8 @@
 
 				function onGetDirectorySuccess(dirEntry){
 
+					alert("onGetDirectorySuccess");
+
 					//MEMORIZZA PATH
 					var directory = dirEntry.fullPath;
 								
@@ -836,6 +838,7 @@
 
 				function onSetMetadataDirectorySuccess(dirEntry){
 				
+				alert("onSetMetadataDirectorySuccess");
 
 				var fileNameCategorie = "categorie.js";
 				dirEntry.getFile(fileNameCategorie, {create: true, exclusive: false}, onGetFileSuccess, onGetFileFail);
@@ -851,6 +854,7 @@
 
 				function onGetFileSuccess(fileEntry){
 
+					alert("onGetFileSuccess");
 
 					if (device.platform === "iOS") {
 						fileEntry.setMetadata(onSetMetadataFileSuccess(fileEntry), onSetMetadataFileFail, { "com.apple.MobileBackup": 1});
@@ -869,6 +873,8 @@
 				} // close onGetFileFail
 
 				function onSetMetadataFileSuccess(fileEntry){
+
+					alert("onSetMetadataFileSuccess");
 
 					var localPath = fileEntry.fullPath;
 
