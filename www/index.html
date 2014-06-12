@@ -668,7 +668,7 @@
 				function onGetDirectorySuccess(dirEntry){
 				
 				if (device.platform === "iOS") {
-				dirEntry.setMetadata(onSetMetadataDirectorySuccess, onSetMetadataDirectoryFail, { "com.apple.MobileBackup": 1});
+				dirEntry.setMetadata(onSetMetadataDirectorySuccess(dirEntry), onSetMetadataDirectoryFail, { "com.apple.MobileBackup": 1});
 				}
 
 				if (device.platform === "Android") {
@@ -677,7 +677,7 @@
 				
 				} // close onGetDirectorySuccess
 
-				function onGetDirectoryFail(dirEntry){
+				function onGetDirectoryFail(){
 
 				console.log("Fail to get directory");
 
@@ -685,11 +685,11 @@
 
 				function onSetMetadataDirectorySuccess(dirEntry){
 				var fileNameCategorie = "categorie.js";
-				dirEntry.getFile(fileNameCategorie, {create: true, exclusive: false}, onGetFileSuccess, onGetFileFail);
+				dirEntry.getFile(fileNameCategorie, {create: true, exclusive: false}, onGetFileSuccess(fileEntry), onGetFileFail);
 
 				} // close onSetMetadataDirectorySuccess
 
-				function onSetMetadataDirectoryFail(dirEntry){
+				function onSetMetadataDirectoryFail(){
 
 				console.log("Fail to set metadata directory");
 
@@ -699,7 +699,7 @@
 				function onGetFileSuccess(fileEntry){
 
 					if (device.platform === "iOS") {
-						fileEntry.setMetadata(onSetMetadataFileSuccess, onSetMetadataFileFail, { "com.apple.MobileBackup": 1});
+						fileEntry.setMetadata(onSetMetadataFileSuccess(fileEntry), onSetMetadataFileFail, { "com.apple.MobileBackup": 1});
 					}
 
 					if (device.platform === "Android") {
@@ -708,7 +708,7 @@
 
 				} // close onGetFileSuccess
 
-				function onGetFileFail(fileEntry){
+				function onGetFileFail(){
 
 					console.log("Fail to get file");
 
@@ -765,7 +765,7 @@
 
 				} // close onSetMetadataFileSuccess
 
-				function onSetMetadataFileFail(fileEntry){
+				function onSetMetadataFileFail(){
 
 					console.log("Fail to set metadata file");
 
