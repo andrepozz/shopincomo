@@ -517,33 +517,95 @@
 	}
 	
 	$("h3.titoloDownloadFunzionalita").html(window.localStorage.getItem("downloadFunzionalita"));
-	$("ul.downloadList").append($('<li class="'+window.localStorage.getItem("nomiEsercizi")+'"><img class="iconaTipologia" src="img/downloadnome.png"> UPDATE '+window.localStorage.getItem("nomiEsercizi")+'... <img src="img/download.gif"></li>'));
-	$("ul.downloadList").append($('<li class="brand"><img class="iconaTipologia" src="img/downloadbrand.png"> UPDATE brand... <img src="img/download.gif"></li>'));
-	$("ul.downloadList").append($('<li class="'+window.localStorage.getItem("brandEsercizi")+'"><img class="iconaTipologia" src="img/downloadbrandEsercizi.png"> UPDATE '+window.localStorage.getItem("brandEsercizi")+'... <img src="img/download.gif"></li>'));
-	$("ul.downloadList").append($('<li class="'+window.localStorage.getItem("position")+'"><img class="iconaTipologia" src="img/downloadposition.png"> UPDATE position... <img src="img/download.gif"></li>'));
-	$("ul.downloadList").append($('<li class="categorie"><img class="iconaTipologia" src="img/downloadCategorie.png"> UPDATE '+window.localStorage.getItem("categorie")+'...<img src="img/download.gif"></li>'));
-	$("ul.downloadList").append($('<li class="sottocategorie"><img class="iconaTipologia" src="img/downloadSottocategorie.png"> UPDATE '+window.localStorage.getItem("sottoCategorie")+'...<img src="img/download.gif"></li>'));
+	$("ul.downloadList").append($('<li class="'+window.localStorage.getItem("nomiEsercizi")+'"><img class="iconaTipologia" src="img/downloadnome.png"> DOWNLOAD '+window.localStorage.getItem("nomiEsercizi")+'... <img src="img/download.gif"></li>'));
+	$("ul.downloadList").append($('<li class="brand"><img class="iconaTipologia" src="img/downloadbrand.png"> DOWNLOAD brand... <img src="img/download.gif"></li>'));
+	$("ul.downloadList").append($('<li class="'+window.localStorage.getItem("brandEsercizi")+'"><img class="iconaTipologia" src="img/downloadbrandEsercizi.png"> DOWNLOAD '+window.localStorage.getItem("brandEsercizi")+'... <img src="img/download.gif"></li>'));
+	$("ul.downloadList").append($('<li class="'+window.localStorage.getItem("position")+'"><img class="iconaTipologia" src="img/downloadposition.png"> DOWNLOAD position... <img src="img/download.gif"></li>'));
+	$("ul.downloadList").append($('<li class="categorie"><img class="iconaTipologia" src="img/downloadCategorie.png"> DOWNLOAD '+window.localStorage.getItem("categorie")+'...<img src="img/download.gif"></li>'));
+	$("ul.downloadList").append($('<li class="sottocategorie"><img class="iconaTipologia" src="img/downloadSottocategorie.png"> DOWNLOAD '+window.localStorage.getItem("sottoCategorie")+'...<img src="img/download.gif"></li>'));
 	
 	var lingua = window.localStorage.getItem("lingua");
 	var idLingua = window.localStorage.getItem("idLingua");
 	var codLingua = window.localStorage.getItem("codLingua");
 	
 	var urlCategorie = encodeURI("http://shopincomo.comune.como.it/ccn20/JSONcategorie.php?language="+codLingua+"");	
-	var fileNameCategorie = "categorie.js";
 	
 		var fileTransfer = new FileTransfer();
 			
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem) {
 			
-			fileSystem.root.getDirectory("ShopInComo", {create: true, exclusive: false}, function(dirEntry) {
-			
-				dirEntry.getFile(fileNameCategorie, {create: true, exclusive: false}, function(fileEntry) {
-										
+			fileSystem.root.getDirectory("ShopInComo", {create: true, exclusive: false}, onGetDirectorySuccess, onGetDirectoryFail);
+
+				function onGetDirectorySuccess(dirEntry){
+
+
+					//MEMORIZZA PATH
+					var directory = dirEntry.fullPath;
+								
+						if (device.platform === "Android") {
+							var indexPath = directory.lastIndexOf("/");
+							var pathSD = directory.substr(7, indexPath-7);
+							pathSD = pathSD+"/ShopInComo";
+							window.localStorage.setItem('pathSD', pathSD);
+							onSetMetadataDirectorySuccess(dirEntry);
+						}
+								
+						if (device.platform === "iOS") {
+							dirEntry.setMetadata(onSetMetadataDirectorySuccess(dirEntry), onSetMetadataDirectoryFail, { "com.apple.MobileBackup": 1});
+							var pathSD = directory;
+							window.localStorage.setItem('pathSD', pathSD);
+						}
+								
+				} // close onGetDirectorySuccess
+
+				function onGetDirectoryFail(){
+
+				console.log("Fail to get directory");
+
+				} // close onGetDirectoryFail
+
+				function onSetMetadataDirectorySuccess(dirEntry){
+				
+
+				var fileNameCategorie = "categorie.js";
+				dirEntry.getFile(fileNameCategorie, {create: true, exclusive: false}, onGetFileSuccess, onGetFileFail);
+
+				} // close onSetMetadataDirectorySuccess
+
+				function onSetMetadataDirectoryFail(){
+
+				console.log("Fail to set metadata directory");
+
+				} // close onSetMetadataDirectoryFail
+
+
+				function onGetFileSuccess(fileEntry){
+
+
+					if (device.platform === "iOS") {
+						fileEntry.setMetadata(onSetMetadataFileSuccess(fileEntry), onSetMetadataFileFail, { "com.apple.MobileBackup": 1});
+					}
+
+					if (device.platform === "Android") {
+						onSetMetadataFileSuccess(fileEntry);
+					}
+
+				} // close onGetFileSuccess
+
+				function onGetFileFail(){
+
+					console.log("Fail to get file");
+
+				} // close onGetFileFail
+
+				function onSetMetadataFileSuccess(fileEntry){
+
+
 					var localPath = fileEntry.fullPath;
 
-					if (device.platform === "Android" && localPath.indexOf("file://") === 0) {
-						localPath = localPath.substring(7);
-					}
+						if (device.platform === "Android" && localPath.indexOf("file://") === 0) {
+							localPath = localPath.substring(7);
+						}
 					
 					fileTransfer.download(
 						urlCategorie,
@@ -551,21 +613,6 @@
 						
 						function(entry) {
 						
-								//MEMORIZZA PATH
-								var directory = dirEntry.fullPath;
-								
-								if (device.platform === "Android") {
-									var indexPath = directory.lastIndexOf("/");
-									var pathSD = directory.substr(7, indexPath-7);
-									pathSD = pathSD+"/ShopInComo";
-									window.localStorage.setItem('pathSD', pathSD);
-								}
-								
-								if (device.platform === "iOS") {
-									var pathSD = directory;
-									window.localStorage.setItem('pathSD', pathSD);
-								}
-								
 								$("li.categorie").html("<img class='iconaTipologia' src='img/downloadCategorie.png'> DOWNLOAD "+window.localStorage.getItem("categorie")+"");
 								$("li.categorie").css("color","white");
 								$("li.categorie").css("background","#00CC00");
@@ -585,9 +632,14 @@
 						}
 				
 					); // end of fileTransfer.download
-				}); // end of dirEntry.getFile
-			
-			}); // fileSystem.root.getDirectory
+
+				} // close onSetMetadataFileSuccess
+
+				function onSetMetadataFileFail(){
+
+					console.log("Fail to set metadata file");
+
+				} // close onSetMetadataFileFail
 			
 		}); // end of window.requestFileSystem
 		
@@ -661,21 +713,71 @@
 	
 	//DOWNLOAD JSON FUNCTION
 	function downloadJSON(directory, fileName, fileURL, pClass, imgName) {
-		
+
 		var fileTransfer = new FileTransfer();
 		
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem) {
-			
-			fileSystem.root.getDirectory(directory, {create: true, exclusive: false}, function(dirEntry) {
-			
-				dirEntry.getFile(fileName, {create: true, exclusive: false}, function(fileEntry) {
+
+			fileSystem.root.getDirectory(directory, {create: true, exclusive: false}, onGetDirectorySuccess, onGetDirectoryFail);
+
+				function onGetDirectorySuccess(dirEntry){
+
+								
+						if (device.platform === "Android") {
+							onSetMetadataDirectorySuccess(dirEntry);
+						}
+								
+						if (device.platform === "iOS") {
+							dirEntry.setMetadata(onSetMetadataDirectorySuccess(dirEntry), onSetMetadataDirectoryFail, { "com.apple.MobileBackup": 1});
+						}
+								
+				} // close onGetDirectorySuccess
+
+				function onGetDirectoryFail(){
+
+				console.log("Fail to get directory");
+
+				} // close onGetDirectoryFail
+
+				function onSetMetadataDirectorySuccess(dirEntry){
+				
+				dirEntry.getFile(fileName, {create: true, exclusive: false}, onGetFileSuccess, onGetFileFail);
+
+				} // close onSetMetadataDirectorySuccess
+
+				function onSetMetadataDirectoryFail(){
+
+				console.log("Fail to set metadata directory");
+
+				} // close onSetMetadataDirectoryFail
+
+
+				function onGetFileSuccess(fileEntry){
+
+
+					if (device.platform === "iOS") {
+						fileEntry.setMetadata(onSetMetadataFileSuccess(fileEntry), onSetMetadataFileFail, { "com.apple.MobileBackup": 1});
+					}
+
+					if (device.platform === "Android") {
+						onSetMetadataFileSuccess(fileEntry);
+					}
+
+				} // close onGetFileSuccess
+
+				function onGetFileFail(){
+
+					console.log("Fail to get file");
+
+				} // close onGetFileFail
+
+				function onSetMetadataFileSuccess(fileEntry){
 										
 					var localPath = fileEntry.fullPath;
 
 					if (device.platform === "Android" && localPath.indexOf("file://") === 0) {
 							localPath = localPath.substring(7);
 					}
-					
 					
 					fileTransfer.download(
 						fileURL,
@@ -686,14 +788,7 @@
 						$("li."+pClass+"").css("color","white");
 						$("li."+pClass+"").css("background","#00CC00");
 						
-							/*
-							conteggioEsercizi = parseInt(conteggioEsercizi)+1;
-															
-								if(conteggioEsercizi == totaleEsercizi) {
-								alert("scaricati "+conteggioEsercizi+" esercizi");
-								sessionStorage.setItem("downloadEsercizi", "ok");
-								}
-							*/
+
 						},
 						function(error) {
 							console.log("download error source " + error.source);
@@ -707,24 +802,83 @@
 						}
 				
 					); // end of fileTransfer.download
-				}); // end of dirEntry.getFile
-			
-			}); // fileSystem.root.getDirectory
+				
+				} // close onSetMetadataFileSuccess
+
+				function onSetMetadataFileFail(){
+
+					console.log("Fail to set metadata file");
+
+				} // close onSetMetadataFileFail
 			
 		}); // end of window.requestFileSystem
 		
 	} //FUNCTION downloadJSON
 	
-	//DOWNLOAD JSONmulti FUNCTION
+	//DOWNLOAD SOTTOCATEGORIE
 	function downloadSottocategorie(directory, fileName, fileURL) {
 		
 		var fileTransfer = new FileTransfer();
 		
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem) {
-			
-			fileSystem.root.getDirectory(directory, {create: true, exclusive: false}, function(dirEntry) {
-			
-				dirEntry.getFile(fileName, {create: true, exclusive: false}, function(fileEntry) {
+
+
+			fileSystem.root.getDirectory(directory, {create: true, exclusive: false}, onGetDirectorySuccess, onGetDirectoryFail);
+
+				function onGetDirectorySuccess(dirEntry){
+
+					//MEMORIZZA PATH
+					var directory = dirEntry.fullPath;
+								
+						if (device.platform === "Android") {
+							onSetMetadataDirectorySuccess(dirEntry);
+						}
+								
+						if (device.platform === "iOS") {
+							dirEntry.setMetadata(onSetMetadataDirectorySuccess(dirEntry), onSetMetadataDirectoryFail, { "com.apple.MobileBackup": 1});
+						}
+								
+				} // close onGetDirectorySuccess
+
+				function onGetDirectoryFail(){
+
+				console.log("Fail to get directory");
+
+				} // close onGetDirectoryFail
+
+				function onSetMetadataDirectorySuccess(dirEntry){
+				
+				dirEntry.getFile(fileName, {create: true, exclusive: false}, onGetFileSuccess, onGetFileFail);
+
+				} // close onSetMetadataDirectorySuccess
+
+				function onSetMetadataDirectoryFail(){
+
+				console.log("Fail to set metadata directory");
+
+				} // close onSetMetadataDirectoryFail
+
+
+				function onGetFileSuccess(fileEntry){
+
+
+					if (device.platform === "iOS") {
+						fileEntry.setMetadata(onSetMetadataFileSuccess(fileEntry), onSetMetadataFileFail, { "com.apple.MobileBackup": 1});
+					}
+
+					if (device.platform === "Android") {
+						onSetMetadataFileSuccess(fileEntry);
+					}
+
+				} // close onGetFileSuccess
+
+				function onGetFileFail(){
+
+					console.log("Fail to get file");
+
+				} // close onGetFileFail
+
+				function onSetMetadataFileSuccess(fileEntry){
 										
 					var localPath = fileEntry.fullPath;
 
@@ -744,7 +898,7 @@
 									$("li.sottocategorie").html("<img class='iconaTipologia' src='img/downloadSottocategorie.png'> DOWNLOAD "+window.localStorage.getItem("sottoCategorie")+"");
 									$("li.sottocategorie").css("color","white");
 									$("li.sottocategorie").css("background","#00CC00");
-									$("p.downloadComplete").html("<a href='#setupNegoziLingua' class='ui-btn' data-transition='slide'>"+window.localStorage.getItem("continua")+"</a>");	
+									$("p.downloadComplete").html("<a href='#setupNegozi' class='ui-btn' data-transition='slide'>"+window.localStorage.getItem("continua")+"</a>");		
 								}
 								else {
 								sessionStorage.setItem("numElementi", numElementi);
@@ -760,7 +914,7 @@
 									$("li.sottocategorie").html("<img class='iconaTipologia' src='img/downloadSottocategorie.png'> DOWNLOAD "+window.localStorage.getItem("sottoCategorie")+"");
 									$("li.sottocategorie").css("color","white");
 									$("li.sottocategorie").css("background","#00CC00");
-									$("p.downloadComplete").html("<a href='#setupNegoziLingua' class='ui-btn' data-transition='slide'>"+window.localStorage.getItem("continua")+"</a>");	
+									$("p.downloadComplete").html("<a href='#setupNegozi' class='ui-btn' data-transition='slide'>"+window.localStorage.getItem("continua")+"</a>");			
 							}
 							else {
 							sessionStorage.setItem("numElementi", numElementiError);
@@ -774,13 +928,17 @@
 						}
 				
 					); // end of fileTransfer.download
-				}); // end of dirEntry.getFile
-			
-			}); // fileSystem.root.getDirectory
+				} // close onSetMetadataFileSuccess
+
+				function onSetMetadataFileFail(){
+
+					console.log("Fail to set metadata file");
+
+				} // close onSetMetadataFileFail
 			
 		}); // end of window.requestFileSystem
 		
-	} //FUNCTION downloadJSONmulti
+	} //FUNCTION DOWNLOAD SOTTOCATEGORIE
 	
 	</script>
 	
@@ -872,19 +1030,72 @@
 		}
 	});
 	
-	}//FUNCTION
+	}//FUNCTION VETRINE INTERVAL
 	
 	
-	//DOWNLOAD JSONmulti FUNCTION
+	//DOWNLOAD VETRINE
 	function downloadVetrine(directory, fileName, fileURL, start, totaleEsercizi) {
 
 		var fileTransfer = new FileTransfer();
 		
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem) {
-			
-			fileSystem.root.getDirectory(directory, {create: true, exclusive: false}, function(dirEntry) {
-			
-				dirEntry.getFile(fileName, {create: true, exclusive: false}, function(fileEntry) {
+
+						fileSystem.root.getDirectory(directory, {create: true, exclusive: false}, onGetDirectorySuccess, onGetDirectoryFail);
+
+				function onGetDirectorySuccess(dirEntry){
+
+					//MEMORIZZA PATH
+					var directory = dirEntry.fullPath;
+								
+						if (device.platform === "Android") {
+							onSetMetadataDirectorySuccess(dirEntry);
+						}
+								
+						if (device.platform === "iOS") {
+							dirEntry.setMetadata(onSetMetadataDirectorySuccess(dirEntry), onSetMetadataDirectoryFail, { "com.apple.MobileBackup": 1});
+						}
+								
+				} // close onGetDirectorySuccess
+
+				function onGetDirectoryFail(){
+
+				console.log("Fail to get directory");
+
+				} // close onGetDirectoryFail
+
+				function onSetMetadataDirectorySuccess(dirEntry){
+				
+				dirEntry.getFile(fileName, {create: true, exclusive: false}, onGetFileSuccess, onGetFileFail);
+
+				} // close onSetMetadataDirectorySuccess
+
+				function onSetMetadataDirectoryFail(){
+
+				console.log("Fail to set metadata directory");
+
+				} // close onSetMetadataDirectoryFail
+
+
+				function onGetFileSuccess(fileEntry){
+
+
+					if (device.platform === "iOS") {
+						fileEntry.setMetadata(onSetMetadataFileSuccess(fileEntry), onSetMetadataFileFail, { "com.apple.MobileBackup": 1});
+					}
+
+					if (device.platform === "Android") {
+						onSetMetadataFileSuccess(fileEntry);
+					}
+
+				} // close onGetFileSuccess
+
+				function onGetFileFail(){
+
+					console.log("Fail to get file");
+
+				} // close onGetFileFail
+
+				function onSetMetadataFileSuccess(fileEntry){
 										
 					var localPath = fileEntry.fullPath;
 
@@ -908,7 +1119,7 @@
 							$("li.downloadVetrine").html("download vetrine <img src='img/downloadok.png'>");
 							$("li.downloadVetrine").css("color","#00CC00");	
 							$("div.progressBar").css("background","#00CC00");
-							$("p.downloadCompleteVetrina").html("<a href='opzioni.html' rel='external' class='ui-btn' data-transition='slide'>"+window.localStorage.getItem("continua")+"</a>");
+							$("p.downloadCompleteVetrina").html("<a href='#facebook' class='ui-btn' data-transition='slide'>"+window.localStorage.getItem("continua")+"</a>");
 							}
 							else if(count == parseInt(iteration)*50) {
 							
@@ -920,7 +1131,7 @@
 							}
 						},
 						function(error) {
-							
+													
 							var countError = window.sessionStorage.getItem("start");
 							var iterationError = window.sessionStorage.getItem("iteration");
 						
@@ -932,7 +1143,7 @@
 							$("li.downloadVetrine").html("download vetrine <img src='img/downloadok.png'>");
 							$("li.downloadVetrine").css("color","#00CC00");	
 							$("div.progressBar").css("background","#00CC00");
-							$("p.downloadCompleteVetrina").html("<a href='opzioni.html' rel='external' class='ui-btn' data-transition='slide'>"+window.localStorage.getItem("continua")+"</a>");
+							$("p.downloadCompleteVetrina").html("<a href='#facebook' class='ui-btn' data-transition='slide'>"+window.localStorage.getItem("continua")+"</a>");
 							}
 							else if(countError == parseInt(iterationError)*50) {
 							
@@ -951,13 +1162,17 @@
 						}
 				
 					); // end of fileTransfer.download
-				}); // end of dirEntry.getFile
-			
-			}); // fileSystem.root.getDirectory
+				} // close onSetMetadataFileSuccess
+
+				function onSetMetadataFileFail(){
+
+					console.log("Fail to set metadata file");
+
+				} // close onSetMetadataFileFail
 			
 		}); // end of window.requestFileSystem
 		
-	} //FUNCTION downloadJSONmulti
+	} //FUNCTION DOWNLOAD VETRINE
 	
 	</script>
 	
@@ -1030,31 +1245,54 @@
 		
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem) {
 			
-			fileSystem.root.getDirectory("ShopInComo", {create: true, exclusive: false}, function(dirEntry) {
 			
+			fileSystem.root.getDirectory("ShopInComo", {create: true, exclusive: false}, onGetDirectorySuccess, onGetDirectoryFail);
+
+				function onGetDirectorySuccess(dirEntry){
+								
+						if (device.platform === "Android") {
+							onSetMetadataDirectorySuccess(dirEntry);
+						}
+								
+						if (device.platform === "iOS") {
+							dirEntry.setMetadata(onSetMetadataDirectorySuccess(dirEntry), onSetMetadataDirectoryFail, { "com.apple.MobileBackup": 1});
+						}
+								
+				} // close onGetDirectorySuccess
+
+				function onGetDirectoryFail(){
+
+				console.log("Fail to get directory");
+
+				} // close onGetDirectoryFail
+
+				function onSetMetadataDirectorySuccess(dirEntry){
+				
+
 				// Get a directory reader
 				var directoryReader = dirEntry.createReader();
-
+				
 				// Get a list of all the entries in the directory
 				directoryReader.readEntries(success,fail);
 				
 				function success(entries) {
 				
-					
 					var fileSistema = ["brandEsercizi.js","brand.js","categorie.js","nomeEsercizi.js","position.js","esercizi","categorie"];		
 					
-					var fileSistemaMancanti = [];					
+					var fileSistemaMancanti = [];
+										
 					for (var i=0;i<fileSistema.length;i++) {
-					rv = false;
-					for (var j=0;j<entries.length;j++) {
-					rv = rv ||  fileSistema[i] == entries[j].name;
+						rv = false;
+							for (var j=0;j<entries.length;j++) {
+								rv = rv ||  fileSistema[i] == entries[j].name;
+							}
+							if(!rv)
+							{
+								fileSistemaMancanti.push(fileSistema[i]);
+							}
 					}
-					if(!rv)
-					{
-					fileSistemaMancanti.push(fileSistema[i]);
-					}
-					}
-					//alert("File sistema mancanti" +fileSistemaMancanti.length);
+
+
 					checkCategorie(fileSistemaMancanti);
 										
 				}
@@ -1062,18 +1300,43 @@
 				function fail(error) {
 					console.log("Failed to list directory contents: " + error.code);
 				}
-			
-			}); // fileSystem.root.getDirectory
+
+				} // close onSetMetadataDirectorySuccess
+
+				function onSetMetadataDirectoryFail(){
+
+				console.log("Fail to set metadata directory");
+
+				} // close onSetMetadataDirectoryFail
 			
 		}); // end of window.requestFileSystem
 		
 	// CHECK ESISTENZA CATEGORIE
 
 	function checkCategorie(fileSistemaMancanti){
-	
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem) {
-			fileSystem.root.getDirectory("ShopInComo/categorie", {create: true, exclusive: false}, function(dirEntry) {
-			
+			fileSystem.root.getDirectory("ShopInComo/categorie", {create: true, exclusive: false}, onGetDirectorySuccess, onGetDirectoryFail);
+
+				function onGetDirectorySuccess(dirEntry){
+								
+						if (device.platform === "Android") {
+							onSetMetadataDirectorySuccess(dirEntry);
+						}
+								
+						if (device.platform === "iOS") {
+							dirEntry.setMetadata(onSetMetadataDirectorySuccess(dirEntry), onSetMetadataDirectoryFail, { "com.apple.MobileBackup": 1});
+						}
+								
+				} // close onGetDirectorySuccess
+
+				function onGetDirectoryFail(){
+
+				console.log("Fail to get directory");
+
+				} // close onGetDirectoryFail
+
+				function onSetMetadataDirectorySuccess(dirEntry){
+
 				// Get a directory reader
 				var directoryReader = dirEntry.createReader();
 
@@ -1081,7 +1344,6 @@
 				directoryReader.readEntries(success,fail);
 				
 				function success(entries) {
-					
 					var path = window.localStorage.getItem("pathSD");
 					var jsonPath = path + "/categorie.js";
 					var fileCategorieMancanti = [];		
@@ -1107,7 +1369,6 @@
 					}
 					}
 					//eserciziUpdate(fileCategorieMancanti);
-					//alert("Categorie Mancanti" +fileCategorieMancanti.length);
 					checkVetrine(fileSistemaMancanti, fileCategorieMancanti);
 					//window.sessionStorage.setItem("fileEserciziMancanti", JSON.stringify(fileEserciziMancanti));
 					});
@@ -1117,21 +1378,45 @@
 				function fail(error) {
 					console.log("Failed to list directory contents: " + error.code);
 				}
-			
-			}); // fileSystem.root.getDirectory
+
+				} // close onSetMetadataDirectorySuccess
+
+				function onSetMetadataDirectoryFail(){
+
+				console.log("Fail to set metadata directory");
+
+				} // close onSetMetadataDirectoryFail
 			
 		}); // end of window.requestFileSystem
 		
 	} // END FUNCTION CHECK CATEGORIE
 
-		
-	// CHECK ESISTENZA FILES ESERCIZI
-		
-	function checkVetrine(fileSistemaMancanti, fileCategorieMancanti){
-	
+	// CHECK ESISTENZA VETRINE
+	function checkVetrine(fileSistemaMancanti, fileCategorieMancanti) {	
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem) {
 			
-			fileSystem.root.getDirectory("ShopInComo/esercizi", {create: true, exclusive: false}, function(dirEntry) {
+			fileSystem.root.getDirectory("ShopInComo/esercizi", {create: true, exclusive: false}, onGetDirectorySuccess, onGetDirectoryFail);
+
+				function onGetDirectorySuccess(dirEntry){
+
+								
+						if (device.platform === "Android") {
+							onSetMetadataDirectorySuccess(dirEntry);
+						}
+								
+						if (device.platform === "iOS") {
+							dirEntry.setMetadata(onSetMetadataDirectorySuccess(dirEntry), onSetMetadataDirectoryFail, { "com.apple.MobileBackup": 1});
+						}
+								
+				} // close onGetDirectorySuccess
+
+				function onGetDirectoryFail(){
+
+				console.log("Fail to get directory");
+
+				} // close onGetDirectoryFail
+
+				function onSetMetadataDirectorySuccess(dirEntry){
 			
 				// Get a directory reader
 				var directoryReader = dirEntry.createReader();
@@ -1140,7 +1425,6 @@
 				directoryReader.readEntries(success,fail);
 				
 				function success(entries) {
-					
 					var path = window.localStorage.getItem("pathSD");
 					var jsonPath = path + "/nomeEsercizi.js";
 
@@ -1175,20 +1459,79 @@
 				function fail(error) {
 					console.log("Failed to list directory contents: " + error.code);
 				}
-			
-			}); // fileSystem.root.getDirectory
+
+				} // close onSetMetadataDirectorySuccess
+
+				function onSetMetadataDirectoryFail(){
+
+				console.log("Fail to set metadata directory");
+
+				} // close onSetMetadataDirectoryFail
 			
 		}); // end of window.requestFileSystem
 	
 	} // END FUNCTION CHECK VETRINE
 		
 	function eserciziUpdate(fileSistemaMancanti, fileCategorieMancanti, fileEserciziMancanti){
-		
+
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem) {
 			
-			fileSystem.root.getDirectory("ShopInComo", {create: true, exclusive: false}, function(dirEntry) {
-			
-				dirEntry.getFile("categorie.js", {create: true, exclusive: false}, function(fileEntry) {
+			fileSystem.root.getDirectory("ShopInComo", {create: true, exclusive: false}, onGetDirectorySuccess, onGetDirectoryFail);
+
+
+				function onGetDirectorySuccess(dirEntry){
+
+					//MEMORIZZA PATH
+					var directory = dirEntry.fullPath;
+								
+						if (device.platform === "Android") {
+							onSetMetadataDirectorySuccess(dirEntry);
+						}
+								
+						if (device.platform === "iOS") {
+							dirEntry.setMetadata(onSetMetadataDirectorySuccess(dirEntry), onSetMetadataDirectoryFail, { "com.apple.MobileBackup": 1});
+						}
+								
+				} // close onGetDirectorySuccess
+
+				function onGetDirectoryFail(){
+
+				console.log("Fail to get directory");
+
+				} // close onGetDirectoryFail
+
+				function onSetMetadataDirectorySuccess(dirEntry){
+				
+				dirEntry.getFile("categorie.js", {create: true, exclusive: false}, onGetFileSuccess, onGetFileFail);
+
+				} // close onSetMetadataDirectorySuccess
+
+				function onSetMetadataDirectoryFail(){
+
+				console.log("Fail to set metadata directory");
+
+				} // close onSetMetadataDirectoryFail
+
+
+				function onGetFileSuccess(fileEntry){
+
+					if (device.platform === "iOS") {
+						fileEntry.setMetadata(onSetMetadataFileSuccess(fileEntry), onSetMetadataFileFail, { "com.apple.MobileBackup": 1});
+					}
+
+					if (device.platform === "Android") {
+						onSetMetadataFileSuccess(fileEntry);
+					}
+
+				} // close onGetFileSuccess
+
+				function onGetFileFail(){
+
+					console.log("Fail to get file");
+
+				} // close onGetFileFail
+
+				function onSetMetadataFileSuccess(fileEntry){
 										
 					fileEntry.getMetadata(function(metadata) {
 					var dataDownload = Date.parse(metadata.modificationTime) / 1000;
@@ -1221,14 +1564,17 @@
 							}
 						});
 					});
+				}
 					 
-				}); // end of dirEntry.getFile
-			
-			}); // fileSystem.root.getDirectory
+				function onSetMetadataFileFail(){
+
+					console.log("Fail to set metadata file");
+
+				} // close onSetMetadataFileFail
 			
 		}); // end of window.requestFileSystem
 		
-		}
+	} // end of eserciziUpdate
 		
 		}
 		else{

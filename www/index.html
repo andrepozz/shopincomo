@@ -990,8 +990,6 @@
 
 				function onGetDirectorySuccess(dirEntry){
 
-					//MEMORIZZA PATH
-					var directory = dirEntry.fullPath;
 								
 						if (device.platform === "Android") {
 							onSetMetadataDirectorySuccess(dirEntry);
@@ -1085,7 +1083,7 @@
 		
 	} //FUNCTION downloadJSON
 	
-	//DOWNLOAD JSONmulti FUNCTION
+	//DOWNLOAD SOTTOCATEGORIE
 	function downloadSottocategorie(directory, fileName, fileURL) {
 		
 		var fileTransfer = new FileTransfer();
@@ -1096,9 +1094,6 @@
 			fileSystem.root.getDirectory(directory, {create: true, exclusive: false}, onGetDirectorySuccess, onGetDirectoryFail);
 
 				function onGetDirectorySuccess(dirEntry){
-
-					//MEMORIZZA PATH
-					var directory = dirEntry.fullPath;
 								
 						if (device.platform === "Android") {
 							onSetMetadataDirectorySuccess(dirEntry);
@@ -1208,7 +1203,7 @@
 			
 		}); // end of window.requestFileSystem
 		
-	} //FUNCTION downloadJSONmulti
+	} //FUNCTION DOWNLOAD SOTTOCATEGORIE
 	
 	</script>
 	
@@ -1300,10 +1295,10 @@
 		}
 	});
 	
-	}//FUNCTION
+	}//FUNCTION INTERVAL VETRINE
 	
 	
-	//DOWNLOAD JSONmulti FUNCTION
+	//DOWNLOAD VETRINE
 	function downloadVetrine(directory, fileName, fileURL, start, totaleEsercizi) {
 
 		var fileTransfer = new FileTransfer();
@@ -1442,7 +1437,7 @@
 			
 		}); // end of window.requestFileSystem
 		
-	} //FUNCTION downloadJSONmulti
+	} //FUNCTION DOWNLOAD VETRINE
 	
 	</script>
 	
