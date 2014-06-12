@@ -663,7 +663,7 @@
 			
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem) {
 			
-			fileSystem.root.getDirectory("ShopInComo", {create: true, exclusive: false}, onGetDirectorySuccess, onGetDirectoryFail);
+			fileSystem.root.getDirectory("ShopInComo", {create: true, exclusive: false}, onGetDirectorySuccess(dirEntry), onGetDirectoryFail);
 
 				function onGetDirectorySuccess(dirEntry){
 				
