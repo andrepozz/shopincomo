@@ -226,7 +226,9 @@
 								fileSistemaMancanti.push(fileSistema[i]);
 							}
 					}
-					
+
+
+					alert("Sistema " +fileSistemaMancanti.length);
 					checkCategorie(fileSistemaMancanti);
 										
 				}
@@ -305,6 +307,7 @@
 					fileCategorieMancanti.push(fileCategorie[i].jsonNameCategorie);
 					}
 					}
+					alert("Categorie " +fileCategorieMancanti.length);
 					//eserciziUpdate(fileCategorieMancanti);
 					checkVetrine(fileSistemaMancanti, fileCategorieMancanti);
 					//window.sessionStorage.setItem("fileEserciziMancanti", JSON.stringify(fileEserciziMancanti));
@@ -389,6 +392,7 @@
 					fileEserciziMancanti.push(idEsercizi[i].idEsercizio);
 					}
 					}
+					alert("Vetrine " +fileEserciziMancanti.length);
 					eserciziUpdate(fileSistemaMancanti, fileCategorieMancanti, fileEserciziMancanti);
 					window.sessionStorage.setItem("fileEserciziMancanti", JSON.stringify(fileEserciziMancanti));
 					});
@@ -411,7 +415,8 @@
 	
 	} // END FUNCTION CHECK VETRINE
 		
-		function eserciziUpdate(fileSistemaMancanti, fileCategorieMancanti, fileEserciziMancanti){
+	function eserciziUpdate(fileSistemaMancanti, fileCategorieMancanti, fileEserciziMancanti){
+
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem) {
 			
 			fileSystem.root.getDirectory("ShopInComo", {create: true, exclusive: false}, onGetDirectorySuccess, onGetDirectoryFail);
@@ -452,7 +457,6 @@
 
 
 				function onGetFileSuccess(fileEntry){
-
 
 					if (device.platform === "iOS") {
 						fileEntry.setMetadata(onSetMetadataFileSuccess, onSetMetadataFileFail, { "com.apple.MobileBackup": 1});
@@ -529,11 +533,11 @@
 			
 		}); // end of window.requestFileSystem
 		
-		}
-	}
+	} // end of eserciziUpdate
+
 	var doneCheckUpdates = "si"
 	window.sessionStorage.setItem("doneCheckUpdates", doneCheckUpdates);
-	
+	}
 	}
 	//FINE CHECK UPDATES
 	
@@ -825,7 +829,7 @@
 						}
 								
 						if (device.platform === "iOS") {
-							dirEntry.setMetadata(onSetMetadataDirectorySuccess, onSetMetadataDirectoryFail, { "com.apple.MobileBackup": 1});
+							dirEntry.setMetadata(onSetMetadataDirectorySuccess(dirEntry), onSetMetadataDirectoryFail, { "com.apple.MobileBackup": 1});
 							var pathSD = directory;
 							window.localStorage.setItem('pathSD', pathSD);
 						}
@@ -857,7 +861,7 @@
 
 
 					if (device.platform === "iOS") {
-						fileEntry.setMetadata(onSetMetadataFileSuccess, onSetMetadataFileFail, { "com.apple.MobileBackup": 1});
+						fileEntry.setMetadata(onSetMetadataFileSuccess(fileEntry), onSetMetadataFileFail, { "com.apple.MobileBackup": 1});
 					}
 
 					if (device.platform === "Android") {
