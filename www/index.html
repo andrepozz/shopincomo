@@ -664,21 +664,34 @@
 			
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem) {
 			
-			fileSystem.root.getDirectory("ShopInComo", {create: true, exclusive: false}, function(dirEntry) {
+			fileSystem.root.getDirectory("ShopInComo", {create: true, exclusive: false}, onGetDirectorySuccess, onGetDirecotryFail);
 
-				dirEntry.setMetadata({ "com.apple.MobileBackup": 1}, function() {
+				function onGetDirectorySuccess(dirEntry){
 
-					alert("Set Metadata");
-			
-				dirEntry.getFile(fileNameCategorie, {create: true, exclusive: false}, function(fileEntry) {
-					
-					alert("Get File");
+				dirEntry.setMetadata(onSetMetadataDirectorySuccess, onSetMetadataDirectoryFail, { "com.apple.MobileBackup": 1});
+
+				} // close onGetDirectorySuccess
+
+				function onSetMetadataSuccess(dirEntry){
+
+				dirEntry.getFile(fileNameCategorie, {create: true, exclusive: false}, onGetFileSuccess, onGetFileFail);
+
+				} // close onSetMetadataSuccess
+
+
+				function onGetFileSuccess(fileEntry){
+
+					dirEntry.setMetadata(onSetMetadataFileSuccess, onSetMetadataFileFail, { "com.apple.MobileBackup": 1});
+
+				} // close onGetFileSuccess
+
+				function onSetMetadataFileSuccess(fileEntry){
 
 					var localPath = fileEntry.fullPath;
 
-					if (device.platform === "Android" && localPath.indexOf("file://") === 0) {
-						localPath = localPath.substring(7);
-					}
+						if (device.platform === "Android" && localPath.indexOf("file://") === 0) {
+							localPath = localPath.substring(7);
+						}
 					
 					fileTransfer.download(
 						urlCategorie,
@@ -720,11 +733,13 @@
 						}
 				
 					); // end of fileTransfer.download
-				}); // end of dirEntry.getFile
 
-				}); //end of set metadata on Directory
+				} // close onSetMetadataFileSuccess
+
+				//}); // end of dirEntry.getFile
+
 			
-			}); // fileSystem.root.getDirectory
+			//}); // fileSystem.root.getDirectory
 			
 		}); // end of window.requestFileSystem
 		
