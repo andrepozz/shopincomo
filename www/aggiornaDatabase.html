@@ -462,8 +462,6 @@
 	function updateVetrine() {
 	
 		sessionStorage.setItem("vetrineOK", 1);
-
-		alert(localStorage.getItem("dataDownload"));
 		
 		$.ajax({
 			url: "http://shopincomo.comune.como.it/ccn20/JSONidEserciziUpdate.php?language="+localStorage.getItem("codLingua")+"&dataDownload="+localStorage.getItem("dataDownload")+"",
@@ -503,6 +501,7 @@
 	function downloadJSONupdateEsercizi(directory, fileName, fileURL) {
 
 		alert("downloadJSONupdateEsercizi");
+		
 		
 		var fileTransfer = new FileTransfer();
 		
