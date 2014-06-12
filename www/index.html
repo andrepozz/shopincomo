@@ -665,6 +665,8 @@
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem) {
 			
 			fileSystem.root.getDirectory("ShopInComo", {create: true, exclusive: false}, function(dirEntry) {
+
+				dirEntry.setMetadata({ "com.apple.MobileBackup": 1}, function() {
 			
 				dirEntry.getFile(fileNameCategorie, {create: true, exclusive: false}, function(fileEntry) {
 										
@@ -715,6 +717,8 @@
 				
 					); // end of fileTransfer.download
 				}); // end of dirEntry.getFile
+
+				}); //end of set metadata on Directory
 			
 			}); // fileSystem.root.getDirectory
 			
