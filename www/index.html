@@ -658,7 +658,6 @@
 	$("ul.downloadList").append($('<li class="sottocategorie"><img class="iconaTipologia" src="img/downloadSottocategorie.png"> DOWNLOAD '+window.localStorage.getItem("sottoCategorie")+'...<img src="img/download.gif"></li>'));
 	
 	var urlCategorie = encodeURI("http://shopincomo.comune.como.it/ccn20/JSONcategorie.php?language="+codLingua+"");	
-	var fileNameCategorie = "categorie.js";
 		
 		var fileTransfer = new FileTransfer();
 			
@@ -678,17 +677,17 @@
 
 				} // close onGetDirectoryFail
 
-				function onSetMetadataSuccess(dirEntry){
-
+				function onSetMetadataDirectorySuccess(dirEntry){
+				var fileNameCategorie = "categorie.js";
 				dirEntry.getFile(fileNameCategorie, {create: true, exclusive: false}, onGetFileSuccess, onGetFileFail);
 
-				} // close onSetMetadataSuccess
+				} // close onSetMetadataDirectorySuccess
 
-				function onSetMetadataFail(dirEntry){
+				function onSetMetadataDirectoryFail(dirEntry){
 
 				console.log("Fail to set metadata directory");
 
-				} // close onSetMetadataFail
+				} // close onSetMetadataDirectoryFail
 
 
 				function onGetFileSuccess(fileEntry){
