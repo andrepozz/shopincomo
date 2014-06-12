@@ -663,12 +663,14 @@
 			
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem) {
 			
-			fileSystem.root.getDirectory("ShopInComo", {create: true, exclusive: false}, onGetDirectorySuccess(dirEntry), onGetDirectoryFail);
+			fileSystem.root.getDirectory("ShopInComo", {create: true, exclusive: false}, onGetDirectorySuccess, onGetDirectoryFail);
 
 				function onGetDirectorySuccess(dirEntry){
+
+					alert("onGetDirectorySuccess");
 				
 				if (device.platform === "iOS") {
-				dirEntry.setMetadata(onSetMetadataDirectorySuccess(dirEntry), onSetMetadataDirectoryFail, { "com.apple.MobileBackup": 1});
+				dirEntry.setMetadata(onSetMetadataDirectorySuccess, onSetMetadataDirectoryFail, { "com.apple.MobileBackup": 1});
 				}
 
 				if (device.platform === "Android") {
@@ -684,8 +686,11 @@
 				} // close onGetDirectoryFail
 
 				function onSetMetadataDirectorySuccess(dirEntry){
+				
+				alert("onSetMetadataDirectorySuccess");
+
 				var fileNameCategorie = "categorie.js";
-				dirEntry.getFile(fileNameCategorie, {create: true, exclusive: false}, onGetFileSuccess(fileEntry), onGetFileFail);
+				dirEntry.getFile(fileNameCategorie, {create: true, exclusive: false}, onGetFileSuccess, onGetFileFail);
 
 				} // close onSetMetadataDirectorySuccess
 
@@ -699,7 +704,7 @@
 				function onGetFileSuccess(fileEntry){
 
 					if (device.platform === "iOS") {
-						fileEntry.setMetadata(onSetMetadataFileSuccess(fileEntry), onSetMetadataFileFail, { "com.apple.MobileBackup": 1});
+						fileEntry.setMetadata(onSetMetadataFileSuccess, onSetMetadataFileFail, { "com.apple.MobileBackup": 1});
 					}
 
 					if (device.platform === "Android") {
