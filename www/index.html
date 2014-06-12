@@ -181,16 +181,13 @@
 			fileSystem.root.getDirectory("ShopInComo", {create: true, exclusive: false}, onGetDirectorySuccess, onGetDirectoryFail);
 
 				function onGetDirectorySuccess(dirEntry){
-
-					//MEMORIZZA PATH
-					var directory = dirEntry.fullPath;
 								
 						if (device.platform === "Android") {
 							onSetMetadataDirectorySuccess(dirEntry);
 						}
 								
 						if (device.platform === "iOS") {
-							dirEntry.setMetadata(onSetMetadataDirectorySuccess, onSetMetadataDirectoryFail, { "com.apple.MobileBackup": 1});
+							dirEntry.setMetadata(onSetMetadataDirectorySuccess(dirEntry), onSetMetadataDirectoryFail, { "com.apple.MobileBackup": 1});
 						}
 								
 				} // close onGetDirectorySuccess
@@ -254,16 +251,13 @@
 			fileSystem.root.getDirectory("ShopInComo", {create: true, exclusive: false}, onGetDirectorySuccess, onGetDirectoryFail);
 
 				function onGetDirectorySuccess(dirEntry){
-
-					//MEMORIZZA PATH
-					var directory = dirEntry.fullPath;
 								
 						if (device.platform === "Android") {
 							onSetMetadataDirectorySuccess(dirEntry);
 						}
 								
 						if (device.platform === "iOS") {
-							dirEntry.setMetadata(onSetMetadataDirectorySuccess, onSetMetadataDirectoryFail, { "com.apple.MobileBackup": 1});
+							dirEntry.setMetadata(onSetMetadataDirectorySuccess(dirEntry), onSetMetadataDirectoryFail, { "com.apple.MobileBackup": 1});
 						}
 								
 				} // close onGetDirectorySuccess
@@ -339,15 +333,13 @@
 
 				function onGetDirectorySuccess(dirEntry){
 
-					//MEMORIZZA PATH
-					var directory = dirEntry.fullPath;
 								
 						if (device.platform === "Android") {
 							onSetMetadataDirectorySuccess(dirEntry);
 						}
 								
 						if (device.platform === "iOS") {
-							dirEntry.setMetadata(onSetMetadataDirectorySuccess, onSetMetadataDirectoryFail, { "com.apple.MobileBackup": 1});
+							dirEntry.setMetadata(onSetMetadataDirectorySuccess(dirEntry), onSetMetadataDirectoryFail, { "com.apple.MobileBackup": 1});
 						}
 								
 				} // close onGetDirectorySuccess
@@ -432,7 +424,7 @@
 						}
 								
 						if (device.platform === "iOS") {
-							dirEntry.setMetadata(onSetMetadataDirectorySuccess, onSetMetadataDirectoryFail, { "com.apple.MobileBackup": 1});
+							dirEntry.setMetadata(onSetMetadataDirectorySuccess(dirEntry), onSetMetadataDirectoryFail, { "com.apple.MobileBackup": 1});
 						}
 								
 				} // close onGetDirectorySuccess
@@ -459,7 +451,7 @@
 				function onGetFileSuccess(fileEntry){
 
 					if (device.platform === "iOS") {
-						fileEntry.setMetadata(onSetMetadataFileSuccess, onSetMetadataFileFail, { "com.apple.MobileBackup": 1});
+						fileEntry.setMetadata(onSetMetadataFileSuccess(fileEntry), onSetMetadataFileFail, { "com.apple.MobileBackup": 1});
 					}
 
 					if (device.platform === "Android") {
@@ -1007,7 +999,7 @@
 						}
 								
 						if (device.platform === "iOS") {
-							dirEntry.setMetadata(onSetMetadataDirectorySuccess, onSetMetadataDirectoryFail, { "com.apple.MobileBackup": 1});
+							dirEntry.setMetadata(onSetMetadataDirectorySuccess(dirEntry), onSetMetadataDirectoryFail, { "com.apple.MobileBackup": 1});
 						}
 								
 				} // close onGetDirectorySuccess
@@ -1035,7 +1027,7 @@
 
 
 					if (device.platform === "iOS") {
-						fileEntry.setMetadata(onSetMetadataFileSuccess, onSetMetadataFileFail, { "com.apple.MobileBackup": 1});
+						fileEntry.setMetadata(onSetMetadataFileSuccess(fileEntry), onSetMetadataFileFail, { "com.apple.MobileBackup": 1});
 					}
 
 					if (device.platform === "Android") {
@@ -1114,7 +1106,7 @@
 						}
 								
 						if (device.platform === "iOS") {
-							dirEntry.setMetadata(onSetMetadataDirectorySuccess, onSetMetadataDirectoryFail, { "com.apple.MobileBackup": 1});
+							dirEntry.setMetadata(onSetMetadataDirectorySuccess(dirEntry), onSetMetadataDirectoryFail, { "com.apple.MobileBackup": 1});
 						}
 								
 				} // close onGetDirectorySuccess
@@ -1142,7 +1134,7 @@
 
 
 					if (device.platform === "iOS") {
-						fileEntry.setMetadata(onSetMetadataFileSuccess, onSetMetadataFileFail, { "com.apple.MobileBackup": 1});
+						fileEntry.setMetadata(onSetMetadataFileSuccess(fileEntry), onSetMetadataFileFail, { "com.apple.MobileBackup": 1});
 					}
 
 					if (device.platform === "Android") {
