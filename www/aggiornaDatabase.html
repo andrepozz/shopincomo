@@ -462,6 +462,8 @@
 	function updateVetrine() {
 	
 		sessionStorage.setItem("vetrineOK", 1);
+
+		alert(localStorage.getItem("dataDownload"));
 		
 		$.ajax({
 			url: "http://shopincomo.comune.como.it/ccn20/JSONidEserciziUpdate.php?language="+localStorage.getItem("codLingua")+"&dataDownload="+localStorage.getItem("dataDownload")+"",
@@ -493,7 +495,7 @@
 					
 			}
 		});
-	window.localStorage.removeItem(dataDownload);
+	window.localStorage.removeItem("dataDownload");
 	}
 	
 	
