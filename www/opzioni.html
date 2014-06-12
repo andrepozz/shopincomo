@@ -1535,8 +1535,6 @@
 										
 					fileEntry.getMetadata(function(metadata) {
 					var dataDownload = Date.parse(metadata.modificationTime) / 1000;
-
-					alert(dataDownload);
 					
 					localStorage.setItem("dataDownload", dataDownload );
 					
