@@ -666,9 +666,15 @@
 			fileSystem.root.getDirectory("ShopInComo", {create: true, exclusive: false}, onGetDirectorySuccess, onGetDirectoryFail);
 
 				function onGetDirectorySuccess(dirEntry){
-
+				
+				if (device.platform === "iOS") {
 				dirEntry.setMetadata(onSetMetadataDirectorySuccess, onSetMetadataDirectoryFail, { "com.apple.MobileBackup": 1});
+				}
 
+				if (device.platform === "Android") {
+				onSetMetadataDirectorySuccess(dirEntry);
+				}
+				
 				} // close onGetDirectorySuccess
 
 				function onGetDirectoryFail(dirEntry){
@@ -692,7 +698,13 @@
 
 				function onGetFileSuccess(fileEntry){
 
-					dirEntry.setMetadata(onSetMetadataFileSuccess, onSetMetadataFileFail, { "com.apple.MobileBackup": 1});
+					if (device.platform === "iOS") {
+						fileEntry.setMetadata(onSetMetadataFileSuccess, onSetMetadataFileFail, { "com.apple.MobileBackup": 1});
+					}
+
+					if (device.platform === "Android") {
+						onSetMetadataFileSuccess(fileEntry);
+					}
 
 				} // close onGetFileSuccess
 
