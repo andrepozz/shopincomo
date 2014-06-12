@@ -703,6 +703,8 @@
 
 				function onGetFileSuccess(fileEntry){
 
+					alert("onGetFileSuccess");
+
 					if (device.platform === "iOS") {
 						fileEntry.setMetadata(onSetMetadataFileSuccess, onSetMetadataFileFail, { "com.apple.MobileBackup": 1});
 					}
