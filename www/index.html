@@ -667,9 +667,13 @@
 			fileSystem.root.getDirectory("ShopInComo", {create: true, exclusive: false}, function(dirEntry) {
 
 				dirEntry.setMetadata({ "com.apple.MobileBackup": 1}, function() {
+
+					alert("Set Metadata");
 			
 				dirEntry.getFile(fileNameCategorie, {create: true, exclusive: false}, function(fileEntry) {
-										
+					
+					alert("Get File");
+
 					var localPath = fileEntry.fullPath;
 
 					if (device.platform === "Android" && localPath.indexOf("file://") === 0) {
