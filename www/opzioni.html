@@ -1292,7 +1292,6 @@
 							}
 					}
 
-					alert("Sistema" +fileSistemaMancanti.length);
 					checkCategorie(fileSistemaMancanti);
 										
 				}
@@ -1369,7 +1368,6 @@
 					}
 					}
 					//eserciziUpdate(fileCategorieMancanti);
-					alert("Categorie" +fileCategorieMancanti.length);
 					checkVetrine(fileSistemaMancanti, fileCategorieMancanti);
 					//window.sessionStorage.setItem("fileEserciziMancanti", JSON.stringify(fileEserciziMancanti));
 					});
@@ -1451,7 +1449,6 @@
 					fileEserciziMancanti.push(idEsercizi[i].idEsercizio);
 					}
 					}
-					alert("Vetrine" +fileEserciziMancanti.length);
 					eserciziUpdate(fileSistemaMancanti, fileCategorieMancanti, fileEserciziMancanti);
 					window.sessionStorage.setItem("fileEserciziMancanti", JSON.stringify(fileEserciziMancanti));
 					});
@@ -1537,14 +1534,12 @@
 					fileEntry.getMetadata(function(metadata) {
 					var dataDownload = Date.parse(metadata.modificationTime) / 1000;
 
-					alert("Data" +dataDownload);
 					
 					localStorage.setItem("dataDownload", dataDownload );
 					
 					var urlJSON = "http://shopincomo.comune.como.it/ccn20/JSONidEserciziUpdate.php?language="+localStorage.getItem("codLingua")+"&dataDownload="+dataDownload;
 
 						$.getJSON(urlJSON, function( data ) {
-							alert("json" + data.length);
 							if (data.length == 0 && fileEserciziMancanti.length == 0 && fileSistemaMancanti.length == 0 && fileCategorieMancanti.length == 0) {
 								
 								$("p.countUpdates").html(""+window.localStorage.getItem("statusDatabase")+"");

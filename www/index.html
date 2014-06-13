@@ -224,7 +224,6 @@
 							}
 					}
 
-					alert("Sistema " +fileSistemaMancanti.length);
 					checkCategorie(fileSistemaMancanti);
 										
 				}
@@ -301,7 +300,6 @@
 					}
 					}
 					//eserciziUpdate(fileCategorieMancanti);
-					alert("Categorie " +fileCategorieMancanti.length);
 					checkVetrine(fileSistemaMancanti, fileCategorieMancanti);
 					//window.sessionStorage.setItem("fileEserciziMancanti", JSON.stringify(fileEserciziMancanti));
 					});
@@ -383,7 +381,6 @@
 					fileEserciziMancanti.push(idEsercizi[i].idEsercizio);
 					}
 					}
-					alert("Esercizi " +fileEserciziMancanti.length);
 					eserciziUpdate(fileSistemaMancanti, fileCategorieMancanti, fileEserciziMancanti);
 					window.sessionStorage.setItem("fileEserciziMancanti", JSON.stringify(fileEserciziMancanti));
 					});
@@ -469,8 +466,6 @@
 										
 					fileEntry.getMetadata(function(metadata) {
 					var dataDownload = Date.parse(metadata.modificationTime) / 1000;
-
-					alert("Data" +dataDownload);
 					
 					localStorage.setItem("dataDownload", dataDownload );
 					
@@ -486,11 +481,9 @@
 							if (response.length == 0 && fileEserciziMancanti.length == 0 && fileSistemaMancanti.length == 0 && fileCategorieMancanti.length == 0) {
 								//alert("NO aggiornamenti disponibili");
 								//$("p.countUpdates").html(""+window.localStorage.getItem("statusDatabase")+"");
-								alert("No aggiornamenti");
 								$.mobile.loading( "hide" );
 							}
 							else {
-								alert("Ci sono aggiornamenti");
 								$( "#updateDisponibili" ).popup("open");
 								$.mobile.loading( "hide" );
 							}
@@ -498,7 +491,6 @@
 							if(textStatus == 'timeout')
 							{     
 								if (fileEserciziMancanti.length == 0 && fileSistemaMancanti.length == 0 && fileCategorieMancanti.length == 0) {
-								alert("timeout");
 								$.mobile.loading( "hide" );
 								}
 								else {
