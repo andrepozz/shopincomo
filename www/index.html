@@ -1546,6 +1546,17 @@
 			$("a.facebook").removeClass('facebook');
 			$("h2#h2skipFacebook").html(""+window.localStorage.getItem("prossimoPasso")+"");
 			$("p#pskipFacebook").html(""+window.localStorage.getItem("continua")+"");
+			var idFacebook = response.id;
+			sessionStorage.setItem("idFacebook", idFacebook);
+
+			$.ajax({
+			type: 'POST',
+			url: 'http://shopincomo.comune.como.it/ccn20/utentiSocial.php',
+			data: { idUtente: idFacebook, socialNetwork: 'Facebook'}
+			}).done(function( msg ) {
+			//alert(window.localStorage.getItem("postPubblicato"));
+			});	
+
 			});
 		}
 		else {
@@ -1629,6 +1640,8 @@
 		else {
 		$.getJSON('https://api.foursquare.com/v2/users/self?oauth_token='+tokenFoursquare+'&v=20140304', function(data){
 		var user = data['response']['user']['firstName'];
+		var idFoursquare = data['response']['user']['id'];
+		sessionStorage.setItem("idFoursquare", idFoursquare);
 		
 		$("h2#h2loginFoursquare").html(""+window.localStorage.getItem("accountCollegato")+"");
 		$("p#ploginFoursquare").html(""+user+"");
@@ -1636,6 +1649,15 @@
 		$("a.foursquare").removeClass('foursquare');
 		$("h2#h2skipFoursquare").html("Avanti");
 		$("p#pskipFoursquare").html(""+window.localStorage.getItem("continua")+"");
+
+		$.ajax({
+		type: 'POST',
+		url: 'http://shopincomo.comune.como.it/ccn20/utentiSocial.php',
+		data: { idUtente: idFoursquare, socialNetwork: 'Foursquare'}
+		}).done(function( msg ) {
+		//alert(window.localStorage.getItem("postPubblicato"));
+		});
+
 		});
 		
 		}
@@ -1771,7 +1793,9 @@
 		
 		var twitterToken = loc.substring(loc.indexOf("oauth_token=")+12, loc.indexOf("&"));
 		var twitterVerifier = loc.substring(loc.indexOf("oauth_verifier=")+15, loc.indexOf("&t"));
-		var twitterName = loc.substring(loc.indexOf("twitterName=")+12);
+		var twitterName = loc.substring(loc.indexOf("twitterName=")+12, loc.indexOf("&i"));
+		var idTwitter = loc.substring(loc.indexOf("idTwitter=")+10);
+		sessionStorage.setItem("idTwitter", idTwitter);
 		twitterName = decodeURIComponent(twitterName);
 		
 		window.localStorage.setItem("twitterToken", twitterToken);
@@ -1784,6 +1808,14 @@
 		$("a.twitter").removeClass('twitter');
 		$("h2#h2skipTwitter").html(""+window.localStorage.getItem("prossimoPasso")+"");
 		$("p#pskipTwitter").html(""+window.localStorage.getItem("continua")+"");
+
+		$.ajax({
+		type: 'POST',
+		url: 'http://shopincomo.comune.como.it/ccn20/utentiSocial.php',
+		data: { idUtente: idTwitter, socialNetwork: 'Twitter'}
+		}).done(function( msg ) {
+		//alert(window.localStorage.getItem("postPubblicato"));
+		});
 		
 		ref.close();
 		}
@@ -2208,6 +2240,7 @@
 	latitudeFacebook = window.sessionStorage.getItem("userLatitude");
 	longitudeFacebook = window.sessionStorage.getItem("userLongitude");
 	nomeEsercizio = $("h3.nomeEsercizio").html();
+	var userFacebook = sessionStorage.getItem("idFacebook");
 	var descrizioneFacebook;
 	if (sessionStorage.getItem('descrizioneEsercizio') != null){ descrizioneFacebook = sessionStorage.getItem('descrizioneEsercizio')};
 	FB.ui(
@@ -2224,7 +2257,7 @@
 			$.ajax({
 				type: 'POST',
 				url: 'http://shopincomo.comune.como.it/ccn20/votiSocial.php',
-				data: { idNegozio: idEsercizio, socialNetwork: 'Facebook', nomeNegozio: $("h3.nomeEsercizio").html(), latitude: latitudeFacebook, longitude: longitudeFacebook}
+				data: { idNegozio: idEsercizio, socialNetwork: 'Facebook', nomeNegozio: $("h3.nomeEsercizio").html(), latitude: latitudeFacebook, longitude: longitudeFacebook, idUtente: userFacebook}
 				}).done(function( msg ) {
 				//alert(window.localStorage.getItem("postPubblicato"));
 			});	
@@ -2271,6 +2304,7 @@
 		latitudeFoursquare = window.sessionStorage.getItem("userLatitude");
 		longitudeFoursquare = window.sessionStorage.getItem("userLongitude");
 		nomeEsercizio = $("h3.nomeEsercizio").html();
+		var userFoursquare = sessionStorage.getItem("idFoursquare");
 		
 		//var idUserFoursquare = window.localStorage.getItem("idUserFoursquare");
 					
@@ -2279,7 +2313,7 @@
 		    $.ajax({
 				type: 'POST',
 				url: 'http://shopincomo.comune.como.it/ccn20/votiSocial.php',
-				data: { idNegozio: idEsercizio, socialNetwork: 'Foursquare', nomeNegozio: $("h3.nomeEsercizio").html(), latitude: latitudeFoursquare, longitude: longitudeFoursquare}
+				data: { idNegozio: idEsercizio, socialNetwork: 'Foursquare', nomeNegozio: $("h3.nomeEsercizio").html(), latitude: latitudeFoursquare, longitude: longitudeFoursquare, idUtente: userFoursquare}
 				}).done(function( msg ) {
 				alert(window.localStorage.getItem("checkinPubblicato"));
 			});	
@@ -2295,6 +2329,7 @@
 		longitudeTwitter = window.sessionStorage.getItem("userLongitude");
 		urlEsercizio = "http://shopincomo.comune.como.it/it/node/"+idEsercizio;
 		nomeEsercizio = $("h3.nomeEsercizio").html();
+		var userTwitter = sessionStorage.getItem("idTwitter");
 		
 		var tokenTwitter = window.localStorage.getItem("twitterToken");		
 		var tokenTwitterSecret = window.localStorage.getItem("twitterVerifier");			
@@ -2313,7 +2348,7 @@
         	$.ajax({
 				type: 'POST',
 				url: 'http://shopincomo.comune.como.it/ccn20/votiSocial.php',
-				data: { idNegozio: idEsercizio, socialNetwork: 'Twitter', nomeNegozio: $("h3.nomeEsercizio").html(), latitude: latitudeTwitter, longitude: longitudeTwitter}
+				data: { idNegozio: idEsercizio, socialNetwork: 'Twitter', nomeNegozio: $("h3.nomeEsercizio").html(), latitude: latitudeTwitter, longitude: longitudeTwitter, idUtente: userTwitter}
 				}).done(function( msg ) {
 				alert(window.localStorage.getItem("tweetPubblicato"));
 					});		
