@@ -166,8 +166,8 @@
 				if (loc.indexOf("shopincomo.comune.como.it/twitter/twitterTokens.php?") > -1){
 				var twitterToken = loc.substring(loc.indexOf("oauth_token=")+12, loc.indexOf("&"));
 				var twitterVerifier = loc.substring(loc.indexOf("oauth_verifier=")+15, loc.indexOf("&t"));
-				var twitterName = loc.substring(loc.indexOf("twitterName=")+12, loc.indexOf("&"));
-				var twitterId = loc.substring(loc.indexOf("twitterId=")+12);
+				var twitterName = loc.substring(loc.indexOf("twitterName=")+12, loc.indexOf("&i"));
+				var twitterId = loc.substring(loc.indexOf("idTwitter=")+12);
 				alert(twitterId);
 				twitterName = decodeURIComponent(twitterName);
 				
