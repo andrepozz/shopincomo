@@ -291,8 +291,17 @@
 							
 							FB.api('/me', function(response) {
 							$("img.imageFacebook").attr("src", "img/facebookList.png");
+							var idFacebook = response.id;
+							sessionStorage.setItem("idFacebook", idFacebook);
 							$("p.accountFacebook").html(response.name);
-							sessionStorage.setItem("idFacebook", response.id);
+
+							$.ajax({
+							type: 'POST',
+							url: 'http://shopincomo.comune.como.it/ccn20/utentiSocial.php',
+							data: { idUtente: idFacebook, socialNetwork: 'Facebook'}
+							}).done(function( msg ) {
+							//alert(window.localStorage.getItem("postPubblicato"));
+							});	
 							});
 						}
 						else {
