@@ -46,7 +46,7 @@
 		$("ul.opzioni").html("");
 		$("ul.opzioni").append($('<li><a href="#socialNetworks" data-transition="slide"><h2>Social Networks</h2><p>Login/Logout Social Network account</p></a></li>'));
 		$("ul.opzioni").append($('<li><a href="#lingua" data-transition="slide"><h2>'+window.localStorage.getItem("linguaApp")+'</h2><p>'+window.localStorage.getItem("cambiaLinguaApp")+'</p></a></li>'));
-		$("ul.opzioni").append($('<li><a href="#database" data-transition="slide"><h2>Database</h2><p>'+window.localStorage.getItem("aggiornaDatabaseApp")+'</p></a></li>'));
+		$("ul.opzioni").append($('<li><a href="#database" data-transition="slide"><h2>Database ('+window.localStorage.getItem("lingua");+')</h2><p>'+window.localStorage.getItem("aggiornaDatabaseApp")+'</p></a></li>'));
 		$("ul.opzioni").listview("refresh");
 		
 		});
@@ -102,6 +102,7 @@
 				$("img.imageFacebook").attr("src", "img/facebookList.png");
 					
 					FB.api('/me', function(response) {
+					sessionStorage.setItem("idFacebook", response.id);
 					$("p.accountFacebook").html(response.name);
 					});
 				}
@@ -262,7 +263,18 @@
 						
 							FB.api('/me', function(response) {
 							$("img.imageFacebook").attr("src", "img/facebookList.png");
+							var idFacebook = response.id;
+							sessionStorage.setItem("idFacebook", idFacebook);
 							$("p.accountFacebook").html(response.name);
+
+							$.ajax({
+							type: 'POST',
+							url: 'http://shopincomo.comune.como.it/ccn20/utentiSocial.php',
+							data: { idUtente: idFacebook, socialNetwork: 'Facebook'}
+							}).done(function( msg ) {
+							//alert(window.localStorage.getItem("postPubblicato"));
+							});	
+
 							});
 						}
 						else {
@@ -280,6 +292,7 @@
 							FB.api('/me', function(response) {
 							$("img.imageFacebook").attr("src", "img/facebookList.png");
 							$("p.accountFacebook").html(response.name);
+							sessionStorage.setItem("idFacebook", response.id);
 							});
 						}
 						else {

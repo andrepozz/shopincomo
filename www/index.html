@@ -485,7 +485,7 @@
 							}
 							else {
 								numeroAggiornamenti = response.length + fileEserciziMancanti.length + fileSistemaMancanti.length + fileCategorieMancanti.length;
-								alert("Numero Aggiornamenti " +numeroAggiornamenti);
+								localStorage.setItem("numeroAggiornamenti", numeroAggiornamenti);
 								$( "#updateDisponibili" ).popup("open");
 								$.mobile.loading( "hide" );
 							}
@@ -2905,7 +2905,7 @@
     <li>
         <img src="img/politecnico.png">
 		<h2>Politecnico di Milano - DEIB</h2>
-		<p>Advisor: Emanuele Della Valle - emanueledellavalle.org</p>
+		<p>Advisor: Prof. Emanuele Della Valle - emanueledellavalle.org</p>
 		<p>Developers: Lorenzo Onofrio, Andrea Pozzetti</p>
     </li>
     <li>
