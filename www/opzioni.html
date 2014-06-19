@@ -156,7 +156,7 @@
 		
 		if(twitterToken == null) {
 			
-			var ref = window.open('http://shopincomo.comune.como.it/twitter/twitterConnect.php', '_blank', 'location=yes');
+			var ref = window.open('http://shopincomo.comune.como.it/twitter/twitterConnect.php', '_blank', 'location=no');
 			ref.addEventListener('loadstart', function(event) {
 			closeTwitter(event.url,ref);
 			});  
@@ -167,8 +167,8 @@
 				var twitterToken = loc.substring(loc.indexOf("oauth_token=")+12, loc.indexOf("&"));
 				var twitterVerifier = loc.substring(loc.indexOf("oauth_verifier=")+15, loc.indexOf("&t"));
 				var twitterName = loc.substring(loc.indexOf("twitterName=")+12, loc.indexOf("&i"));
-				var twitterId = loc.substring(loc.indexOf("idTwitter=")+12);
-				alert(twitterId);
+				var idTwitter = loc.substring(loc.indexOf("idTwitter=")+10);
+				sessionStorage.setItem("idTwitter", idTwitter);
 				twitterName = decodeURIComponent(twitterName);
 				
 				if(twitterToken !== "") {
@@ -178,6 +178,15 @@
 		
 				$("img.imageTwitter").attr("src", "img/twitterList.png");
 				$("p.accountTwitter").html(twitterName);
+
+				$.ajax({
+				type: 'POST',
+				url: 'http://shopincomo.comune.como.it/ccn20/utentiSocial.php',
+				data: { idUtente: idTwitter, socialNetwork: 'Twitter'}
+				}).done(function( msg ) {
+				//alert(window.localStorage.getItem("postPubblicato"));
+				});	
+
 				}
 				
 				ref.close();
