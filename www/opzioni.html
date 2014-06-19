@@ -46,7 +46,7 @@
 		$("ul.opzioni").html("");
 		$("ul.opzioni").append($('<li><a href="#socialNetworks" data-transition="slide"><h2>Social Networks</h2><p>Login/Logout Social Network account</p></a></li>'));
 		$("ul.opzioni").append($('<li><a href="#lingua" data-transition="slide"><h2>'+window.localStorage.getItem("linguaApp")+'</h2><p>'+window.localStorage.getItem("cambiaLinguaApp")+'</p></a></li>'));
-		$("ul.opzioni").append($('<li><a href="#database" data-transition="slide"><h2>Database ('+window.localStorage.getItem("lingua")+')</h2><p>'+window.localStorage.getItem("aggiornaDatabaseApp")+'</p></a></li>'));
+		$("ul.opzioni").append($('<li><a href="#database" data-transition="slide"><h2>Database ('+window.localStorage.getItem("numeroAggiornamenti")+')</h2><p>'+window.localStorage.getItem("aggiornaDatabaseApp")+'</p></a></li>'));
 		$("ul.opzioni").listview("refresh");
 		
 		});
@@ -166,7 +166,9 @@
 				if (loc.indexOf("shopincomo.comune.como.it/twitter/twitterTokens.php?") > -1){
 				var twitterToken = loc.substring(loc.indexOf("oauth_token=")+12, loc.indexOf("&"));
 				var twitterVerifier = loc.substring(loc.indexOf("oauth_verifier=")+15, loc.indexOf("&t"));
-				var twitterName = loc.substring(loc.indexOf("twitterName=")+12);
+				var twitterName = loc.substring(loc.indexOf("twitterName=")+12, loc.indexOf("&"));
+				var twitterId = loc.substring(loc.indexOf("twitterId=")+12);
+				alert(twitterId);
 				twitterName = decodeURIComponent(twitterName);
 				
 				if(twitterToken !== "") {
@@ -225,8 +227,19 @@
 			
 				$.getJSON('https://api.foursquare.com/v2/users/self?oauth_token='+tokenFoursquare+'&v=20140304', function(data){
 				var user = data['response']['user']['firstName'];
+				var idFoursquare = data['response']['user']['id'];
+				sessionStorage.setItem("idFoursquare", idFoursquare);
 				$("img.imageFoursquare").attr("src", "img/foursquareList.png");
 				$("p.accountFoursquare").html(user);
+							
+				$.ajax({
+				type: 'POST',
+				url: 'http://shopincomo.comune.como.it/ccn20/utentiSocial.php',
+				data: { idUtente: idFoursquare, socialNetwork: 'Foursquare'}
+				}).done(function( msg ) {
+				//alert(window.localStorage.getItem("postPubblicato"));
+				});	
+
 				});
 				
 			ref.close();
