@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>Page Title</title>
-
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, target-densitydpi=medium-dpi, user-scalable=0" />
 	<link rel="stylesheet" href="css/themes/shopincomo.min.css" />
 	<link rel="stylesheet" href="css/themes/jquery.mobile.icons.min.css" />
 	<link rel="stylesheet" href="css/jquery.mobile.structure-1.4.2.min.css" />
@@ -67,6 +67,12 @@
 							window.localStorage.setItem('pathSD', pathSD);
 							onSetMetadataDirectorySuccess(dirEntry);
 						}
+						
+						if (device.platform === "WinCE" || device.platform === "Win32NT") {
+							onSetMetadataDirectorySuccess(dirEntry);
+							var pathSD = directory;
+							window.localStorage.setItem('pathSD', pathSD);
+						}
 								
 						if (device.platform === "iOS") {
 							dirEntry.setMetadata(onSetMetadataDirectorySuccess(dirEntry), onSetMetadataDirectoryFail, { "com.apple.MobileBackup": 1});
@@ -105,6 +111,10 @@
 					}
 
 					if (device.platform === "Android") {
+						onSetMetadataFileSuccess(fileEntry);
+					}
+					
+					if (device.platform === "WinCE" || device.platform === "Win32NT") {
 						onSetMetadataFileSuccess(fileEntry);
 					}
 
@@ -251,6 +261,10 @@
 						if (device.platform === "iOS") {
 							dirEntry.setMetadata(onSetMetadataDirectorySuccess(dirEntry), onSetMetadataDirectoryFail, { "com.apple.MobileBackup": 1});
 						}
+						
+						if (device.platform === "WinCE" || device.platform === "Win32NT") {
+							onSetMetadataDirectorySuccess(dirEntry);
+						}
 								
 				} // close onGetDirectorySuccess
 
@@ -281,6 +295,10 @@
 					}
 
 					if (device.platform === "Android") {
+						onSetMetadataFileSuccess(fileEntry);
+					}
+					
+					if (device.platform === "WinCE" || device.platform === "Win32NT") {
 						onSetMetadataFileSuccess(fileEntry);
 					}
 
@@ -351,6 +369,10 @@
 						if (device.platform === "Android") {
 							onSetMetadataDirectorySuccess(dirEntry);
 						}
+						
+						if (device.platform === "WinCE" || device.platform === "Win32NT") {
+							onSetMetadataDirectorySuccess(dirEntry);
+						}
 								
 						if (device.platform === "iOS") {
 							dirEntry.setMetadata(onSetMetadataDirectorySuccess(dirEntry), onSetMetadataDirectoryFail, { "com.apple.MobileBackup": 1});
@@ -385,6 +407,10 @@
 					}
 
 					if (device.platform === "Android") {
+						onSetMetadataFileSuccess(fileEntry);
+					}
+					
+					if (device.platform === "WinCE" || device.platform === "Win32NT") {
 						onSetMetadataFileSuccess(fileEntry);
 					}
 
@@ -512,6 +538,10 @@
 						if (device.platform === "Android") {
 							onSetMetadataDirectorySuccess(dirEntry);
 						}
+						
+						if (device.platform === "WinCE" || device.platform === "Win32NT") {
+							onSetMetadataDirectorySuccess(dirEntry);
+						}
 								
 						if (device.platform === "iOS") {
 							dirEntry.setMetadata(onSetMetadataDirectorySuccess(dirEntry), onSetMetadataDirectoryFail, { "com.apple.MobileBackup": 1});
@@ -548,6 +578,10 @@
 					if (device.platform === "Android") {
 						onSetMetadataFileSuccess(fileEntry);
 					}
+					
+					if (device.platform === "WinCE" || device.platform === "Win32NT") {
+						onSetMetadataFileSuccess(fileEntry);
+					}
 
 				} // close onGetFileSuccess
 
@@ -574,11 +608,15 @@
 						numElementi = parseInt(numElementi)-1;							
 								if(numElementi == 0) {
 								
+									var lastDownload = new Date();
+									var lastDownload = lastDownload.getTime();
+									window.sessionStorage.setItem('lastDownload', lastDownload);
+									
 									$("li.vetrine").html("<img class='iconaTipologia' src='img/downloadEsercizi.png'> UPDATE "+window.localStorage.getItem('esercizi')+"");
 									$("li.vetrine").css("color","white");
 									$("li.vetrine").css("background","#00CC00");
 									$("p.downloadComplete").html("<a href='opzioni.html' rel='external' class='ui-btn' data-transition='slide'>"+window.localStorage.getItem('aggiornamentoCompletato')+"</a>");
-									localStorage.removeItem("numeroAggiornamenti");	
+									localStorage.setItem("numeroAggiornamenti", 0);
 								}
 								else {
 								sessionStorage.setItem("numElementi", numElementi);
@@ -590,12 +628,16 @@
 							numElementiError = parseInt(numElementiError)-1;							
 							
 							if(numElementiError == 0) {
+							
+									var lastDownload = new Date();
+									var lastDownload = lastDownload.getTime();
+									window.localStorage.setItem('lastDownload', lastDownload);
 								
 									$("li.vetrine").html("<img class='iconaTipologia' src='img/downloadEsercizi.png'> UPDATE "+window.localStorage.getItem('esercizi')+"");
 									$("li.vetrine").css("color","white");
 									$("li.vetrine").css("background","#00CC00");
 									$("p.downloadComplete").html("<a href='opzioni.html' rel='external' class='ui-btn' data-transition='slide'>"+window.localStorage.getItem('aggiornamentoCompletato')+"</a>");
-									localStorage.removeItem("numeroAggiornamenti");		
+									localStorage.setItem("numeroAggiornamenti", 0);
 							}
 							else {
 							sessionStorage.setItem("numElementi", numElementiError);

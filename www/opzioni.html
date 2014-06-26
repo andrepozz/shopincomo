@@ -2,6 +2,7 @@
 <html>
 <head>
 	<title>Page Title</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, target-densitydpi=medium-dpi, user-scalable=0" />
 	<link rel="stylesheet" href="css/themes/shopincomo.min.css" />
 	<link rel="stylesheet" href="css/themes/jquery.mobile.icons.min.css" />
 	<link rel="stylesheet" href="css/jquery.mobile.structure-1.4.2.min.css" />
@@ -93,6 +94,30 @@
 		$("a.closePopup").html(window.localStorage.getItem("chiudi"));
 		
 		
+		if (device.platform === "Android") {
+			$("ul.listaSocialNetwork").html("");
+			$("ul.listaSocialNetwork").append($('<li><a href="#" class="collegaFacebook" data-transition="slide"><img src="img/facebookList.png" alt="Facebook" class="imageFacebook ui-li-icon ui-corner-none">Facebook<p class="accountFacebook"></p></a></li>'));
+			$("ul.listaSocialNetwork").append($('<li><a href="#" class="collegaFoursquare" data-transition="slide"><img src="img/foursquareList.png" alt="Foursquare" class="imageFoursquare ui-li-icon ui-corner-none">Foursquare<p class="accountFoursquare"></p></a></li>'));
+			$("ul.listaSocialNetwork").append($('<li><a href="#" class="collegaTwitter" data-transition="slide"><img src="img/twitterList.png" alt="Twitter" class="imageTwitter ui-li-icon ui-corner-none">Twitter<p class="accountTwitter"></p></a></li>'));
+			$("ul.listaSocialNetwork").listview("refresh");
+		}
+						
+		if (device.platform === "WinCE" || device.platform === "Win32NT") {
+			$("ul.listaSocialNetwork").html("");
+			$("ul.listaSocialNetwork").append($('<li><a href="#" class="collegaFoursquare" data-transition="slide"><img src="img/foursquareList.png" alt="Foursquare" class="imageFoursquare ui-li-icon ui-corner-none">Foursquare<p class="accountFoursquare"></p></a></li>'));
+			$("ul.listaSocialNetwork").append($('<li><a href="#" class="collegaTwitter" data-transition="slide"><img src="img/twitterList.png" alt="Twitter" class="imageTwitter ui-li-icon ui-corner-none">Twitter<p class="accountTwitter"></p></a></li>'));
+			$("ul.listaSocialNetwork").listview("refresh");	
+		}
+								
+		if (device.platform === "iOS") {
+			$("ul.listaSocialNetwork").html("");
+			$("ul.listaSocialNetwork").append($('<li><a href="#" class="collegaFacebook" data-transition="slide"><img src="img/facebookList.png" alt="Facebook" class="imageFacebook ui-li-icon ui-corner-none">Facebook<p class="accountFacebook"></p></a></li>'));
+			$("ul.listaSocialNetwork").append($('<li><a href="#" class="collegaFoursquare" data-transition="slide"><img src="img/foursquareList.png" alt="Foursquare" class="imageFoursquare ui-li-icon ui-corner-none">Foursquare<p class="accountFoursquare"></p></a></li>'));
+			$("ul.listaSocialNetwork").append($('<li><a href="#" class="collegaTwitter" data-transition="slide"><img src="img/twitterList.png" alt="Twitter" class="imageTwitter ui-li-icon ui-corner-none">Twitter<p class="accountTwitter"></p></a></li>'));
+			$("ul.listaSocialNetwork").listview("refresh");	
+		}
+
+		if (device.platform === "iOS" || device.platform === "Android") {
 		//FACEBOOK
 			FB.init({ appId: "771666006185274", nativeInterface: CDV.FB, useCachedDialogs: false });
 			//GET LOGIN STATUS
@@ -115,7 +140,7 @@
 				$("img.imageFacebook").attr("src", "img/facebookListbn.png");
 				}
 			}, true);
-		
+		}
 		//FOURSQUARE
 		var tokenFoursquare = window.localStorage.getItem("tokenFoursquare");
 	
@@ -168,7 +193,7 @@
 				var twitterVerifier = loc.substring(loc.indexOf("oauth_verifier=")+15, loc.indexOf("&t"));
 				var twitterName = loc.substring(loc.indexOf("twitterName=")+12, loc.indexOf("&i"));
 				var idTwitter = loc.substring(loc.indexOf("idTwitter=")+10);
-				sessionStorage.setItem("idTwitter", idTwitter);
+				localStorage.setItem("idTwitter", idTwitter);
 				twitterName = decodeURIComponent(twitterName);
 				
 				if(twitterToken !== "") {
@@ -237,7 +262,7 @@
 				$.getJSON('https://api.foursquare.com/v2/users/self?oauth_token='+tokenFoursquare+'&v=20140304', function(data){
 				var user = data['response']['user']['firstName'];
 				var idFoursquare = data['response']['user']['id'];
-				sessionStorage.setItem("idFoursquare", idFoursquare);
+				localStorage.setItem("idFoursquare", idFoursquare);
 				$("img.imageFoursquare").attr("src", "img/foursquareList.png");
 				$("p.accountFoursquare").html(user);
 							
@@ -314,7 +339,7 @@
 							FB.api('/me', function(response) {
 							$("img.imageFacebook").attr("src", "img/facebookList.png");
 							var idFacebook = response.id;
-							sessionStorage.setItem("idFacebook", idFacebook);
+							localStorage.setItem("idFacebook", idFacebook);
 							$("p.accountFacebook").html(response.name);
 
 							$.ajax({
@@ -350,10 +375,7 @@
 		
 		</script>
 		
-		<ul data-role="listview" data-inset="true">
-			<li><a href="#" class="collegaFacebook" data-transition="slide"><img src="img/facebookList.png" alt="Facebook" class="imageFacebook ui-li-icon ui-corner-none">Facebook<p class="accountFacebook"></p></a></li>
-			<li><a href="#" class="collegaFoursquare" data-transition="slide"><img src="img/foursquareList.png" alt="Foursquare" class="imageFoursquare ui-li-icon ui-corner-none">Foursquare<p class="accountFoursquare"></p></a></li>
-			<li><a href="#" class="collegaTwitter" data-transition="slide"><img src="img/twitterList.png" alt="Twitter" class="imageTwitter ui-li-icon ui-corner-none">Twitter<p class="accountTwitter"></p></a></li>
+		<ul data-role="listview" class="listaSocialNetwork"data-inset="true">
 		</ul>
 		
 		<div data-role="popup" id="connectionOfflineSocial" data-dismissible="false" data-history="false">
@@ -396,8 +418,20 @@
 	
 	//LISTA LINGUE
 	$("ul#listaLingue").html("");
+	
+	if (device.platform === "iOS") {
+	var fileLingue = "js/lingue.js";
+	}
+
+	if (device.platform === "Android") {
+		var fileLingue = "js/lingue.js";
+	}
+					
+	if (device.platform === "WinCE" || device.platform === "Win32NT") {
+		var fileLingue = "www/js/lingue.js";
+	}
 		
-		$.getJSON("js/lingue.js", function( data ) {
+		$.getJSON(fileLingue, function( data ) {
 		
 			$.each(data, function(index, info) {
 			$("ul#listaLingue").append($("<li></li>",{"html":"<a href='#' class='lingua' id='" + info.idLingua + "' codiceLingua='"+info.codiceLingua+"' nomeLingua='"+index+"' data-transition='slide' ><img src='img/lingue/"+info.codiceLingua+".png' alt='Facebook' class='ui-li-icon ui-corner-none'>" + info.nomeLingua + "</a>" }));
@@ -429,7 +463,19 @@
 	
 	// TRADUZIONI------------------------------------------------------------------------------
 	
-		$.getJSON("js/lingue.js", function( lingue ) {
+	if (device.platform === "iOS") {
+		var fileLingue = "js/lingue.js";
+	}
+
+	if (device.platform === "Android") {
+		var fileLingue = "js/lingue.js";
+	}
+					
+	if (device.platform === "WinCE" || device.platform === "Win32NT") {
+		var fileLingue = "www/js/lingue.js";
+	}
+	
+	$.getJSON(fileLingue, function( lingue ) {
 			
 	
 	window.localStorage.setItem("nome", lingue[lingua].nome);
@@ -593,6 +639,12 @@
 							window.localStorage.setItem('pathSD', pathSD);
 							onSetMetadataDirectorySuccess(dirEntry);
 						}
+						
+						if (device.platform === "WinCE" || device.platform === "Win32NT") {
+							onSetMetadataDirectorySuccess(dirEntry);
+							var pathSD = directory;
+							window.localStorage.setItem('pathSD', pathSD);
+						}
 								
 						if (device.platform === "iOS") {
 							dirEntry.setMetadata(onSetMetadataDirectorySuccess(dirEntry), onSetMetadataDirectoryFail, { "com.apple.MobileBackup": 1});
@@ -631,6 +683,10 @@
 					}
 
 					if (device.platform === "Android") {
+						onSetMetadataFileSuccess(fileEntry);
+					}
+					
+					if (device.platform === "WinCE" || device.platform === "Win32NT") {
 						onSetMetadataFileSuccess(fileEntry);
 					}
 
@@ -770,6 +826,10 @@
 						if (device.platform === "Android") {
 							onSetMetadataDirectorySuccess(dirEntry);
 						}
+						
+						if (device.platform === "WinCE" || device.platform === "Win32NT") {
+							onSetMetadataDirectorySuccess(dirEntry);
+						}
 								
 						if (device.platform === "iOS") {
 							dirEntry.setMetadata(onSetMetadataDirectorySuccess(dirEntry), onSetMetadataDirectoryFail, { "com.apple.MobileBackup": 1});
@@ -801,6 +861,10 @@
 
 					if (device.platform === "iOS") {
 						fileEntry.setMetadata(onSetMetadataFileSuccess(fileEntry), onSetMetadataFileFail, { "com.apple.MobileBackup": 1});
+					}
+					
+					if (device.platform === "WinCE" || device.platform === "Win32NT") {
+						onSetMetadataFileSuccess(fileEntry);
 					}
 
 					if (device.platform === "Android") {
@@ -870,11 +934,12 @@
 			fileSystem.root.getDirectory(directory, {create: true, exclusive: false}, onGetDirectorySuccess, onGetDirectoryFail);
 
 				function onGetDirectorySuccess(dirEntry){
-
-					//MEMORIZZA PATH
-					var directory = dirEntry.fullPath;
 								
 						if (device.platform === "Android") {
+							onSetMetadataDirectorySuccess(dirEntry);
+						}
+						
+						if (device.platform === "WinCE" || device.platform === "Win32NT") {
 							onSetMetadataDirectorySuccess(dirEntry);
 						}
 								
@@ -911,6 +976,10 @@
 					}
 
 					if (device.platform === "Android") {
+						onSetMetadataFileSuccess(fileEntry);
+					}
+					
+					if (device.platform === "WinCE" || device.platform === "Win32NT") {
 						onSetMetadataFileSuccess(fileEntry);
 					}
 
@@ -1054,6 +1123,11 @@
 	
 	function downloadVetrineInterval() {
 	
+	var lastDownload = new Date();
+	var lastDownload = lastDownload.getTime();
+	
+	window.localStorage.setItem('lastDownload', lastDownload);
+	
 	var start = window.sessionStorage.getItem('start');
 	
 	$.ajax({	
@@ -1094,6 +1168,10 @@
 						if (device.platform === "Android") {
 							onSetMetadataDirectorySuccess(dirEntry);
 						}
+						
+						if (device.platform === "WinCE" || device.platform === "Win32NT") {
+							onSetMetadataDirectorySuccess(dirEntry);
+						}
 								
 						if (device.platform === "iOS") {
 							dirEntry.setMetadata(onSetMetadataDirectorySuccess(dirEntry), onSetMetadataDirectoryFail, { "com.apple.MobileBackup": 1});
@@ -1128,6 +1206,10 @@
 					}
 
 					if (device.platform === "Android") {
+						onSetMetadataFileSuccess(fileEntry);
+					}
+					
+					if (device.platform === "WinCE" || device.platform === "Win32NT") {
 						onSetMetadataFileSuccess(fileEntry);
 					}
 
@@ -1297,6 +1379,10 @@
 						if (device.platform === "Android") {
 							onSetMetadataDirectorySuccess(dirEntry);
 						}
+						
+						if (device.platform === "WinCE" || device.platform === "Win32NT") {
+							onSetMetadataDirectorySuccess(dirEntry);
+						}	
 								
 						if (device.platform === "iOS") {
 							dirEntry.setMetadata(onSetMetadataDirectorySuccess(dirEntry), onSetMetadataDirectoryFail, { "com.apple.MobileBackup": 1});
@@ -1363,6 +1449,10 @@
 				function onGetDirectorySuccess(dirEntry){
 								
 						if (device.platform === "Android") {
+							onSetMetadataDirectorySuccess(dirEntry);
+						}
+						
+						if (device.platform === "WinCE" || device.platform === "Win32NT") {
 							onSetMetadataDirectorySuccess(dirEntry);
 						}
 								
@@ -1444,6 +1534,10 @@
 
 								
 						if (device.platform === "Android") {
+							onSetMetadataDirectorySuccess(dirEntry);
+						}
+						
+						if (device.platform === "WinCE" || device.platform === "Win32NT") {
 							onSetMetadataDirectorySuccess(dirEntry);
 						}
 								
@@ -1529,6 +1623,10 @@
 						if (device.platform === "Android") {
 							onSetMetadataDirectorySuccess(dirEntry);
 						}
+						
+						if (device.platform === "WinCE" || device.platform === "Win32NT") {
+							onSetMetadataDirectorySuccess(dirEntry);
+						}
 								
 						if (device.platform === "iOS") {
 							dirEntry.setMetadata(onSetMetadataDirectorySuccess(dirEntry), onSetMetadataDirectoryFail, { "com.apple.MobileBackup": 1});
@@ -1560,6 +1658,10 @@
 					if (device.platform === "iOS") {
 						fileEntry.setMetadata(onSetMetadataFileSuccess(fileEntry), onSetMetadataFileFail, { "com.apple.MobileBackup": 1});
 					}
+					
+					if (device.platform === "WinCE" || device.platform === "Win32NT") {
+						onSetMetadataFileSuccess(fileEntry);
+					}
 
 					if (device.platform === "Android") {
 						onSetMetadataFileSuccess(fileEntry);
@@ -1576,7 +1678,14 @@
 				function onSetMetadataFileSuccess(fileEntry){
 										
 					fileEntry.getMetadata(function(metadata) {
-					var dataDownload = Date.parse(metadata.modificationTime) / 1000;
+					
+					if (device.platform === "iOS" || device.platform === "Android") {
+						var dataDownload = Date.parse(metadata.modificationTime) / 1000;
+					}
+					
+					if (device.platform === "WinCE" || device.platform === "Win32NT") {
+						var dataDownload = Math.round(localStorage.getItem("lastDownload")/ 1000);
+					}
 
 					
 					localStorage.setItem("dataDownload", dataDownload );
@@ -1592,7 +1701,17 @@
 							else if(data.length == 0 && (fileEserciziMancanti.length != 0 || fileSistemaMancanti.length != 0 || fileCategorieMancanti.length != 0)){
 								var numeroAggiornamenti = parseInt(fileEserciziMancanti.length)+parseInt(fileSistemaMancanti.length)+parseInt(fileCategorieMancanti.length);
 								$("p.countUpdates").html(numeroAggiornamenti+" "+window.localStorage.getItem("aggiornamentiDisponibili")+"");
-								$( "div#update" ).html( $("<a href='#' class='ui-btn updateDatabase'>UPDATE</a>" ));
+								
+								
+								if (device.platform === "iOS" || device.platform === "Android") {
+									$( "div#update" ).html( $("<a href='#' class='ui-btn updateDatabase'>UPDATE</a>" ));
+								}
+								
+								if (device.platform === "WinCE" || device.platform === "Win32NT") {
+
+									$( "div#update" ).html( $("<a href='aggiornaDatabase.html' rel='external' class='ui-btn'>UPDATE</a>" ));
+								}
+								
 								$.mobile.loading( "hide" );
 							}
 							else {
@@ -1601,7 +1720,16 @@
 								var countUpdates = data.length;
 								var updates = countUpdates+fileEserciziMancanti.length+fileSistemaMancanti.length+fileCategorieMancanti.length;
 								$("p.countUpdates").html(updates+" "+window.localStorage.getItem("aggiornamentiDisponibili")+"");
-								$( "div#update" ).html( $("<a href='#' class='ui-btn updateDatabase'>UPDATE</a>" ));
+								
+								if (device.platform === "iOS" || device.platform === "Android") {
+									$( "div#update" ).html( $("<a href='#' class='ui-btn updateDatabase'>UPDATE</a>" ));
+								}
+								
+								if (device.platform === "WinCE" || device.platform === "Win32NT") {
+									alert("ciao");
+									$( "div#update" ).html( $("<a href='aggiornaDatabase.html' rel='external' class='ui-btn'>UPDATE</a>" ));
+								}
+								
 								$.mobile.loading( "hide" );
 								});
 							}

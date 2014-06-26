@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>Page Title</title>
-
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, target-densitydpi=medium-dpi, user-scalable=0" />
 	<link rel="stylesheet" href="css/themes/shopincomo.min.css" />
 	<link rel="stylesheet" href="css/themes/jquery.mobile.icons.min.css" />
 	<link rel="stylesheet" href="css/jquery.mobile.structure-1.4.2.min.css" />
@@ -25,6 +25,13 @@
 	<script src="js/leaflet.usermarker.js"></script>
 	<script src="js/function_checkConnection.js"></script>
 	<script type="text/javascript" src="cordova.js"></script>
+	<script type="text/javascript">
+	document.addEventListener("deviceready", startEvents, false);
+	function startEvents()
+	{
+	StatusBar.hide();
+	}
+	</script>
 </head>
 <body>
 
@@ -55,10 +62,18 @@
 	$(".closePopupUpdateDisponibili").html(""+window.localStorage.getItem("chiudi")+"");
 		
 	var lingua = window.localStorage.getItem("lingua");
-
 	if (lingua == null) {
 	
+			document.addEventListener("deviceready", function(){
+			if (device.platform === "WinCE" || device.platform === "Win32NT") {
+			$( "#setupApplicazione" ).popup("open");
+			}
+			else{
 			$.mobile.changePage( "#lingue", { allowSamePageTransition:true, transition: "slide" } );
+			}
+			
+			}, false);
+			
 	}
 	else
 	{
@@ -66,18 +81,24 @@
 	//CHECK GEOLOCATION
 	
 	var watchID = null;
-	var options = { maximumAge: 1500, timeout: 10000, enableHighAccuracy: true };
 	
 	document.addEventListener("deviceready", function(){
+	
 		
+	
 		if (device.platform === "iOS") {
+			var options = { maximumAge: 1500, timeout: 10000, enableHighAccuracy: true };
 			watchID = navigator.geolocation.watchPosition(onSuccess, onError, options);
 		}
 		
 		if (device.platform === "Android") {
-
-		navigator.geolocation.getCurrentPosition(onSuccess, onError, options);
+			var options = { maximumAge: 1500, timeout: 10000, enableHighAccuracy: true };
+			navigator.geolocation.getCurrentPosition(onSuccess, onError, options);
+		}
 		
+		if (device.platform === "WinCE" || device.platform === "Win32NT") {
+			var options = { maximumAge: 1500, timeout: 30000, enableHighAccuracy: false };
+			watchID = navigator.geolocation.watchPosition(onSuccess, onError, options);
 		}
 			
 	}, false);
@@ -115,12 +136,33 @@
 	
 	function onError(error) {
 		
-		navigator.geolocation.getCurrentPosition(onSuccess, onErrorTimeout,{maximumAge: 1500, timeout: 20000, enableHighAccuracy : false});
+		if (device.platform === "iOS" || device.platform === "Android") {
+			navigator.geolocation.getCurrentPosition(onSuccess, onErrorTimeout,{maximumAge: 1500, timeout: 20000, enableHighAccuracy : false});
+		}
+		
+		if (device.platform === "WinCE" || device.platform === "Win32NT") {			
+				console.log("Geolocation Error Timeout");
+				alert(""+window.localStorage.getItem("noLocalizzazione")+"");
+				var userLatitude = "45.80806";
+				var userLongitude = "9.08518";
+				var userAccuracy = "0";
+	
+			window.sessionStorage.setItem("userLatitude", userLatitude);
+			window.sessionStorage.setItem("userLongitude", userLongitude);
+			window.sessionStorage.setItem("userAccuracy", userAccuracy);
+			var	connectionStatus = navigator.onLine ? 'online' : 'offline';
+			if (connectionStatus == "online" && window.sessionStorage.getItem("doneCheckUpdates") != "si")
+			{
+				checkUpdates();
+			}
+			else{
+			$.mobile.loading( "hide" );
+			}
+		}
 		
     }
 	
 	function onErrorTimeout(error) {
-		
 		console.log("Geolocation Error Timeout");
 		alert(""+window.localStorage.getItem("noLocalizzazione")+"");
 		var userLatitude = "45.80806";
@@ -155,6 +197,18 @@
 	$("div#rigaBorsa_1").append($("<div class='blocco_sx'><a href='eserciziVicini.html' rel='external' data-transition='slide'><img src='img/ricercaDistanza_"+estensioneImmagine+".png'></a></div><div class='blocco_dx'><a href='categorie.html' rel='external' data-transition='slide'><img src='img/ricercaCategoria_"+estensioneImmagine+".png'></a></div>"));
 	$("div#rigaBorsa_2").append($("<div class='blocco_sx'><a href='nomeEsercizi.html' rel='external' data-transition='slide'><img src='img/ricercaNegozio_"+estensioneImmagine+".png'></a></div><div class='blocco_dx'><a href='brandEsercizi.html' rel='external' data-transition='slide'><img src='img/ricercaBrand_"+estensioneImmagine+".png'></a></div>"));
 	
+	document.addEventListener("deviceready", function(){
+	
+	if (device.platform === "Android" || device.platform === "iOS") {
+	$('#index').append('<div data-role="footer" data-position="fixed"><div data-role="navbar"><ul><li><a href="#" class="qrCode"><img src="img/qrcode.png"></a></li><li><a href="opzioni.html" rel="external" data-transition="slide"><img src="img/opzioni.png"></a></li><li><a href="#credits" data-transition="flip"><img src="img/info.png"></a></li></ul></div></div>').trigger( "create" ); 	
+	}
+	if (device.platform === "WinCE" || device.platform === "Win32NT") {	
+	$('#index').append('<div data-role="footer" data-position="fixed"><div data-role="navbar"><ul><li><a href="opzioni.html" rel="external" data-transition="slide"><img src="img/opzioni.png"></a></li><li><a href="#credits" data-transition="flip"><img src="img/info.png"></a></li></ul></div></div>').trigger( "create" );
+	
+	}
+	}, false);
+
+	
 	}
 	
 	});
@@ -183,6 +237,10 @@
 				function onGetDirectorySuccess(dirEntry){
 								
 						if (device.platform === "Android") {
+							onSetMetadataDirectorySuccess(dirEntry);
+						}
+						
+						if (device.platform === "WinCE" || device.platform === "Win32NT") {
 							onSetMetadataDirectorySuccess(dirEntry);
 						}
 								
@@ -251,6 +309,10 @@
 				function onGetDirectorySuccess(dirEntry){
 								
 						if (device.platform === "Android") {
+							onSetMetadataDirectorySuccess(dirEntry);
+						}
+						
+						if (device.platform === "WinCE" || device.platform === "Win32NT") {
 							onSetMetadataDirectorySuccess(dirEntry);
 						}
 								
@@ -332,6 +394,10 @@
 
 								
 						if (device.platform === "Android") {
+							onSetMetadataDirectorySuccess(dirEntry);
+						}
+						
+						if (device.platform === "WinCE" || device.platform === "Win32NT") {
 							onSetMetadataDirectorySuccess(dirEntry);
 						}
 								
@@ -418,6 +484,10 @@
 						if (device.platform === "Android") {
 							onSetMetadataDirectorySuccess(dirEntry);
 						}
+						
+						if (device.platform === "WinCE" || device.platform === "Win32NT") {
+							onSetMetadataDirectorySuccess(dirEntry);
+						}
 								
 						if (device.platform === "iOS") {
 							dirEntry.setMetadata(onSetMetadataDirectorySuccess(dirEntry), onSetMetadataDirectoryFail, { "com.apple.MobileBackup": 1});
@@ -449,6 +519,10 @@
 					if (device.platform === "iOS") {
 						fileEntry.setMetadata(onSetMetadataFileSuccess(fileEntry), onSetMetadataFileFail, { "com.apple.MobileBackup": 1});
 					}
+					
+					if (device.platform === "WinCE" || device.platform === "Win32NT") {
+							onSetMetadataFileSuccess(fileEntry);
+					}
 
 					if (device.platform === "Android") {
 						onSetMetadataFileSuccess(fileEntry);
@@ -463,9 +537,17 @@
 				} // close onGetFileFail
 
 				function onSetMetadataFileSuccess(fileEntry){
-										
+									
 					fileEntry.getMetadata(function(metadata) {
-					var dataDownload = Date.parse(metadata.modificationTime) / 1000;
+					
+					if (device.platform === "iOS" || device.platform === "Android") {
+						var dataDownload = Date.parse(metadata.modificationTime) / 1000;
+					}
+					
+					if (device.platform === "WinCE" || device.platform === "Win32NT") {
+						var dataDownload = Math.round(localStorage.getItem("lastDownload")/ 1000);
+					}
+					
 					
 					localStorage.setItem("dataDownload", dataDownload );
 					
@@ -479,6 +561,7 @@
 							timeout: 15000
 						}).done(function(response){
 							if (response.length == 0 && fileEserciziMancanti.length == 0 && fileSistemaMancanti.length == 0 && fileCategorieMancanti.length == 0) {
+								localStorage.setItem("numeroAggiornamenti", 0);
 								//alert("NO aggiornamenti disponibili");
 								//$("p.countUpdates").html(""+window.localStorage.getItem("statusDatabase")+"");
 								$.mobile.loading( "hide" );
@@ -560,6 +643,7 @@
 	}); //END SCANNER
 	
 	}); //ON "click"
+
 	
 	$(document).on("click", 'a.closePopupUpdateDisponibili', function(){
 		
@@ -577,6 +661,11 @@
 	<div id="rigaBorsa_2">
 	</div>
 	
+	<div data-role="popup" id="setupApplicazione" data-dismissible="false" data-history="false">
+	<p class="headersetupApplicazione">Warning</p>
+    <p class="descrizionesetupApplicazione">Setup Applicazione Necessario / Application Setup</p>
+	<a href="#lingue" class="ui-btn buttonsetupApplicazione">SETUP</a>
+	</div>
 	
 	
 	<div data-role="popup" id="updateDisponibili" data-dismissible="false" data-history="false">
@@ -590,15 +679,6 @@
 	<!-- /CONTENT -->
 
 	<!-- FOOTER -->
-	<div data-role="footer" data-position="fixed" data-tap-toggle="false">
-		<div data-role="navbar">
-			<ul>
-			<li><a href="#" class="qrCode"><img src="img/qrcode.png"></a></li>
-			<li><a href="opzioni.html" rel="external" data-transition="slide"><img src="img/opzioni.png"></a></li>
-			<li><a href="#credits" data-transition="flip"><img src="img/info.png"></a></li>
-			</ul>
-		</div><!-- /navbar -->
-	</div>
 	<!-- /FOOTER -->
 	
 </div><!-- /PAGE #index -->
@@ -617,7 +697,8 @@
 	
 	<script>
   
-	$( "#lingue" ).on( "pagebeforeshow", function() {	
+	$( "#lingue" ).on( "pagebeforeshow", function() {
+	
 	
 	document.addEventListener("backbutton", onBackKeyDown, false);
 		
@@ -627,8 +708,20 @@
 	
 	//LISTA LINGUE
 	$("ul#listaLingue").html("");
+	
+	if (device.platform === "iOS") {
+		var fileLingue = "js/lingue.js";
+	}
+
+	if (device.platform === "Android") {
+		var fileLingue = "js/lingue.js";
+	}
+					
+	if (device.platform === "WinCE" || device.platform === "Win32NT") {
+		var fileLingue = "www/js/lingue.js";
+	}
 		
-		$.getJSON("js/lingue.js", function( data ) {
+		$.getJSON(fileLingue, function( data ) {
 		
 			$.each(data, function(index, info) {
 			$("ul#listaLingue").append($("<li></li>",{"html":"<a href='#' class='lingua' id='" + info.idLingua + "' codiceLingua='"+info.codiceLingua+"' nomeLingua='"+index+"' data-transition='slide' ><img src='img/lingue/"+info.codiceLingua+".png' alt='Facebook' class='ui-li-icon ui-corner-none'>" + info.nomeLingua + "</a>" }));
@@ -655,7 +748,20 @@
 	window.localStorage.setItem("codLingua", codLingua);
 	
 	// TRADUZIONI------------------------------------------------------------------------------
-	$.getJSON("js/lingue.js", function( lingue ) {
+	
+	if (device.platform === "iOS") {
+		var fileLingue = "js/lingue.js";
+	}
+
+	if (device.platform === "Android") {
+		var fileLingue = "js/lingue.js";
+	}
+					
+	if (device.platform === "WinCE" || device.platform === "Win32NT") {
+		var fileLingue = "www/js/lingue.js";
+	}
+	
+	$.getJSON(fileLingue, function( lingue ) {
 			
 	
 	window.localStorage.setItem("nome", lingue[lingua].nome);
@@ -810,6 +916,7 @@
 
 					//MEMORIZZA PATH
 					var directory = dirEntry.fullPath;
+					
 								
 						if (device.platform === "Android") {
 							var indexPath = directory.lastIndexOf("/");
@@ -817,6 +924,12 @@
 							pathSD = pathSD+"/ShopInComo";
 							window.localStorage.setItem('pathSD', pathSD);
 							onSetMetadataDirectorySuccess(dirEntry);
+						}
+						
+						if (device.platform === "WinCE" || device.platform === "Win32NT") {
+							onSetMetadataDirectorySuccess(dirEntry);
+							var pathSD = directory;
+							window.localStorage.setItem('pathSD', pathSD);
 						}
 								
 						if (device.platform === "iOS") {
@@ -856,6 +969,10 @@
 					}
 
 					if (device.platform === "Android") {
+						onSetMetadataFileSuccess(fileEntry);
+					}
+					
+					if (device.platform === "WinCE" || device.platform === "Win32NT") {
 						onSetMetadataFileSuccess(fileEntry);
 					}
 
@@ -995,6 +1112,10 @@
 						if (device.platform === "Android") {
 							onSetMetadataDirectorySuccess(dirEntry);
 						}
+						
+						if (device.platform === "WinCE" || device.platform === "Win32NT") {
+							onSetMetadataDirectorySuccess(dirEntry);
+						}
 								
 						if (device.platform === "iOS") {
 							dirEntry.setMetadata(onSetMetadataDirectorySuccess(dirEntry), onSetMetadataDirectoryFail, { "com.apple.MobileBackup": 1});
@@ -1026,6 +1147,10 @@
 
 					if (device.platform === "iOS") {
 						fileEntry.setMetadata(onSetMetadataFileSuccess(fileEntry), onSetMetadataFileFail, { "com.apple.MobileBackup": 1});
+					}
+					
+					if (device.platform === "WinCE" || device.platform === "Win32NT") {
+						onSetMetadataFileSuccess(fileEntry);
 					}
 
 					if (device.platform === "Android") {
@@ -1099,6 +1224,10 @@
 						if (device.platform === "Android") {
 							onSetMetadataDirectorySuccess(dirEntry);
 						}
+						
+						if (device.platform === "WinCE" || device.platform === "Win32NT") {
+							onSetMetadataDirectorySuccess(dirEntry);
+						}
 								
 						if (device.platform === "iOS") {
 							dirEntry.setMetadata(onSetMetadataDirectorySuccess(dirEntry), onSetMetadataDirectoryFail, { "com.apple.MobileBackup": 1});
@@ -1130,6 +1259,10 @@
 
 					if (device.platform === "iOS") {
 						fileEntry.setMetadata(onSetMetadataFileSuccess(fileEntry), onSetMetadataFileFail, { "com.apple.MobileBackup": 1});
+					}
+					
+					if (device.platform === "WinCE" || device.platform === "Win32NT") {
+						onSetMetadataFileSuccess(fileEntry);
 					}
 
 					if (device.platform === "Android") {
@@ -1276,6 +1409,11 @@
 	
 	function downloadVetrineInterval() {
 	
+	var lastDownload = new Date();
+	var lastDownload = lastDownload.getTime();
+	
+	window.localStorage.setItem('lastDownload', lastDownload);
+	
 	var start = window.sessionStorage.getItem('start');
 	
 	$.ajax({	
@@ -1316,6 +1454,10 @@
 						if (device.platform === "Android") {
 							onSetMetadataDirectorySuccess(dirEntry);
 						}
+						
+						if (device.platform === "WinCE" || device.platform === "Win32NT") {
+							onSetMetadataDirectorySuccess(dirEntry);
+						}
 								
 						if (device.platform === "iOS") {
 							dirEntry.setMetadata(onSetMetadataDirectorySuccess(dirEntry), onSetMetadataDirectoryFail, { "com.apple.MobileBackup": 1});
@@ -1347,6 +1489,10 @@
 
 					if (device.platform === "iOS") {
 						fileEntry.setMetadata(onSetMetadataFileSuccess(fileEntry), onSetMetadataFileFail, { "com.apple.MobileBackup": 1});
+					}
+					
+					if (device.platform === "WinCE" || device.platform === "Win32NT") {
+						onSetMetadataFileSuccess(fileEntry);
 					}
 
 					if (device.platform === "Android") {
@@ -1385,7 +1531,20 @@
 							$("li.downloadVetrine").html("download vetrine <img src='img/downloadok.png'>");
 							$("li.downloadVetrine").css("color","#00CC00");	
 							$("div.progressBar").css("background","#00CC00");
-							$("p.downloadCompleteVetrina").html("<a href='#facebook' class='ui-btn' data-transition='slide'>"+window.localStorage.getItem("continua")+"</a>");
+							
+							if (device.platform === "iOS") {
+								$("p.downloadCompleteVetrina").html("<a href='#facebook' class='ui-btn' data-transition='slide'>"+window.localStorage.getItem("continua")+"</a>");
+							}
+					
+							if (device.platform === "WinCE" || device.platform === "Win32NT") {
+								$("p.downloadCompleteVetrina").html("<a href='#foursquare' class='ui-btn' data-transition='slide'>"+window.localStorage.getItem("continua")+"</a>");
+							}
+
+							if (device.platform === "Android") {
+								$("p.downloadCompleteVetrina").html("<a href='#facebook' class='ui-btn' data-transition='slide'>"+window.localStorage.getItem("continua")+"</a>");
+							}
+							
+							//$("p.downloadCompleteVetrina").html("<a href='#facebook' class='ui-btn' data-transition='slide'>"+window.localStorage.getItem("continua")+"</a>");
 							}
 							else if(count == parseInt(iteration)*50) {
 							
@@ -1409,7 +1568,22 @@
 							$("li.downloadVetrine").html("download vetrine <img src='img/downloadok.png'>");
 							$("li.downloadVetrine").css("color","#00CC00");	
 							$("div.progressBar").css("background","#00CC00");
-							$("p.downloadCompleteVetrina").html("<a href='#facebook' class='ui-btn' data-transition='slide'>"+window.localStorage.getItem("continua")+"</a>");
+							
+							
+							if (device.platform === "iOS") {
+								$("p.downloadCompleteVetrina").html("<a href='#facebook' class='ui-btn' data-transition='slide'>"+window.localStorage.getItem("continua")+"</a>");
+							}
+					
+							if (device.platform === "WinCE" || device.platform === "Win32NT") {
+								$("p.downloadCompleteVetrina").html("<a href='#foursquare' class='ui-btn' data-transition='slide'>"+window.localStorage.getItem("continua")+"</a>");
+							}
+
+							if (device.platform === "Android") {
+								$("p.downloadCompleteVetrina").html("<a href='#facebook' class='ui-btn' data-transition='slide'>"+window.localStorage.getItem("continua")+"</a>");
+							}
+							
+							
+							//$("p.downloadCompleteVetrina").html("<a href='#facebook' class='ui-btn' data-transition='slide'>"+window.localStorage.getItem("continua")+"</a>");
 							}
 							else if(countError == parseInt(iterationError)*50) {
 							
@@ -1547,7 +1721,7 @@
 			$("h2#h2skipFacebook").html(""+window.localStorage.getItem("prossimoPasso")+"");
 			$("p#pskipFacebook").html(""+window.localStorage.getItem("continua")+"");
 			var idFacebook = response.id;
-			sessionStorage.setItem("idFacebook", idFacebook);
+			localStorage.setItem("idFacebook", idFacebook);
 
 			$.ajax({
 			type: 'POST',
@@ -1672,7 +1846,7 @@
 		$.getJSON('https://api.foursquare.com/v2/users/self?oauth_token='+tokenFoursquare+'&v=20140304', function(data){
 		var user = data['response']['user']['firstName'];
 		var idFoursquare = data['response']['user']['id'];
-		sessionStorage.setItem("idFoursquare", idFoursquare);
+		localStorage.setItem("idFoursquare", idFoursquare);
 		$("h2#h2loginFoursquare").html(""+window.localStorage.getItem("accountCollegato")+"");
 		$("p#ploginFoursquare").html(""+user+"");
 		$("a.foursquare").attr("href", "#twitter");
@@ -1797,7 +1971,7 @@
 		var twitterVerifier = loc.substring(loc.indexOf("oauth_verifier=")+15, loc.indexOf("&t"));
 		var twitterName = loc.substring(loc.indexOf("twitterName=")+12, loc.indexOf("&i"));
 		var idTwitter = loc.substring(loc.indexOf("idTwitter=")+10);
-		sessionStorage.setItem("idTwitter", idTwitter);
+		localStorage.setItem("idTwitter", idTwitter);
 		twitterName = decodeURIComponent(twitterName);
 		
 		window.localStorage.setItem("twitterToken", twitterToken);
@@ -1880,6 +2054,21 @@
 	
 	$(".titoloNavigazione").html(window.localStorage.getItem("portamiQui"));
 	$(".didascaliaSocial").html(window.localStorage.getItem("votaNegozio"));
+	
+	if (device.platform === "iOS" || device.platform === "Android") {
+		$("ul.listaSocial").html("");
+		$("ul.listaSocial").append($('<li id="buttonFacebook"><a href="#" class="votaFacebook" idEsercizio=""><img id="votaFacebook" src="img/collegaFacebook.png"><h2>Facebook</h2><p class="didascaliaSocial"></p></a></li>'));
+		$("ul.listaSocial").append($('<li id="buttonFoursquare"><a href="#popupCheckin" data-rel="popup" class="votaFoursquare" idEsercizio=""><img id="votaFoursquare" src=""><h2>Foursquare</h2><p class="didascaliaSocial"></p></a></li>'));
+		$("ul.listaSocial").append($('<li id="buttonTwitter"><a href="#" class="votaTwitter" idEsercizio=""><img id="votaTwitter" src=""><h2>Twitter</h2><p class="didascaliaSocial"></p></a></li>'));
+		$("ul.listaSocial").listview("refresh");
+	}
+	
+	if (device.platform === "WinCE" || device.platform === "Win32NT") {
+		$("ul.listaSocial").html("");
+		$("ul.listaSocial").append($('<li id="buttonFoursquare"><a href="#popupCheckin" data-rel="popup" class="votaFoursquare" idEsercizio=""><img id="votaFoursquare" src=""><h2>Foursquare</h2><p class="didascaliaSocial"></p></a></li>'));
+		$("ul.listaSocial").append($('<li id="buttonTwitter"><a href="#" class="votaTwitter" idEsercizio=""><img id="votaTwitter" src=""><h2>Twitter</h2><p class="didascaliaSocial"></p></a></li>'));
+		$("ul.listaSocial").listview("refresh");
+	}
 
 	
 	// CARICA FILE VETRINA
@@ -1952,6 +2141,7 @@
 		var	connectionStatus = navigator.onLine ? 'online' : 'offline';
 		
 		//FACEBOOK
+		if (device.platform === "iOS" || device.platform === "Android") {
 		FB.init({ appId: "771666006185274", nativeInterface: CDV.FB, useCachedDialogs: false });
 		//GET LOGIN STATUS
 		FB.getLoginStatus(function(response) {
@@ -1974,6 +2164,7 @@
 			$("ul.listaSocial").listview("refresh");
 			}
 		}, true);
+		}
 		
 		//FOURSQUARE
 		var tokenFoursquare = window.localStorage.getItem("tokenFoursquare");
@@ -2015,7 +2206,7 @@
 		
 //NAVIGATE BUTTON
 
-		$( ".directions" ).attr('geoPosition', esercizioLatitude+","+esercizioLongitude);
+		$( ".directions" ).attr('geoPosition', parseFloat(esercizioLatitude).toFixed(5)+","+parseFloat(esercizioLongitude).toFixed(5));
 		
 // DESCRIZIONE + TRANSLATE BUTTON
 		var codLingua = localStorage.getItem("codLingua");
@@ -2074,7 +2265,15 @@
 		
 		$(".distanzaEsercizio").html("");
 		
-		watchID = navigator.geolocation.watchPosition(onSuccess, onErrorPosition, options);
+		if (device.platform === "iOS" || device.platform === "Android") {
+			var options = { maximumAge: 1500, timeout: 10000, enableHighAccuracy: true };
+			watchID = navigator.geolocation.watchPosition(onSuccess, onErrorPosition, options);
+		}
+		
+		if (device.platform === "WinCE" || device.platform === "Win32NT") {
+			var options = { maximumAge: 1500, timeout: 30000, enableHighAccuracy: false };
+			watchID = navigator.geolocation.watchPosition(onSuccess, onErrorPosition, options);
+		}
 		
 // FUNCTION SUCCESS WATCH POSITION
 
@@ -2146,7 +2345,13 @@
 			}
 			if(error.code==3){
 				  // timeout
-				  watchID = navigator.geolocation.watchPosition(onSuccess, onErrorPosition,{maximumAge: 1500, timeout: 20000, enableHighAccuracy : false});
+				if (device.platform === "iOS" || device.platform === "Android") {
+					watchID = navigator.geolocation.watchPosition(onSuccess, onErrorPosition,{maximumAge: 1500, timeout: 20000, enableHighAccuracy : false});
+				}
+				
+				if (device.platform === "WinCE" || device.platform === "Win32NT") {
+					console.log("no position");
+				}
 			}
 			
 		}
@@ -2172,6 +2377,9 @@
 		}
 		if (device.platform === "iOS") {
 			window.location.href = "maps:q="+geoPosition+"";
+		}
+		if (device.platform === "WinCE" || device.platform === "Win32NT") {
+			window.location.href = "maps:"+geoPosition+"";
 		}
 	});
 	
@@ -2242,7 +2450,7 @@
 	latitudeFacebook = window.sessionStorage.getItem("userLatitude");
 	longitudeFacebook = window.sessionStorage.getItem("userLongitude");
 	nomeEsercizio = $("h3.nomeEsercizio").html();
-	var userFacebook = sessionStorage.getItem("idFacebook");
+	var userFacebook = localStorage.getItem("idFacebook");
 	var descrizioneFacebook;
 	if (sessionStorage.getItem('descrizioneEsercizio') != null){ descrizioneFacebook = sessionStorage.getItem('descrizioneEsercizio')};
 	FB.ui(
@@ -2306,7 +2514,7 @@
 		latitudeFoursquare = window.sessionStorage.getItem("userLatitude");
 		longitudeFoursquare = window.sessionStorage.getItem("userLongitude");
 		nomeEsercizio = $("h3.nomeEsercizio").html();
-		var userFoursquare = sessionStorage.getItem("idFoursquare");
+		var userFoursquare = localStorage.getItem("idFoursquare");
 		
 		//var idUserFoursquare = window.localStorage.getItem("idUserFoursquare");
 					
@@ -2331,7 +2539,7 @@
 		longitudeTwitter = window.sessionStorage.getItem("userLongitude");
 		urlEsercizio = "http://shopincomo.comune.como.it/it/node/"+idEsercizio;
 		nomeEsercizio = $("h3.nomeEsercizio").html();
-		var userTwitter = sessionStorage.getItem("idTwitter");
+		var userTwitter = localStorage.getItem("idTwitter");
 		
 		var tokenTwitter = window.localStorage.getItem("twitterToken");		
 		var tokenTwitterSecret = window.localStorage.getItem("twitterVerifier");			
@@ -2399,24 +2607,6 @@
 	</ul>
 	
 	<ul data-role="listview" data-inset="true" class="listaSocial">
-	<li id="buttonFacebook">
-	<a href="#" class="votaFacebook" idEsercizio=""><img id="votaFacebook" src="img/collegaFacebook.png">
-	<h2>Facebook</h2>
-	<p class="didascaliaSocial"></p>
-	</a>
-	</li>
-	<li id="buttonFoursquare">
-	<a href="#popupCheckin" data-rel="popup" class="votaFoursquare" idEsercizio=""><img id="votaFoursquare" src="">
-	<h2>Foursquare</h2>
-	<p class="didascaliaSocial"></p>
-	</a>
-	</li>
-	<li id="buttonTwitter">
-	<a href="#" class="votaTwitter" idEsercizio=""><img id="votaTwitter" src="">
-	<h2>Twitter</h2>
-	<p class="didascaliaSocial"></p>
-	</a>
-	</li>
 	</ul>
 	
 	<div data-role="popup" id="popupCheckin" data-theme="b">
@@ -2912,6 +3102,7 @@
 	
 </div><!-- /page vetrinaStatistiche -->
 
+
 <!-- PAGE #credits -->
 <div data-role="page" id="credits">
 
@@ -2938,7 +3129,7 @@
 		
 	</script>
 	
-<ul id="credits" data-role="listview" data-inset="true">
+<ul id="creditsList" data-role="listview" data-inset="true">
     <li>
         <img src="img/politecnico.png">
 		<h2>Politecnico di Milano - DEIB</h2>

@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>Page Title</title>
-
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, target-densitydpi=medium-dpi, user-scalable=0" />
 	<link rel="stylesheet" href="css/themes/shopincomo.min.css" />
 	<link rel="stylesheet" href="css/themes/jquery.mobile.icons.min.css" />
 	<link rel="stylesheet" href="css/jquery.mobile.structure-1.4.2.min.css" />
@@ -84,6 +84,12 @@
 									var indexPath = directory.lastIndexOf("/");
 									var pathSD = directory.substr(7, indexPath-7);
 									pathSD = pathSD+"/ShopInComo";
+									window.localStorage.setItem('pathSD', pathSD);
+								}
+								
+								if (device.platform === "WinCE" || device.platform === "Win32NT") {
+									onSetMetadataDirectorySuccess(dirEntry);
+									var pathSD = directory;
 									window.localStorage.setItem('pathSD', pathSD);
 								}
 								
