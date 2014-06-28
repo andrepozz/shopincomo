@@ -61,7 +61,6 @@
 		e.preventDefault();
 		}
 	
-	//var height = $('.ui-content').naturalHeight();
 	
 	var screen = $.mobile.getScreenHeight();
 
@@ -73,15 +72,8 @@
 	var contentCurrent = $(".ui-content").outerHeight() - $(".ui-content").height();
 
 	var content = screen - header - footer - contentCurrent;
-
-	//$(".ui-content").height(content);
-
-	
-	//var actualHeight = height.context.activeElement.clientHeight;
 	$('#mapEsercizi').css('height', content);
 	 
-	//alert("height " +content);
-	
 	var mapEsercizi;
 	var userLatitudeVicini;
 	var userLongitudeVicini;
@@ -103,6 +95,7 @@
 	
 		mapEsercizi = new L.Map('mapEsercizi');
 		mapEsercizi.dragging.disable();
+		mapEsercizi.attributionControl.setPrefix("Leaflet");
 		//var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 		//L.tileLayer(osmUrl, {minZoom: 13, maxZoom: 18}).addTo(mapEsercizi);
 		
@@ -818,6 +811,7 @@
 		
 		map = new L.Map('map');
 		map.dragging.disable();
+		map.attributionControl.setPrefix("Leaflet");
 		//var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 		//L.tileLayer(osmUrl, {minZoom: 13, maxZoom: 18}).addTo(map);
 		

@@ -454,7 +454,6 @@
 // CLICK DIRECTIONS
 	$(document).on("click", 'a.directions', function(){
 		geoPosition = $(this).attr('geoPosition');
-		alert(geoPosition);
 		if (device.platform === "Android") {
 			directions(geoPosition);
 		}
