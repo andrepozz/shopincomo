@@ -1246,6 +1246,7 @@
 							$("li.downloadVetrine").css("color","#00CC00");	
 							$("div.progressBar").css("background","#00CC00");
 							$("p.downloadCompleteVetrina").html("<a href='#opzioni' class='ui-btn' data-transition='slide'>"+window.localStorage.getItem("continua")+"</a>");
+							localStorage.setItem("numeroAggiornamenti", 0);
 							}
 							else if(count == parseInt(iteration)*50) {
 							
@@ -1270,6 +1271,7 @@
 							$("li.downloadVetrine").css("color","#00CC00");	
 							$("div.progressBar").css("background","#00CC00");
 							$("p.downloadCompleteVetrina").html("<a href='#facebook' class='ui-btn' data-transition='slide'>"+window.localStorage.getItem("continua")+"</a>");
+							localStorage.setItem("numeroAggiornamenti", 0);
 							}
 							else if(countError == parseInt(iterationError)*50) {
 							
@@ -1709,7 +1711,7 @@
 								
 								if (device.platform === "WinCE" || device.platform === "Win32NT") {
 
-									$( "div#update" ).html( $("<a href='aggiornaDatabase.html' rel='external' class='ui-btn'>UPDATE</a>" ));
+									$( "div#update" ).html("<a href='aggiornaDatabase.html' rel='external' class='ui-btn'>UPDATE</a>");
 								}
 								
 								$.mobile.loading( "hide" );
@@ -1726,7 +1728,7 @@
 								}
 								
 								if (device.platform === "WinCE" || device.platform === "Win32NT") {
-									$( "div#update" ).html( $("<a href='aggiornaDatabase.html' rel='external' class='ui-btn'>UPDATE</a>" ));
+									$( "div#update" ).html("<a href='aggiornaDatabase.html' rel='external' class='ui-btn'>UPDATE</a>");
 								}
 								
 								$.mobile.loading( "hide" );
