@@ -488,7 +488,7 @@
 	function updateVetrine() {
 	
 		sessionStorage.setItem("vetrineOK", 1);
-		console.log(localStorage.getItem("dataDownload"));
+		alert(localStorage.getItem("dataDownload"));
 		$.ajax({
 			url: "http://shopincomo.comune.como.it/ccn20/JSONidEserciziUpdate.php?language="+localStorage.getItem("codLingua")+"&dataDownload="+localStorage.getItem("dataDownload")+"",
 			dataType: 'json',
