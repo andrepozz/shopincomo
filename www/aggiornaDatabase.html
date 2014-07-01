@@ -35,6 +35,8 @@
 	
 		<script>
 		$( "#aggiornaDatabase" ).on( "pageshow", function() {
+		
+		document.addEventListener("deviceready", function(){
 
 		$("ul.downloadList").append($('<li class="'+window.localStorage.getItem("nomiEsercizi")+'"><img class="iconaTipologia" src="img/downloadnome.png"> UPDATE '+window.localStorage.getItem("nomiEsercizi")+'... <img src="img/download.gif"></li>'));
 		$("ul.downloadList").append($('<li class="brand"><img class="iconaTipologia" src="img/downloadbrand.png"> UPDATE brand... <img src="img/download.gif"></li>'));
@@ -59,9 +61,6 @@
 
 					//MEMORIZZA PATH
 					var directory = dirEntry.fullPath;
-					
-					alert("DIR "+directory);
-					alert("Device "+device.platform);
 								
 						if (device.platform === "Android") {
 							var indexPath = directory.lastIndexOf("/");
@@ -242,7 +241,7 @@
 	
 	downloadJSON(directory, filePosition, urlposition, pClass, imgName);
 		
-	
+	}, false);
 	}); // ON "pageshow"
 	
 	//DOWNLOAD JSON FUNCTION
