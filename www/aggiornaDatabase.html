@@ -59,6 +59,8 @@
 
 					//MEMORIZZA PATH
 					var directory = dirEntry.fullPath;
+					
+					alert(directory);
 								
 						if (device.platform === "Android") {
 							var indexPath = directory.lastIndexOf("/");
@@ -519,7 +521,7 @@
 					
 			}
 		});
-	window.localStorage.removeItem("dataDownload");
+	localStorage.removeItem("dataDownload");
 	}
 	
 	
@@ -610,7 +612,7 @@
 								
 									var lastDownload = new Date();
 									var lastDownload = lastDownload.getTime();
-									window.sessionStorage.setItem('lastDownload', lastDownload);
+									window.localStorage.setItem('lastDownload', lastDownload);
 									
 									$("li.vetrine").html("<img class='iconaTipologia' src='img/downloadEsercizi.png'> UPDATE "+window.localStorage.getItem('esercizi')+"");
 									$("li.vetrine").css("color","white");
