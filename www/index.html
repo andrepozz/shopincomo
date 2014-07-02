@@ -1008,7 +1008,7 @@
 						function(error) {
 							console.log("download error source " + error.source);
 							console.log("download error target " + error.target);
-							alert("download error code " + error.code);
+							console.log("download error code " + error.code);
 						},
 						false,
 						{
@@ -1304,7 +1304,7 @@
 								}
 						},
 						function(error) {
-							alert("download error code " + error.code);
+
 							var numElementiError = window.sessionStorage.getItem("numElementi");
 							numElementiError = parseInt(numElementiError)-1;							
 							
@@ -1556,7 +1556,7 @@
 							}
 						},
 						function(error) {
-							alert("download error code " + error.code);					
+												
 							var countError = window.sessionStorage.getItem("start");
 							var iterationError = window.sessionStorage.getItem("iteration");
 						
