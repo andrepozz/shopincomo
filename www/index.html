@@ -62,7 +62,8 @@
 	$(".closePopupUpdateDisponibili").html(""+window.localStorage.getItem("chiudi")+"");
 		
 	var lingua = window.localStorage.getItem("lingua");
-	if (lingua == null) {
+	var updateIOS = window.localStorage.getItem("update10072014");
+	if (lingua == null || updateIOS == null) {
 	
 			document.addEventListener("deviceready", function(){
 			if (device.platform === "WinCE" || device.platform === "Win32NT") {
@@ -742,10 +743,12 @@
 	idLingua = $(this).attr('id');
 	lingua = $(this).attr('nomeLingua');
 	codLingua = $(this).attr('codiceLingua');
+	var update10072014 = "update"; 
 	
 	window.localStorage.setItem("lingua", lingua);
 	window.localStorage.setItem("idLingua", idLingua);
 	window.localStorage.setItem("codLingua", codLingua);
+	window.localStorage.setItem("update10072014", update10072014);
 	
 	// TRADUZIONI------------------------------------------------------------------------------
 	
