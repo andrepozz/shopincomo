@@ -63,7 +63,7 @@
 		
 	var lingua = window.localStorage.getItem("lingua");
 	var updateIOS = window.localStorage.getItem("update10072014");
-	if (lingua == null || updateIOS == null) {
+	if (lingua == null) {
 	
 			document.addEventListener("deviceready", function(){
 			if (device.platform === "WinCE" || device.platform === "Win32NT") {
@@ -84,7 +84,14 @@
 	var watchID = null;
 	
 	document.addEventListener("deviceready", function(){
+
+	if (device.platform === "iOS") {
+	if (updateIOS != null) {
 	
+			$.mobile.changePage( "#lingue", { allowSamePageTransition:true, transition: "slide" } );
+			
+	}
+	}
 		
 	
 		if (device.platform === "iOS") {
