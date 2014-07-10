@@ -415,6 +415,8 @@
 		function onBackKeyDown(e) {
 		e.preventDefault();
 		}
+
+	document.addEventListener("deviceready", function(){
 	
 	//LISTA LINGUE
 	$("ul#listaLingue").html("");
@@ -439,7 +441,8 @@
 	
 			$("ul#listaLingue").listview("refresh");
 		});
-	
+
+	}, false);
 	}); //ON "pagebeforeshow"
 	
 	//ON "click"
@@ -605,6 +608,8 @@
 	function onBackKeyDown(e) {
 	e.preventDefault();
 	}
+
+	document.addEventListener("deviceready", function(){
 	
 	$("h3.titoloDownloadFunzionalita").html(window.localStorage.getItem("downloadFunzionalita"));
 	$("ul.downloadList").append($('<li class="'+window.localStorage.getItem("nomiEsercizi")+'"><img class="iconaTipologia" src="img/downloadnome.png"> DOWNLOAD '+window.localStorage.getItem("nomiEsercizi")+'... <img src="img/download.gif"></li>'));
@@ -808,7 +813,8 @@
 	
 	downloadJSON(directory, filePosition, urlposition, pClass, imgName);
 	
-	
+
+	}, false);
 	}); // ON "pageshow"
 	
 	//DOWNLOAD JSON FUNCTION
@@ -1094,6 +1100,9 @@
 	function onBackKeyDown(e) {
 	e.preventDefault();
 	}
+
+	document.addEventListener("deviceready", function(){
+
 	
 	$("h3.titoloDownloadEsercizi").html(window.localStorage.getItem("downloadEsercizi"));
 	
@@ -1118,6 +1127,8 @@
 		}
 	});
 	
+	}, false);
+
 	}); // ON "pageshow"
 	
 	

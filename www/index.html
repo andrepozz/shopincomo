@@ -549,9 +549,6 @@
 						var dataDownload = Math.round(localStorage.getItem("lastDownload")/ 1000);
 					}
 					
-
-					var dataDownload = Math.round(localStorage.getItem("lastDownload")/ 1000);
-					
 					localStorage.setItem("dataDownload", dataDownload );
 					
 					var urlJSON = "http://shopincomo.comune.como.it/ccn20/JSONidEserciziUpdate.php?language="+localStorage.getItem("codLingua")+"&dataDownload="+dataDownload;
