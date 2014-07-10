@@ -86,7 +86,7 @@
 	document.addEventListener("deviceready", function(){
 
 	if (device.platform === "iOS") {
-	if (updateIOS != null) {
+	if (updateIOS == null) {
 	
 			$.mobile.changePage( "#lingue", { allowSamePageTransition:true, transition: "slide" } );
 			
