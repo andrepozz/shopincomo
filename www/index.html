@@ -24,7 +24,7 @@
 	<script src="js/leaflet.js"></script>
 	<script src="js/leaflet.usermarker.js"></script>
 	<script src="js/function_checkConnection.js"></script>
-	<script type="text/javascript" src="phonegap.js"></script>
+	<script type="text/javascript" src="cordova.js"></script>
 	<script type="text/javascript">
 	document.addEventListener("deviceready", startEvents, false);
 	function startEvents()
@@ -67,7 +67,7 @@
 
 			alert(lingua);
 	
-			document.addEventListener("deviceready", onDeviceReady, true);
+			WinJS.Application.addEventListener("ready", onDeviceReady, true);
 			function onDeviceReady(){
 				alert("device ready");
 				alert(device.platform);
