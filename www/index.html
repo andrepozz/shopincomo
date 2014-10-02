@@ -66,8 +66,9 @@
 	if (lingua == null) {
 
 			alert(lingua);
+			alert(device.platform);
 	
-			WinJS.Application.addEventListener("ready", onDeviceReady, true);
+			document.addEventListener("deviceready", onDeviceReady, false);
 			function onDeviceReady(){
 				alert("device ready");
 				alert(device.platform);
