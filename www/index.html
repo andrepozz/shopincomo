@@ -11,12 +11,7 @@
 	
 	<script src="js/jquery-1.11.0.min.js"></script>
 	<script src="js/jquery.mobile-1.4.2.min.js"></script>
-	
-	<!-- cordova facebook plugin -->
-	<script src="cdv-plugin-fb-connect.js"></script>
-	<!-- facebook js sdk -->
-	<script src="facebook-js-sdk.js"></script>
-	
+		
 	<script src="js/highcharts.js"></script>
 	<link rel="stylesheet" href="css/leaflet.css" />
 	<link rel="stylesheet" href="css/leaflet.usermarker.css" />
@@ -1696,15 +1691,14 @@
 	$("h2#h2skipFacebook").html(""+window.localStorage.getItem("noCollegaSocial")+"");
 	$("p#pskipFacebook").html(""+window.localStorage.getItem("continua")+"");
 	
-	FB.init({ appId: "771666006185274", nativeInterface: CDV.FB, useCachedDialogs: false });
-	
+
 	//GET LOGIN STATUS
-	FB.getLoginStatus(function(response) {
+	facebookConnectPlugin.getLoginStatus(function(response) {
 	
 		//CONNESSO
 		if (response.status === 'connected') {
 		
-			FB.api('/me', function(response) {
+			facebookConnectPlugin.api('/me', function(response) {
 			$("h2#h2loginFacebook").html(""+window.localStorage.getItem("accountCollegato")+"");
 			$("p#ploginFacebook").html(""+response.name+"");
 			$("h2#h2skipFacebook").html(""+window.localStorage.getItem("prossimoPasso")+"");
@@ -1728,11 +1722,12 @@
 	
 	$(document).on("click", 'a.facebook', function(){
 	
-	FB.login(function(response) {
+	facebookConnectPlugin.login(function(response) {
+	facebookConnectPlugin.login( ["email"], function (response) {
             
 		if (response.authResponse) {
 			
-			FB.api('/me', function(response) {
+			facebookConnectPlugin.api('/me', function(response) {
 			$("h2#h2loginFacebook").html(""+window.localStorage.getItem("accountCollegato")+"");
 			$("p#ploginFacebook").html(""+response.name+"");
 			$("a.facebook").attr('href', '#foursquare');
@@ -1756,7 +1751,7 @@
             alert('not logged in');
         }
     },
-	{ scope: "email" }
+	function (response) { alert(JSON.stringify(response)) }
     );
 	
 	}); //ON "click"
