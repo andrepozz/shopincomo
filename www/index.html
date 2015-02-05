@@ -1693,8 +1693,16 @@
 	
 
 	//GET LOGIN STATUS
-	facebookConnectPlugin.getLoginStatus(function(response) {
-	
+ 	facebookConnectPlugin.getLoginStatus(
+		function (response) { 
+			alert("1");
+			alert(JSON.stringify(response))
+		},
+		function (response) { 
+			alert("2");
+			alert(JSON.stringify(response))
+		});
+	/*
 		//CONNESSO
 		if (response.status === 'connected') {
 		
@@ -1717,12 +1725,12 @@
 		}
 		
 	}, true);
+	*/
 	
 	}); //ON "pageshow"
 	
 	$(document).on("click", 'a.facebook', function(){
 	
-	facebookConnectPlugin.login(function(response) {
 	facebookConnectPlugin.login( ["email"], function (response) {
             
 		if (response.authResponse) {
