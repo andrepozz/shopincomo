@@ -1725,10 +1725,24 @@
 	$(document).on("click", 'a.facebook', function(){
 	
 		facebookConnectPlugin.login( ["email"], function (response) {
+
+			alert(JSON.stringify(response))
 	            
 			if (response.authResponse) {
 				
+				facebookConnectPlugin.api( "me", [],
+					function (response) { 
+						alert(JSON.stringify(response))
+					},
+					function (response) {
+						alert(JSON.stringify(response))
+					});
+
+				/*
 				facebookConnectPlugin.api('/me', function(response) {
+
+
+
 				$("h2#h2loginFacebook").html(""+window.localStorage.getItem("accountCollegato")+"");
 				$("p#ploginFacebook").html(""+response.name+"");
 				$("a.facebook").attr('href', '#foursquare');
@@ -1747,6 +1761,9 @@
 				});	
 
 				});
+			
+			*/
+
 			}
 			else {
 	            alert('not logged in');
