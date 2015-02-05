@@ -1732,44 +1732,32 @@
 				
 				facebookConnectPlugin.api( "me", [],
 					function (response) { 
-						alert(JSON.stringify(response))
+						$("h2#h2loginFacebook").html(""+window.localStorage.getItem("accountCollegato")+"");
+						$("p#ploginFacebook").html(""+response.name+"");
+						$("a.facebook").attr('href', '#foursquare');
+						$("a.facebook").removeClass('facebook');
+						$("h2#h2skipFacebook").html(""+window.localStorage.getItem("prossimoPasso")+"");
+						$("p#pskipFacebook").html(""+window.localStorage.getItem("continua")+"");
+						var idFacebook = response.id;
+						localStorage.setItem("idFacebook", idFacebook);
+
+						$.ajax({
+						type: 'POST',
+						url: 'http://shopincomo.comune.como.it/ccn20/utentiSocial.php',
+						data: { idUtente: idFacebook, socialNetwork: 'Facebook'}
+						}).done(function( msg ) {
+						//alert(window.localStorage.getItem("postPubblicato"));
+						});	
 					},
 					function (response) {
-						alert(JSON.stringify(response))
+						console.log("Facebook error");
 					});
-
-				/*
-				facebookConnectPlugin.api('/me', function(response) {
-
-
-
-				$("h2#h2loginFacebook").html(""+window.localStorage.getItem("accountCollegato")+"");
-				$("p#ploginFacebook").html(""+response.name+"");
-				$("a.facebook").attr('href', '#foursquare');
-				$("a.facebook").removeClass('facebook');
-				$("h2#h2skipFacebook").html(""+window.localStorage.getItem("prossimoPasso")+"");
-				$("p#pskipFacebook").html(""+window.localStorage.getItem("continua")+"");
-				var idFacebook = response.id;
-				localStorage.setItem("idFacebook", idFacebook);
-
-				$.ajax({
-				type: 'POST',
-				url: 'http://shopincomo.comune.como.it/ccn20/utentiSocial.php',
-				data: { idUtente: idFacebook, socialNetwork: 'Facebook'}
-				}).done(function( msg ) {
-				//alert(window.localStorage.getItem("postPubblicato"));
-				});	
-
-				});
-			
-			*/
-
 			}
 			else {
 	            alert('not logged in');
 	        }
 	    },
-		function (response) { alert(JSON.stringify(response)) }
+		function (response) { console.log("Facebook error"); }
 	    );
 	
 	}); //ON "click"
