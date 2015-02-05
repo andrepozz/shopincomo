@@ -14,10 +14,7 @@
 	
 	<script type="text/javascript" src="cordova.js"></script>
 	<script type="text/javascript" src="js/function_checkConnection.js"></script>
-	<!-- cordova facebook plugin -->
-	<script src="cdv-plugin-fb-connect.js"></script>
-	<!-- facebook js sdk -->
-	<script src="facebook-js-sdk.js"></script>
+
 </head>
 <body>
 
@@ -117,29 +114,46 @@
 			$("ul.listaSocialNetwork").listview("refresh");	
 		}
 
-		if (device.platform === "iOS" || device.platform === "Android") {
 		//FACEBOOK
-			FB.init({ appId: "771666006185274", nativeInterface: CDV.FB, useCachedDialogs: false });
+		if (device.platform === "iOS" || device.platform === "Android") {
+
 			//GET LOGIN STATUS
-			FB.getLoginStatus(function(response) {
-				//CONNESSO
-				if (response.status === 'connected') {
-				$("img.imageFacebook").attr("src", "img/facebookList.png");
-					
-					FB.api('/me', function(response) {
-					sessionStorage.setItem("idFacebook", response.id);
-					$("p.accountFacebook").html(response.name);
-					});
-				}
-				//APP NON AUTORIZZATA
-				else if (response.status === 'not_authorized') {
-				$("img.imageFacebook").attr("src", "img/facebookListbn.png");
-				} 
-				//NON CONNESSO
-				else {
-				$("img.imageFacebook").attr("src", "img/facebookListbn.png");
-				}
-			}, true);
+		 	facebookConnectPlugin.getLoginStatus(
+				function (response) { 
+					//CONNESSO
+					if (response.status === 'connected') {
+						$("img.imageFacebook").attr("src", "img/facebookList.png");
+						
+						FB.api('/me', function(response) {
+						sessionStorage.setItem("idFacebook", response.id);
+						$("p.accountFacebook").html(response.name);
+						});
+
+						facebookConnectPlugin.api( "me", [],
+							function (response) { 
+								sessionStorage.setItem("idFacebook", response.id);
+								$("p.accountFacebook").html(response.name);
+							},
+							function (response) {
+								console.log("Facebook error");
+							});
+
+					}
+					//APP NON AUTORIZZATA
+					else if (response.status === 'not_authorized') {
+						$("img.imageFacebook").attr("src", "img/facebookListbn.png");
+					} 
+					//NON CONNESSO
+					else {
+						$("img.imageFacebook").attr("src", "img/facebookListbn.png");
+					}
+				},
+				function (response) { 
+					console.log("Error");
+				});
+		
+		}
+
 		}
 		//FOURSQUARE
 		var tokenFoursquare = window.localStorage.getItem("tokenFoursquare");
@@ -293,72 +307,89 @@
 		var	connectionStatus = navigator.onLine ? 'online' : 'offline';
 		if (connectionStatus == "online")
 		{
-		
+
 			//GET LOGIN STATUS
-			FB.getLoginStatus(function(response) {
+		 	facebookConnectPlugin.getLoginStatus(
+				function (response) { 
 				//CONNESSO
-				if (response.status === 'connected') {
-					FB.logout(function(response) {
-					$("img.imageFacebook").attr("src", "img/facebookListbn.png");
-					$("p.accountFacebook").html("");
-					});
-				}
-				//APP NON AUTORIZZATA
-				else if (response.status === 'not_authorized') {
-					FB.login(function(response) {      
-						if (response.authResponse) {
-						
-							FB.api('/me', function(response) {
-							$("img.imageFacebook").attr("src", "img/facebookList.png");
-							var idFacebook = response.id;
-							sessionStorage.setItem("idFacebook", idFacebook);
-							$("p.accountFacebook").html(response.name);
-
-							$.ajax({
-							type: 'POST',
-							url: 'http://shopincomo.comune.como.it/ccn20/utentiSocial.php',
-							data: { idUtente: idFacebook, socialNetwork: 'Facebook'}
-							}).done(function( msg ) {
-							//alert(window.localStorage.getItem("postPubblicato"));
-							});	
-
+					if (response.status === 'connected') {
+					
+						 facebookConnectPlugin.logout(
+							function (response) { 
+								$("img.imageFacebook").attr("src", "img/facebookListbn.png");
+								$("p.accountFacebook").html("");
+							},
+							function (response) {
+								console.log("Facebook error"); 
 							});
-						}
-						else {
-						alert('not logged in');
-						}
-					},
-					{ scope: "email" }
-					);
-				} 
-				//NON CONNESSO
-				else {
-					FB.login(function(response) {      
-						if (response.authResponse) {
-							
-							FB.api('/me', function(response) {
-							$("img.imageFacebook").attr("src", "img/facebookList.png");
-							var idFacebook = response.id;
-							localStorage.setItem("idFacebook", idFacebook);
-							$("p.accountFacebook").html(response.name);
+					}
+					//APP NON AUTORIZZATA
+					else if (response.status === 'not_authorized') {
 
-							$.ajax({
-							type: 'POST',
-							url: 'http://shopincomo.comune.como.it/ccn20/utentiSocial.php',
-							data: { idUtente: idFacebook, socialNetwork: 'Facebook'}
-							}).done(function( msg ) {
-							//alert(window.localStorage.getItem("postPubblicato"));
-							});	
-							});
-						}
-						else {
-						alert('not logged in');
-						}
-					},
-					{ scope: "email" }
-					);
-				}
-			}, true);
+						facebookConnectPlugin.login( ["email"], function (response) {
+					            
+							if(response.authResponse) {
+								
+								facebookConnectPlugin.api( "me", [],
+									function (response) { 
+										$("img.imageFacebook").attr("src", "img/facebookList.png");
+										var idFacebook = response.id;
+										sessionStorage.setItem("idFacebook", idFacebook);
+										$("p.accountFacebook").html(response.name);
+
+										$.ajax({
+										type: 'POST',
+										url: 'http://shopincomo.comune.como.it/ccn20/utentiSocial.php',
+										data: { idUtente: idFacebook, socialNetwork: 'Facebook'}
+										}).done(function( msg ) {
+										//alert(window.localStorage.getItem("postPubblicato"));
+										});	
+									},
+									function (response) {
+										console.log("Facebook error");
+									});
+							}
+							else {
+					            alert('not logged in');
+					        }
+					    },
+						function (response) { console.log("Facebook error"); });
+					} 
+					//NON CONNESSO
+					else {
+						facebookConnectPlugin.login( ["email"], function (response) {
+					            
+							if(response.authResponse) {
+								
+								facebookConnectPlugin.api( "me", [],
+									function (response) { 
+										$("img.imageFacebook").attr("src", "img/facebookList.png");
+										var idFacebook = response.id;
+										sessionStorage.setItem("idFacebook", idFacebook);
+										$("p.accountFacebook").html(response.name);
+
+										$.ajax({
+										type: 'POST',
+										url: 'http://shopincomo.comune.como.it/ccn20/utentiSocial.php',
+										data: { idUtente: idFacebook, socialNetwork: 'Facebook'}
+										}).done(function( msg ) {
+										//alert(window.localStorage.getItem("postPubblicato"));
+										});	
+									},
+									function (response) {
+										console.log("Facebook error");
+									});
+							}
+							else {
+					            alert('not logged in');
+					        }
+					    },
+						function (response) { console.log("Facebook error"); });
+					}
+				},
+				function (response) { 
+					console.log("Error");
+				});
 			
 		}
 		else{

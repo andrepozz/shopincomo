@@ -10,12 +10,7 @@
 	
 	<script src="js/jquery-1.11.0.min.js"></script>
 	<script src="js/jquery.mobile-1.4.2.min.js"></script>
-	
-	<!-- cordova facebook plugin -->
-	<script src="cdv-plugin-fb-connect.js"></script>
-	<!-- facebook js sdk -->
-	<script src="facebook-js-sdk.js"></script>
-	
+		
 	<script src="js/highcharts.js"></script>
 	<link rel="stylesheet" href="css/leaflet.css" />
 	<link rel="stylesheet" href="css/leaflet.usermarker.css" />
@@ -490,28 +485,33 @@
 		
 		//FACEBOOK
 		if (device.platform === "iOS" || device.platform === "Android") {
-		FB.init({ appId: "771666006185274", nativeInterface: CDV.FB, useCachedDialogs: false });
-		//GET LOGIN STATUS
-		FB.getLoginStatus(function(response) {
-			//CONNESSO
-			if (response.status === 'connected' && connectionStatus == "online") {
-			$( "img#votaFacebook" ).attr('src', 'img/collegaFacebook.png');		
-			}
-			//APP NON AUTORIZZATA
-			else if (response.status === 'not_authorized' || connectionStatus == "offline") {
-			$( "img#votaFacebook" ).attr('src', 'img/collegaFacebook_bn.png');
-			var cnt = $("a.votaFacebook").contents();
-			$("a.votaFacebook").replaceWith(cnt);
-			$("ul.listaSocial").listview("refresh");
-			} 
-			//NON CONNESSO
-			else {
-			$( "img#votaFacebook" ).attr('src', 'img/collegaFacebook_bn.png');
-			var cnt = $("a.votaFacebook").contents();
-			$("a.votaFacebook").replaceWith(cnt);
-			$("ul.listaSocial").listview("refresh");
-			}
-		}, true);
+
+			//GET LOGIN STATUS
+		 	facebookConnectPlugin.getLoginStatus(
+				function (response) { 
+					//CONNESSO
+					if (response.status === 'connected' && connectionStatus == "online") {
+						$( "img#votaFacebook" ).attr('src', 'img/collegaFacebook.png');		
+					}
+					//APP NON AUTORIZZATA
+					else if (response.status === 'not_authorized' || connectionStatus == "offline") {
+						$( "img#votaFacebook" ).attr('src', 'img/collegaFacebook_bn.png');
+						var cnt = $("a.votaFacebook").contents();
+						$("a.votaFacebook").replaceWith(cnt);
+						$("ul.listaSocial").listview("refresh");
+					} 
+					//NON CONNESSO
+					else {
+						$( "img#votaFacebook" ).attr('src', 'img/collegaFacebook_bn.png');
+						var cnt = $("a.votaFacebook").contents();
+						$("a.votaFacebook").replaceWith(cnt);
+						$("ul.listaSocial").listview("refresh");
+					}
+				},
+				function (response) { 
+					console.log("Error");
+				});
+		
 		}
 		
 		//FOURSQUARE
@@ -831,27 +831,38 @@
 	
 	});
 	
-	$(document).on("click", '.votaFoursquare', function(){
-		
-		var latitude = window.sessionStorage.getItem("userLatitude");
-		var longitude = window.sessionStorage.getItem("userLongitude");
-		var nomeEsercizioFoursquare = $("h3.nomeEsercizio").html();
-		var tokenFoursquare = window.localStorage.getItem("tokenFoursquare");		
-									
-		$.getJSON('https://api.foursquare.com/v2/venues/search?ll='+latitude+','+longitude+'&limit=4&query='+nomeEsercizioFoursquare+'&radius=100&oauth_token='+tokenFoursquare+'&v=20140410',
-			function(data) {
-			venues = data.response.venues;
-			$("ul#lista_checkin").html("");
-			$("ul#lista_checkin").append($("<li data-role='divider'>Check In</li>"));
-				if (venues.length == 0) {
-					$("ul#lista_checkin").append($("<li></li>",{"html":""+window.localStorage.getItem("noCheckin")+"" }));
-				}
+	$(document).on("click", '.votaFacebook', function(){
+	
+		idEsercizio = $("h3.nomeEsercizio").attr('idEsercizio');
+		latitudeFacebook = window.sessionStorage.getItem("userLatitude");
+		longitudeFacebook = window.sessionStorage.getItem("userLongitude");
+		nomeEsercizio = $("h3.nomeEsercizio").html();
+		var userFacebook = localStorage.getItem("idFacebook");
+		var descrizioneFacebook;
+		if (sessionStorage.getItem('descrizioneEsercizio') != null){ descrizioneFacebook = sessionStorage.getItem('descrizioneEsercizio')};
+
+		facebookConnectPlugin.showDialog( {	method: 'feed',
+											name: $("h3.nomeEsercizio").html(),
+											link: 'http://shopincomo.comune.como.it/it/node/'+idEsercizio,
+											picture: 'http://shopincomo.comune.como.it/imgs/logoShopincomo.jpg',
+											caption: 'Shopincomo',
+											description: descrizioneFacebook },
+			function (response) { 
+				if (response) {
+					$.ajax({
+						type: 'POST',
+						url: 'http://shopincomo.comune.como.it/ccn20/votiSocial.php',
+						data: { idNegozio: idEsercizio, socialNetwork: 'Facebook', nomeNegozio: $("h3.nomeEsercizio").html(), latitude: latitudeFacebook, longitude: longitudeFacebook, idUtente: userFacebook}
+						}).done(function( msg ) {
+							//alert(window.localStorage.getItem("postPubblicato"));
+						});	
+				} 
 				else {
-					for (var i = 0; i < venues.length; i++) {
-					$("ul#lista_checkin").append($("<li></li>",{"html":"<a href='#' class='link_ckeckin' idVenue='"+venues[i].id+"'>"+venues[i].name+"</a>" }));
-					}
-				}
-				$("ul#lista_checkin").listview("destroy").listview();
+					alert('Post was not published.');
+				} 
+			},
+			function (response) { 
+				console.log("Facebook error"); 
 			});
 	});
 	
