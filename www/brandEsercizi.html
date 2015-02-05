@@ -794,43 +794,7 @@
         $(this).prev().toggle();
         return false;
     });
-		
-	$(document).on("click", '.votaFacebook', function(){
-	
-	idEsercizio = $("h3.nomeEsercizio").attr('idEsercizio');
-	latitudeFacebook = window.sessionStorage.getItem("userLatitude");
-	longitudeFacebook = window.sessionStorage.getItem("userLongitude");
-	nomeEsercizio = $("h3.nomeEsercizio").html();
-	var userFacebook = localStorage.getItem("idFacebook");
-	var descrizioneFacebook;
-	if (sessionStorage.getItem('descrizioneEsercizio') != null){ descrizioneFacebook = sessionStorage.getItem('descrizioneEsercizio')};
-	FB.ui(
-	{
-		method: 'feed',
-		name: $("h3.nomeEsercizio").html(),
-		link: 'http://shopincomo.comune.como.it/it/node/'+idEsercizio,
-		picture: 'http://shopincomo.comune.como.it/imgs/logoShopincomo.jpg',
-		caption: 'Shopincomo',
-		description: descrizioneFacebook
-	},
-	function(response) {
-		if (response) {
-			$.ajax({
-				type: 'POST',
-				url: 'http://shopincomo.comune.como.it/ccn20/votiSocial.php',
-				data: { idNegozio: idEsercizio, socialNetwork: 'Facebook', nomeNegozio: $("h3.nomeEsercizio").html(), latitude: latitudeFacebook, longitude: longitudeFacebook, idUtente: userFacebook}
-				}).done(function( msg ) {
-				//alert(window.localStorage.getItem("postPubblicato"));
-			});	
-		} 
-		else {
-		alert('Post was not published.');
-		}
-	}
-	);
-	
-	});
-	
+			
 	$(document).on("click", '.votaFacebook', function(){
 	
 		idEsercizio = $("h3.nomeEsercizio").attr('idEsercizio');
@@ -866,7 +830,7 @@
 			});
 	});
 	
-	
+
 	$(document).on("click", '.link_ckeckin', function(){
 				
 		var tokenFoursquare = window.localStorage.getItem("tokenFoursquare");	
