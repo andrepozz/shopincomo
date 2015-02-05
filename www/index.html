@@ -64,15 +64,16 @@
 	var lingua = window.localStorage.getItem("lingua");
 	var updateIOS = window.localStorage.getItem("update10072014");
 	if (lingua == null) {
-
+	
 			document.addEventListener("deviceready", function(){
-				if (device.platform === "WinCE" || device.platform === "Win32NT") {
-					$( "#setupApplicazione" ).popup("open");
-				}
-				else{
-					$.mobile.changePage( "#lingue", { allowSamePageTransition:true, transition: "slide" } );
-				}
+			if (device.platform === "WinCE" || device.platform === "Win32NT") {
+			$( "#setupApplicazione" ).popup("open");
 			}
+			else{
+			$.mobile.changePage( "#lingue", { allowSamePageTransition:true, transition: "slide" } );
+			}
+			
+			}, false);
 			
 	}
 	else
@@ -87,7 +88,7 @@
 	if (device.platform === "iOS") {
 	if (updateIOS == null) {
 	
-		$.mobile.changePage( "#lingue", { allowSamePageTransition:true, transition: "slide" } );
+			$.mobile.changePage( "#lingue", { allowSamePageTransition:true, transition: "slide" } );
 			
 	}
 	}
