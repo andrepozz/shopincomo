@@ -26,8 +26,8 @@
     <preference name="android-installLocation" value="auto" />
     <preference name="DisallowOverscroll" value="true" />
     <gap:plugin name="com.phonegap.plugins.facebookconnect" version="0.9.0">
-    <param name="APP_ID" value="771666006185274" />
-    <param name="APP_NAME" value="shopincomo" />
+    <param name="APP_ID" value="420256448179135" />
+    <param name="APP_NAME" value="ShopInComo" />
     </gap:plugin>
 	<gap:plugin name="org.apache.cordova.file" version="0.2.4" />
 	<gap:plugin name="org.apache.cordova.file-transfer" version="0.3.3" />
