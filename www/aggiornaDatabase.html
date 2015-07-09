@@ -494,8 +494,13 @@
 			url: "http://shopincomo.comune.como.it/ccn20/JSONidEserciziUpdate.php?language="+localStorage.getItem("codLingua")+"&dataDownload="+localStorage.getItem("dataDownload")+"",
 			dataType: 'json',
 			success: function(data) {
+
+				alert(JSON.stringify(data));
 		
 				fileEserciziMancanti = JSON.parse(window.sessionStorage.getItem("fileEserciziMancanti"));
+
+				alert(JSON.stringify(fileEserciziMancanti));
+
 				var totaleEsercizi = data.length + fileEserciziMancanti.length;
 				window.sessionStorage.setItem("numElementi", totaleEsercizi);
 		
